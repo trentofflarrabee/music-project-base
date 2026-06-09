@@ -1,0 +1,31 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs (choose based on your workflow)
+# If you COMMIT built assets, remove dist/ and build/ from ignore.
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Sass cache
+.sass-cache/
+
+# Composer lock is usually committed; keep it if you use composer
+# (no ignore needed)
