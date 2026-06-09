@@ -1,0 +1,254 @@
+/*
+Theme Name: Music Project Base
+Author: Your Name
+Version: 0.1.0
+Description: A reusable WordPress theme for music projects.
+Text Domain: music-project-base
+*/
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111;
+    color: #f5f5f5;
+}
+
+a {
+    color: inherit;
+}
+
+.site-header,
+.site-footer {
+    padding: 1.5rem;
+    background: #000;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.site-main {
+    width: 100%;
+}
+
+.home-section {
+    padding: 5rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.home-hero {
+    min-height: 75vh;
+    display: grid;
+    align-items: center;
+    gap: 2rem;
+}
+
+.home-hero__placeholder {
+    min-height: 280px;
+    display: grid;
+    place-items: center;
+    background: #333;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #aaa;
+}
+
+.home-hero__content h1 {
+    font-size: clamp(3rem, 10vw, 7rem);
+    line-height: 0.9;
+    margin: 0 0 1rem;
+}
+
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    list-style: none;
+}
+
+.social-links__link {
+    display: inline-flex;
+    align-items: center;
+    color: #f5f5f5;
+    text-decoration: none;
+    font-weight: 700;
+    opacity: 0.85;
+}
+
+.social-links__link:hover,
+.social-links__link:focus {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.section-header h2 {
+    margin-top: 0;
+    font-size: clamp(2rem, 5vw, 4rem);
+}
+
+@media (min-width: 768px) {
+    .home-hero {
+        grid-template-columns: 1fr 1fr;
+        padding-inline: 3rem;
+    }
+
+    .home-section {
+        padding-inline: 3rem;
+    }
+}
+
+.home-hero__media {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+}
+
+.home-hero__image-wrap {
+    width: 100%;
+}
+
+.home-hero__image,
+.home-hero__video,
+.home-hero__placeholder {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 45vw, 560px);
+    object-fit: cover;
+    object-position: center;
+    background: #222;
+}
+
+.home-hero__video {
+    display: none;
+}
+
+.home-hero__placeholder {
+    display: grid;
+    place-items: center;
+    color: #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-hero__image,
+.home-hero__video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #222;
+}
+
+.home-hero__video {
+    display: none;
+}
+
+.home-hero__button,
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background: #f5f5f5;
+    color: #111;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .home-hero__media.has-desktop-video .home-hero__image-wrap {
+        display: none;
+    }
+
+    .home-hero__media.has-desktop-video .home-hero__video {
+        display: block;
+    }
+}
+
+/* SHOWS */
+.shows-empty {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    background: #101010;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.shows-empty p {
+    margin: 0 0 0.6rem;
+}
+
+.shows-empty .show-btn--primary {
+    margin-top: 0.4rem;
+}
+
+.events-list {
+    display: grid;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.event-card.spotify-style {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 16px;
+    background: #101010;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.event-date {
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.65rem 0.5rem;
+    line-height: 1;
+}
+
+.event-date .month {
+    opacity: 0.75;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.event-date .day {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.event-body h3 {
+    margin: 0 0 0.35rem;
+}
+
+.event-meta {
+    opacity: 0.85;
+    font-size: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.event-body a {
+    display: inline-block;
+    margin-top: 0.75rem;
+    text-decoration: none;
+    padding: 0.5rem 0.8rem;
+}
+
+@media (max-width: 560px) {
+    .event-card.spotify-style {
+        grid-template-columns: 64px 1fr;
+        padding: 0.9rem;
+    }
+}
+/* SHOWS END */
