@@ -24,7 +24,7 @@ $embed = $plugin_active
 
 ?>
 
-<section class="home-section home-shows">
+<section id="shows" class="home-section home-shows">
     <header class="section-header">
         <h2><?php echo esc_html($heading); ?></h2>
     </header>
