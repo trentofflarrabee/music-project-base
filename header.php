@@ -21,12 +21,25 @@
             <?php endif; ?>
         </div>
 
+        <button
+            class="site-menu-toggle"
+            type="button"
+            aria-controls="primary-menu"
+            aria-expanded="false"
+        >
+            <span class="screen-reader-text">
+                <?php esc_html_e('Menu', 'music-project-base'); ?>
+            </span>
+            <span class="site-menu-toggle__bars" aria-hidden="true"></span>
+        </button>
+
         <nav class="site-nav" aria-label="<?php esc_attr_e('Primary Menu', 'music-project-base'); ?>">
             <?php
             wp_nav_menu([
                 'theme_location' => 'primary',
                 'container'      => false,
                 'menu_class'     => 'site-nav__menu',
+                'menu_id'        => 'primary-menu',
                 'fallback_cb'    => false,
                 'depth'          => 2,
             ]);

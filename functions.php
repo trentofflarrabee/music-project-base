@@ -61,6 +61,14 @@ function mpb_enqueue_assets() {
         'mpb-style',
         mpb_get_theme_style_inline_css()
     );
+
+    wp_enqueue_script(
+        'mpb-navigation',
+        get_template_directory_uri() . '/assets/js/navigation.js',
+        [],
+        '0.1.0',
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'mpb_enqueue_assets');
 
