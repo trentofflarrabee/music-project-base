@@ -6,33 +6,162 @@ Description: A reusable WordPress theme for music projects.
 Text Domain: music-project-base
 */
 
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #111;
-    color: #f5f5f5;
+:root {
+    --mpb-color-bg: #111111;
+    --mpb-color-surface: #101010;
+    --mpb-color-text: #f5f5f5;
+    --mpb-color-muted: #b8b8b8;
+    --mpb-color-accent: #ffffff;
+    --mpb-color-button-bg: #f5f5f5;
+    --mpb-color-button-text: #111111;
+
+    --mpb-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mpb-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mpb-font-accent: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    --mpb-heading-text-transform: none;
+    --mpb-heading-letter-spacing: -0.04em;
+
+    --mpb-texture-image: none;
+    --mpb-texture-opacity: 0.08;
+    --mpb-texture-size: 420px;
+    --mpb-texture-repeat: repeat;
 }
 
+body {
+    margin: 0;
+    font-family: var(--mpb-font-body);
+    background: var(--mpb-color-bg);
+    color: var(--mpb-color-text);
+}
+
+body.mpb-texture-body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    opacity: var(--mpb-texture-opacity);
+    pointer-events: none;
+    z-index: 0;
+}
+
+
 a {
-    color: inherit;
+    color: var(--mpb-color-accent);
+}
+
+.site-header,
+.site-main,
+.site-footer {
+    position: relative;
+    z-index: 1;
 }
 
 .site-header,
 .site-footer {
-    padding: 1.5rem;
     background: #000;
-}
-
-.site-header {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
 }
 
 .site-main {
     width: 100%;
 }
 
+.site-footer {
+    position: relative;
+    overflow: hidden;
+}
+
+.site-footer__inner {
+    position: relative;
+    z-index: 1;
+}
+
+h1,
+h2,
+h3,
+.section-header h2,
+.home-hero__content h1,
+.single-post__header h1 {
+    font-family: var(--mpb-font-heading);
+    text-transform: var(--mpb-heading-text-transform);
+    letter-spacing: var(--mpb-heading-letter-spacing);
+}
+
+.site-nav,
+.site-footer__nav,
+.social-links,
+.featured-content-card__label,
+.home-blog-card__date {
+    font-family: var(--mpb-font-accent);
+}
+
+.button,
+.home-hero__button,
+.featured-content-card__button,
+.newsletter-form button,
+.newsletter-form input[type="submit"] {
+    background: var(--mpb-color-button-bg);
+    color: var(--mpb-color-button-text);
+}
+
+/* Textured buttons */
+body.mpb-texture-buttons .button,
+body.mpb-texture-buttons .home-hero__button,
+body.mpb-texture-buttons .featured-content-card__button,
+body.mpb-texture-buttons .show-btn,
+body.mpb-texture-buttons .newsletter-form button,
+body.mpb-texture-buttons .newsletter-form input[type="submit"],
+body.mpb-texture-buttons .event-body a {
+    background-color: var(--mpb-color-button-bg);
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    /* background-blend-mode: soft-light; */
+    color: var(--mpb-color-button-text);
+}
+
+body.mpb-texture-footer .site-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    opacity: var(--mpb-texture-opacity);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.home-hero__placeholder,
+.featured-content-card,
+.featured-quote-card,
+.home-blog-card,
+.shows-empty,
+.event-card.spotify-style,
+.newsletter-form input[type="email"],
+.newsletter-form input[type="text"] {
+    background: var(--mpb-color-surface);
+}
+
+.site-branding__name,
+.site-footer__name,
+.site-nav__menu a,
+.site-footer__menu a,
+.social-links__link {
+    color: var(--mpb-color-text);
+}
+
+.featured-content-card__label,
+.home-blog-card__date,
+.site-footer__copyright,
+.event-meta {
+    color: var(--mpb-color-muted);
+    opacity: 1;
+}
+
+/* MAIN PAGES (?) */
 .home-section {
     padding: 5rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -49,7 +178,7 @@ a {
     min-height: 280px;
     display: grid;
     place-items: center;
-    background: #333;
+    background: var(--mpb-color-bg);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: #aaa;
 }
@@ -118,7 +247,7 @@ a {
     height: clamp(280px, 45vw, 560px);
     object-fit: cover;
     object-position: center;
-    background: #222;
+    background: var(--mpb-color-surface);
 }
 
 .home-hero__video {
@@ -139,7 +268,7 @@ a {
     max-width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    background: #222;
+    background: var(--mpb-color-surface);
 }
 
 .home-hero__video {
@@ -152,8 +281,8 @@ a {
     align-items: center;
     justify-content: center;
     padding: 0.75rem 1rem;
-    background: #f5f5f5;
-    color: #111;
+    /* background: #f5f5f5;
+    color: #111; */
     text-decoration: none;
     font-weight: 700;
 }
@@ -285,8 +414,8 @@ a {
     margin-top: 1rem;
     padding: 0.85rem 1rem;
     border: 0;
-    background: #f5f5f5;
-    color: #111;
+    /* background: #f5f5f5;
+    color: #111; */
     font-weight: 700;
     cursor: pointer;
 }
