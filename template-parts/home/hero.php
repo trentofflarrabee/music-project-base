@@ -1,83 +1,96 @@
 <?php
+/**
+ * Homepage Hero Section
+ */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$plugin_active = function_exists('mpc_get_homepage_setting');
-
-$hero_enabled = $plugin_active
-    ? (bool) mpc_get_homepage_setting('hero_enabled', 1)
-    : true;
-
-if (!$hero_enabled) {
+if (!function_exists('mpc_get_homepage_setting')) {
     return;
 }
 
-$heading = $plugin_active
-    ? mpc_get_homepage_setting('hero_heading', get_bloginfo('name'))
-    : get_bloginfo('name');
+$enabled = (bool) mpc_get_homepage_setting('hero_enabled', 1);
 
-$text = $plugin_active
-    ? mpc_get_homepage_setting('hero_text', '')
-    : 'A reusable WordPress theme for bands, artists, and music projects.';
+if (!$enabled) {
+    return;
+}
 
-$mobile_image_id = $plugin_active
-    ? absint(mpc_get_homepage_setting('hero_mobile_image_id', 0))
-    : 0;
+$layout = sanitize_key((string) mpc_get_homepage_setting('hero_layout', 'split'));
 
-$desktop_video_id = $plugin_active
-    ? absint(mpc_get_homepage_setting('hero_desktop_video_id', 0))
-    : 0;
+if (!in_array($layout, ['split', 'full_bleed'], true)) {
+    $layout = 'split';
+}
 
-$cta_text = $plugin_active
-    ? mpc_get_homepage_setting('hero_cta_text', '')
-    : '';
+$heading = trim((string) mpc_get_homepage_setting('hero_heading'));
+$text = trim((string) mpc_get_homepage_setting('hero_text'));
+$mobile_image_id = absint(mpc_get_homepage_setting('hero_mobile_image_id'));
+$desktop_video_id = absint(mpc_get_homepage_setting('hero_desktop_video_id'));
+$cta_text = trim((string) mpc_get_homepage_setting('hero_cta_text'));
+$cta_url = trim((string) mpc_get_homepage_setting('hero_cta_url'));
+$overlay_opacity = absint(mpc_get_homepage_setting('hero_overlay_opacity', 45));
+$overlay_opacity = min(100, max(0, $overlay_opacity));
+$overlay_opacity_css = $overlay_opacity / 100;
 
-$cta_url = $plugin_active
-    ? mpc_get_homepage_setting('hero_cta_url', '')
-    : '';
-
+$mobile_image_url = $mobile_image_id ? wp_get_attachment_image_url($mobile_image_id, 'large') : '';
 $desktop_video_url = $desktop_video_id ? wp_get_attachment_url($desktop_video_id) : '';
+
+$classes = [
+    'home-section',
+    'home-hero',
+    'home-hero--' . str_replace('_', '-', $layout),
+];
+
+if ($desktop_video_url) {
+    $classes[] = 'home-hero--has-desktop-video';
+} else {
+    $classes[] = 'home-hero--image-only';
+}
+
+if ($mobile_image_url) {
+    $classes[] = 'home-hero--has-image';
+}
 ?>
 
-<section class="home-section home-hero">
-    <div class="home-hero__media <?php echo $desktop_video_url ? 'has-desktop-video' : ''; ?>">
-
-        <?php if ($mobile_image_id) : ?>
+<section
+    class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+    style="--mpb-hero-overlay-opacity: <?php echo esc_attr($overlay_opacity_css); ?>;"
+>
+    <div class="home-hero__media <?php echo $desktop_video_url ? 'has-desktop-video' : ''; ?>" aria-hidden="true">
+        <?php if ($mobile_image_url) : ?>
             <div class="home-hero__image-wrap">
-                <?php
-                echo wp_get_attachment_image(
-                    $mobile_image_id,
-                    'large',
-                    false,
-                    [
-                        'class' => 'home-hero__image',
-                    ]
-                );
-                ?>
+                <img
+                    class="home-hero__image"
+                    src="<?php echo esc_url($mobile_image_url); ?>"
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                >
             </div>
         <?php endif; ?>
 
         <?php if ($desktop_video_url) : ?>
             <video
                 class="home-hero__video"
+                src="<?php echo esc_url($desktop_video_url); ?>"
                 autoplay
                 muted
                 loop
                 playsinline
-            >
-                <source src="<?php echo esc_url($desktop_video_url); ?>" type="video/mp4">
-            </video>
+            ></video>
         <?php endif; ?>
 
-        <?php if (!$mobile_image_id && !$desktop_video_url) : ?>
+        <?php if (!$mobile_image_url && !$desktop_video_url) : ?>
             <div class="home-hero__placeholder">
-                Hero image/video area
+                <span>Add a hero image or video</span>
             </div>
         <?php endif; ?>
-
     </div>
+
+    <?php if ($layout === 'full_bleed') : ?>
+        <div class="home-hero__overlay" aria-hidden="true"></div>
+    <?php endif; ?>
 
     <div class="home-hero__content">
         <?php if ($heading) : ?>
@@ -89,13 +102,15 @@ $desktop_video_url = $desktop_video_id ? wp_get_attachment_url($desktop_video_id
         <?php endif; ?>
 
         <?php if ($cta_text && $cta_url) : ?>
-            <p>
-                <a class="button home-hero__button" href="<?php echo esc_url($cta_url); ?>">
-                    <?php echo esc_html($cta_text); ?>
-                </a>
-            </p>
+            <a class="home-hero__button" href="<?php echo esc_url($cta_url); ?>">
+                <?php echo esc_html($cta_text); ?>
+            </a>
         <?php endif; ?>
 
-        <?php get_template_part('template-parts/social-links'); ?>
+        <?php
+        get_template_part('template-parts/social-links', null, [
+            'context' => 'hero',
+        ]);
+        ?>
     </div>
 </section>

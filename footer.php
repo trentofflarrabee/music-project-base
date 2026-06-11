@@ -22,7 +22,11 @@
             ?>
         </nav>
 
-        <?php get_template_part('template-parts/social-links'); ?>
+        <?php
+        get_template_part('template-parts/social-links', null, [
+            'context' => 'footer',
+        ]);
+        ?>
 
         <p class="site-footer__copyright">
             &copy; <?php echo esc_html(date('Y')); ?> <?php bloginfo('name'); ?>.

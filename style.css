@@ -435,16 +435,75 @@ body.mpb-texture-buttons .event-body a {
 .social-links__link {
     display: inline-flex;
     align-items: center;
+    gap: 0.45rem;
     color: var(--mpb-color-text);
     text-decoration: none;
     font-weight: 700;
     opacity: 0.85;
+    transition:
+        transform 160ms ease,
+        opacity 160ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease;
 }
 
 .social-links__link:hover,
 .social-links__link:focus {
     opacity: 1;
     text-decoration: underline;
+}
+
+.social-links__icon {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.social-links__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Icons Only */
+
+.social-links--icons {
+    gap: 0.6rem;
+}
+
+.social-links--icons .social-links__link {
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.social-links--icons .social-links__link:hover,
+.social-links--icons .social-links__link:focus {
+    transform: translateY(-1px);
+    text-decoration: none;
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.social-links--icons .social-links__icon {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+/* Icons + Labels */
+
+.social-links--icons-labels .social-links__link {
+    gap: 0.5rem;
+}
+
+.social-links--icons-labels .social-links__icon {
+    width: 1.1rem;
+    height: 1.1rem;
 }
 
 
@@ -507,6 +566,159 @@ body.mpb-texture-buttons .event-body a {
     max-width: 620px;
     color: var(--mpb-color-muted);
     font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+/* =========================================================
+   HERO VARIANT: FULL-BLEED MEDIA
+   ========================================================= */
+
+.home-hero--full-bleed {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    min-height: calc(100vh - 72px);
+    margin-inline: 0;
+    padding: clamp(5rem, 10vw, 8rem) 1.5rem;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    align-items: end;
+}
+
+.home-hero--full-bleed .home-hero__media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    justify-self: stretch;
+    z-index: -3;
+}
+
+.home-hero--full-bleed .home-hero__image-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.home-hero--full-bleed .home-hero__image,
+.home-hero--full-bleed .home-hero__video,
+.home-hero--full-bleed .home-hero__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    object-fit: cover;
+    object-position: center;
+}
+
+.home-hero--full-bleed .home-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    opacity: var(--mpb-hero-overlay-opacity, 0.45);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.72) 0%,
+            rgba(0, 0, 0, 0.46) 38%,
+            rgba(0, 0, 0, 0.12) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.58) 0%,
+            rgba(0, 0, 0, 0.04) 45%,
+            rgba(0, 0, 0, 0.26) 100%
+        );
+}
+
+
+.home-hero:not(.home-hero--full-bleed) .home-hero__overlay {
+    display: none; /* optional! */
+}
+
+.home-hero--full-bleed .home-hero__content {
+    width: min(100%, 1200px);
+    margin-inline: auto;
+    padding-block: clamp(2rem, 6vw, 5rem);
+}
+
+.home-hero--full-bleed .home-hero__content h1 {
+    max-width: 900px;
+    font-size: clamp(4rem, 13vw, 11rem);
+    line-height: 0.82;
+    text-wrap: balance;
+}
+
+.home-hero--full-bleed .home-hero__content p {
+    max-width: 620px;
+    color: var(--mpb-color-text);
+    opacity: 0.88;
+}
+
+.home-hero--full-bleed .social-links {
+    margin-top: 1.75rem;
+}
+
+/* Let body texture subtly interact with full-bleed hero */
+body.mpb-texture-body .home-hero--full-bleed::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    opacity: calc(var(--mpb-texture-opacity) * 0.75);
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+}
+
+@media (min-width: 768px) {
+    .home-hero--full-bleed {
+        grid-template-columns: 1fr;
+        padding-inline: 3rem;
+    }
+
+    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__image-wrap {
+        display: none;
+    }
+
+    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__video {
+        display: block;
+    }
+}
+
+@media (max-width: 720px) {
+    .home-hero--full-bleed {
+        min-height: calc(100vh - 72px);
+        padding: 4rem 1.5rem;
+        align-items: end;
+    }
+
+    .home-hero--full-bleed .home-hero__overlay {
+        opacity: var(--mpb-hero-overlay-opacity, 0.45);
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.72) 0%,
+                rgba(0, 0, 0, 0.24) 52%,
+                rgba(0, 0, 0, 0.32) 100%
+            );
+    }
+
+    .home-hero--full-bleed .home-hero__content {
+        padding-block: 2rem;
+    }
+
+    .home-hero--full-bleed .home-hero__content h1 {
+        font-size: clamp(3.5rem, 18vw, 6rem);
+    }
+
+    .home-hero--full-bleed .home-hero__content p {
+        font-size: 1rem;
+    }
 }
 
 
