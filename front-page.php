@@ -2,15 +2,9 @@
 
 <main id="site-main" class="site-main home-main">
 
-    <?php mpb_render_home_section('hero'); ?>
-
-    <?php mpb_render_home_section('featured-content'); ?>
-
-    <?php mpb_render_home_section('shows'); ?>
-
-    <?php mpb_render_home_section('blog'); ?>
-
-    <?php mpb_render_home_section('newsletter'); ?>
+<?php foreach (mpb_get_home_sections() as $section) : ?>
+    <?php mpb_render_home_section($section); ?>
+<?php endforeach; ?>
 
 </main>
 

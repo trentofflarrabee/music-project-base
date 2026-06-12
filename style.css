@@ -826,6 +826,11 @@ body.mpb-texture-body .home-hero--full-bleed::after {
         box-shadow 180ms ease;
 }
 
+.featured-content-card {
+    display: grid;
+}
+
+.featured-content-card__media,
 .featured-content-card__image {
     display: grid;
     place-items: center;
@@ -870,6 +875,33 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     margin-top: 1rem;
 }
 
+/* Featured Video Embed */
+
+.featured-content-card__embed {
+    position: relative;
+    width: min(100%, 720px);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+}
+
+.featured-content-card__embed iframe,
+.featured-content-card__embed object,
+.featured-content-card__embed embed {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.featured-content-card--media-video .featured-content-card__media {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Quote */
+
 .press-quote {
     margin: 0;
 }
@@ -899,27 +931,113 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     opacity: 0.7;
 }
 
-.featured-content-card__embed {
-    position: relative;
-    width: min(100%, 720px);
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 10px;
-    background: #000;
+.featured-quote-below {
+    width: min(100%, 900px);
+    margin: clamp(1.5rem, 4vw, 2.5rem) auto 0;
 }
 
-.featured-content-card__embed iframe,
-.featured-content-card__embed object,
-.featured-content-card__embed embed {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
+/* Layout: Split Card */
+
+.home-featured-content--layout-split-card .featured-content-card {
+    align-content: start;
 }
 
-.featured-content-card--media-video .featured-content-card__image {
-    padding: clamp(1rem, 3vw, 1.5rem);
+/* Layout: Media Left / Text Right */
+
+@media (min-width: 900px) {
+    .home-featured-content--layout-media-left .featured-content-card,
+    .home-featured-content--layout-media-right .featured-content-card {
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        align-items: stretch;
+    }
+
+    .home-featured-content--layout-media-left .featured-content-card__media,
+    .home-featured-content--layout-media-right .featured-content-card__media {
+        border-bottom: 0;
+    }
+
+    .home-featured-content--layout-media-left .featured-content-card__body,
+    .home-featured-content--layout-media-right .featured-content-card__body {
+        display: grid;
+        align-content: center;
+    }
+
+    .home-featured-content--layout-media-right .featured-content-card__media {
+        order: 2;
+    }
+
+    .home-featured-content--layout-media-right .featured-content-card__body {
+        order: 1;
+    }
+}
+
+/* Layout: Stacked / Poster */
+
+.home-featured-content--layout-stacked .featured-content-layout {
+    width: min(100%, 900px);
+}
+
+.home-featured-content--layout-stacked .featured-content-card__media {
+    padding: clamp(1.5rem, 5vw, 3rem);
+}
+
+.home-featured-content--layout-stacked .featured-content-card__img {
+    width: min(100%, 560px);
+}
+
+.home-featured-content--layout-stacked .featured-content-card__body {
+    text-align: center;
+    justify-items: center;
+}
+
+.home-featured-content--layout-stacked .featured-content-card p {
+    margin-inline: auto;
+}
+
+/* Quote Position: Beside */
+
+@media (min-width: 768px) {
+    .home-featured-content--quote-beside .featured-content-layout {
+        grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+        align-items: stretch;
+    }
+
+    .home-featured-content--quote-beside .featured-content-card,
+    .home-featured-content--quote-beside .featured-quote-card {
+        min-height: 100%;
+    }
+
+    .home-featured-content--quote-hidden .featured-content-layout,
+    .home-featured-content--quote-below .featured-content-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Quote Position: Below */
+
+.home-featured-content--quote-below .featured-quote-card {
+    text-align: center;
+}
+
+.home-featured-content--quote-below .press-quote p {
+    margin-inline: auto;
+}
+
+/* Mobile */
+
+@media (max-width: 720px) {
+    .featured-content-card__media,
+    .featured-content-card__image {
+        padding: 1rem;
+    }
+
+    .featured-content-card h3 {
+        font-size: clamp(2rem, 11vw, 3.5rem);
+    }
+
+    .press-quote p {
+        font-size: clamp(1.5rem, 9vw, 2.75rem);
+    }
 }
 
 /* =========================================================

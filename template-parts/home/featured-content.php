@@ -18,6 +18,9 @@ if (!$enabled) {
 }
 
 $heading = trim((string) mpc_get_homepage_setting('featured_heading'));
+$layout = sanitize_key((string) mpc_get_homepage_setting('featured_layout', 'split_card'));
+$quote_position = sanitize_key((string) mpc_get_homepage_setting('featured_quote_position', 'beside'));
+
 $label = trim((string) mpc_get_homepage_setting('featured_label'));
 $title = trim((string) mpc_get_homepage_setting('featured_title'));
 $text = trim((string) mpc_get_homepage_setting('featured_text'));
@@ -26,9 +29,26 @@ $media_type = sanitize_key((string) mpc_get_homepage_setting('featured_media_typ
 $video_url = trim((string) mpc_get_homepage_setting('featured_video_url'));
 $cta_text = trim((string) mpc_get_homepage_setting('featured_cta_text'));
 $cta_url = trim((string) mpc_get_homepage_setting('featured_cta_url'));
-$show_quote = (bool) mpc_get_homepage_setting('featured_show_quote', 1);
 
-if (!in_array($media_type, ['image', 'video'], true)) {
+$legacy_show_quote = (bool) mpc_get_homepage_setting('featured_show_quote', 1);
+
+$allowed_layouts = ['split_card', 'media_left', 'media_right', 'stacked'];
+$allowed_quote_positions = ['beside', 'below', 'hidden'];
+$allowed_media_types = ['image', 'video'];
+
+if (!in_array($layout, $allowed_layouts, true)) {
+    $layout = 'split_card';
+}
+
+if (!in_array($quote_position, $allowed_quote_positions, true)) {
+    $quote_position = 'beside';
+}
+
+if (!$legacy_show_quote) {
+    $quote_position = 'hidden';
+}
+
+if (!in_array($media_type, $allowed_media_types, true)) {
     $media_type = 'image';
 }
 
@@ -53,12 +73,11 @@ if ($media_type === 'video' && $video_url) {
     }
 }
 
-$quote = null;
 $quote_text = '';
 $quote_source_name = '';
 $quote_source_url = '';
 
-if ($show_quote && function_exists('mpc_get_featured_press_quote')) {
+if ($quote_position !== 'hidden' && function_exists('mpc_get_featured_press_quote')) {
     $quote = mpc_get_featured_press_quote();
 
     if (is_array($quote)) {
@@ -77,9 +96,41 @@ if ($show_quote && function_exists('mpc_get_featured_press_quote')) {
 }
 
 $has_media = ($media_type === 'video' && $embed_html) || $image_html;
+
+$section_classes = [
+    'home-section',
+    'home-featured-content',
+    'home-featured-content--layout-' . str_replace('_', '-', $layout),
+    'home-featured-content--quote-' . str_replace('_', '-', $quote_position),
+];
+
+$card_classes = [
+    'featured-content-card',
+    'featured-content-card--media-' . $media_type,
+];
+
+$render_quote_card = static function ($quote_text, $quote_source_name, $quote_source_url) {
+    ?>
+    <aside class="featured-quote-card">
+        <blockquote class="press-quote">
+            <p>“<?php echo esc_html($quote_text); ?>”</p>
+
+            <?php if ($quote_source_url && $quote_source_name) : ?>
+                <cite>
+                    <a href="<?php echo esc_url($quote_source_url); ?>" target="_blank" rel="noopener noreferrer">
+                        <?php echo esc_html($quote_source_name); ?>
+                    </a>
+                </cite>
+            <?php elseif ($quote_source_name) : ?>
+                <cite><?php echo esc_html($quote_source_name); ?></cite>
+            <?php endif; ?>
+        </blockquote>
+    </aside>
+    <?php
+};
 ?>
 
-<section id="featured" class="home-section home-featured-content">
+<section id="featured" class="<?php echo esc_attr(implode(' ', $section_classes)); ?>">
     <?php if ($heading) : ?>
         <header class="section-header">
             <h2><?php echo esc_html($heading); ?></h2>
@@ -87,9 +138,9 @@ $has_media = ($media_type === 'video' && $embed_html) || $image_html;
     <?php endif; ?>
 
     <div class="featured-content-layout">
-        <article class="featured-content-card featured-content-card--media-<?php echo esc_attr($media_type); ?>">
+        <article class="<?php echo esc_attr(implode(' ', $card_classes)); ?>">
             <?php if ($has_media) : ?>
-                <div class="featured-content-card__image">
+                <div class="featured-content-card__media featured-content-card__image">
                     <?php if ($media_type === 'video' && $embed_html) : ?>
                         <div class="featured-content-card__embed">
                             <?php echo $embed_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -123,22 +174,14 @@ $has_media = ($media_type === 'video' && $embed_html) || $image_html;
             </div>
         </article>
 
-        <?php if ($quote_text) : ?>
-            <aside class="featured-quote-card">
-                <blockquote class="press-quote">
-                    <p>“<?php echo esc_html($quote_text); ?>”</p>
-
-                    <?php if ($quote_source_url && $quote_source_name) : ?>
-                        <cite>
-                            <a href="<?php echo esc_url($quote_source_url); ?>" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html($quote_source_name); ?>
-                            </a>
-                        </cite>
-                    <?php elseif ($quote_source_name) : ?>
-                        <cite><?php echo esc_html($quote_source_name); ?></cite>
-                    <?php endif; ?>
-                </blockquote>
-            </aside>
+        <?php if ($quote_text && $quote_position === 'beside') : ?>
+            <?php $render_quote_card($quote_text, $quote_source_name, $quote_source_url); ?>
         <?php endif; ?>
     </div>
+
+    <?php if ($quote_text && $quote_position === 'below') : ?>
+        <div class="featured-quote-below">
+            <?php $render_quote_card($quote_text, $quote_source_name, $quote_source_url); ?>
+        </div>
+    <?php endif; ?>
 </section>
