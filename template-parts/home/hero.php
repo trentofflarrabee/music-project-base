@@ -33,6 +33,17 @@ $overlay_opacity = absint(mpc_get_homepage_setting('hero_overlay_opacity', 45));
 $overlay_opacity = min(100, max(0, $overlay_opacity));
 $overlay_opacity_css = $overlay_opacity / 100;
 
+$overlay_style = sanitize_key((string) mpc_get_homepage_setting('hero_overlay_style', 'side'));
+$content_position = sanitize_key((string) mpc_get_homepage_setting('hero_content_position', 'bottom_left'));
+
+if (!in_array($overlay_style, ['side', 'bottom', 'center', 'even'], true)) {
+    $overlay_style = 'side';
+}
+
+if (!in_array($content_position, ['bottom_left', 'center_left', 'bottom_center', 'center_center'], true)) {
+    $content_position = 'bottom_left';
+}
+
 $mobile_image_url = $mobile_image_id ? wp_get_attachment_image_url($mobile_image_id, 'large') : '';
 $desktop_video_url = $desktop_video_id ? wp_get_attachment_url($desktop_video_id) : '';
 
@@ -40,6 +51,8 @@ $classes = [
     'home-section',
     'home-hero',
     'home-hero--' . str_replace('_', '-', $layout),
+    'home-hero--overlay-' . str_replace('_', '-', $overlay_style),
+    'home-hero--content-' . str_replace('_', '-', $content_position),
 ];
 
 if ($desktop_video_url) {

@@ -36,6 +36,11 @@ Text Domain: music-project-base
 /* =========================================================
    2. GLOBAL BASE
    ========================================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 html {
     scroll-behavior: smooth;
@@ -567,7 +572,6 @@ body.mpb-texture-buttons .event-body a {
     color: var(--mpb-color-muted);
     font-size: clamp(1rem, 2vw, 1.25rem);
 }
-
 /* =========================================================
    HERO VARIANT: FULL-BLEED MEDIA
    ========================================================= */
@@ -579,10 +583,12 @@ body.mpb-texture-buttons .event-body a {
     min-height: calc(100vh - 72px);
     margin-inline: 0;
     padding: clamp(5rem, 10vw, 8rem) 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: end;
+    justify-items: center;
     isolation: isolate;
     overflow: hidden;
-    display: grid;
-    align-items: end;
 }
 
 .home-hero--full-bleed .home-hero__media {
@@ -618,6 +624,27 @@ body.mpb-texture-buttons .event-body a {
     z-index: -2;
     pointer-events: none;
     opacity: var(--mpb-hero-overlay-opacity, 0.45);
+}
+
+/* Full-Bleed Video/Image Fallback */
+
+@media (min-width: 768px) {
+    .home-hero--full-bleed {
+        padding-inline: 3rem;
+    }
+
+    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__image-wrap {
+        display: none;
+    }
+
+    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__video {
+        display: block;
+    }
+}
+
+/* Overlay Styles */
+
+.home-hero--full-bleed.home-hero--overlay-side .home-hero__overlay {
     background:
         linear-gradient(
             90deg,
@@ -633,15 +660,39 @@ body.mpb-texture-buttons .event-body a {
         );
 }
 
-
-.home-hero:not(.home-hero--full-bleed) .home-hero__overlay {
-    display: none; /* optional! */
+.home-hero--full-bleed.home-hero--overlay-bottom .home-hero__overlay {
+    background:
+        linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.78) 0%,
+            rgba(0, 0, 0, 0.32) 48%,
+            rgba(0, 0, 0, 0.12) 100%
+        );
 }
 
+.home-hero--full-bleed.home-hero--overlay-center .home-hero__overlay {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 0, 0, 0.18) 0%,
+            rgba(0, 0, 0, 0.34) 48%,
+            rgba(0, 0, 0, 0.78) 100%
+        );
+}
+
+.home-hero--full-bleed.home-hero--overlay-even .home-hero__overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Content Base */
+
 .home-hero--full-bleed .home-hero__content {
+    grid-column: 1 / -1;
     width: min(100%, 1200px);
+    max-width: 1200px;
     margin-inline: auto;
     padding-block: clamp(2rem, 6vw, 5rem);
+    justify-self: center;
 }
 
 .home-hero--full-bleed .home-hero__content h1 {
@@ -661,7 +712,54 @@ body.mpb-texture-buttons .event-body a {
     margin-top: 1.75rem;
 }
 
-/* Let body texture subtly interact with full-bleed hero */
+/* Content Positions */
+
+.home-hero--full-bleed.home-hero--content-bottom-left {
+    align-items: end;
+}
+
+.home-hero--full-bleed.home-hero--content-center-left {
+    align-items: center;
+}
+
+.home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content,
+.home-hero--full-bleed.home-hero--content-center-left .home-hero__content {
+    text-align: left;
+}
+
+.home-hero--full-bleed.home-hero--content-bottom-center {
+    align-items: end;
+    text-align: center;
+}
+
+.home-hero--full-bleed.home-hero--content-center-center {
+    align-items: center;
+    text-align: center;
+}
+
+.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content,
+.home-hero--full-bleed.home-hero--content-center-center .home-hero__content {
+    width: min(100%, 900px);
+    max-width: 900px;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+}
+
+.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content h1,
+.home-hero--full-bleed.home-hero--content-center-center .home-hero__content h1,
+.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content p,
+.home-hero--full-bleed.home-hero--content-center-center .home-hero__content p {
+    margin-inline: auto;
+}
+
+.home-hero--full-bleed.home-hero--content-bottom-center .social-links,
+.home-hero--full-bleed.home-hero--content-center-center .social-links {
+    justify-content: center;
+}
+
+/* Texture Interaction */
+
 body.mpb-texture-body .home-hero--full-bleed::after {
     content: "";
     position: absolute;
@@ -675,37 +773,12 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     mix-blend-mode: soft-light;
 }
 
-@media (min-width: 768px) {
-    .home-hero--full-bleed {
-        grid-template-columns: 1fr;
-        padding-inline: 3rem;
-    }
-
-    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__image-wrap {
-        display: none;
-    }
-
-    .home-hero--full-bleed.home-hero--has-desktop-video .home-hero__video {
-        display: block;
-    }
-}
+/* Mobile Full-Bleed Hero */
 
 @media (max-width: 720px) {
     .home-hero--full-bleed {
         min-height: calc(100vh - 72px);
         padding: 4rem 1.5rem;
-        align-items: end;
-    }
-
-    .home-hero--full-bleed .home-hero__overlay {
-        opacity: var(--mpb-hero-overlay-opacity, 0.45);
-        background:
-            linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.72) 0%,
-                rgba(0, 0, 0, 0.24) 52%,
-                rgba(0, 0, 0, 0.32) 100%
-            );
     }
 
     .home-hero--full-bleed .home-hero__content {
@@ -719,8 +792,17 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     .home-hero--full-bleed .home-hero__content p {
         font-size: 1rem;
     }
-}
 
+    .home-hero--full-bleed.home-hero--overlay-side .home-hero__overlay {
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.72) 0%,
+                rgba(0, 0, 0, 0.24) 52%,
+                rgba(0, 0, 0, 0.32) 100%
+            );
+    }
+}
 
 /* =========================================================
    11. FEATURED CONTENT / PRESS QUOTES
