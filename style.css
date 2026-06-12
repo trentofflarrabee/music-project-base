@@ -899,6 +899,28 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     opacity: 0.7;
 }
 
+.featured-content-card__embed {
+    position: relative;
+    width: min(100%, 720px);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+}
+
+.featured-content-card__embed iframe,
+.featured-content-card__embed object,
+.featured-content-card__embed embed {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.featured-content-card--media-video .featured-content-card__image {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
 
 /* =========================================================
    12. SHOWS / EVENTS
@@ -1399,5 +1421,84 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     .event-card.spotify-style {
         grid-template-columns: 64px 1fr;
         padding: 0.9rem;
+    }
+}
+
+/* =========================================================
+   FOOTER SETTINGS / LAYOUTS
+   ========================================================= */
+
+.site-footer__brand-wrap {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.site-footer__tagline {
+    max-width: 620px;
+    margin: 0;
+    color: var(--mpb-color-muted);
+}
+
+.site-footer .social-links {
+    margin-top: 0;
+}
+
+/* Simple */
+
+.site-footer--layout-simple .site-footer__inner {
+    grid-template-columns: 1fr;
+}
+
+/* Stacked / Centered */
+
+.site-footer--layout-stacked .site-footer__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+}
+
+.site-footer--layout-stacked .site-footer__tagline {
+    margin-inline: auto;
+}
+
+.site-footer--layout-stacked .site-footer__menu,
+.site-footer--layout-stacked .social-links {
+    justify-content: center;
+}
+
+/* Split */
+
+@media (min-width: 768px) {
+    .site-footer--layout-split .site-footer__inner {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+    }
+
+    .site-footer--layout-split .site-footer__brand-wrap {
+        grid-column: 1;
+        grid-row: 1 / span 3;
+    }
+
+    .site-footer--layout-split .site-footer__nav {
+        grid-column: 2;
+        justify-self: end;
+    }
+
+    .site-footer--layout-split .site-footer .social-links {
+        grid-column: 2;
+        justify-self: end;
+        justify-content: flex-end;
+    }
+
+    .site-footer--layout-split .site-footer__copyright {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 720px) {
+    .site-footer--layout-split .site-footer__inner,
+    .site-footer--layout-simple .site-footer__inner,
+    .site-footer--layout-stacked .site-footer__inner {
+        grid-template-columns: 1fr;
     }
 }

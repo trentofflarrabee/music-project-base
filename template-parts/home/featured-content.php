@@ -1,78 +1,102 @@
 <?php
+/**
+ * Homepage Featured Content Section
+ */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$plugin_active = function_exists('mpc_get_homepage_setting');
+if (!function_exists('mpc_get_homepage_setting')) {
+    return;
+}
 
-$enabled = $plugin_active
-    ? (bool) mpc_get_homepage_setting('featured_enabled', 1)
-    : true;
+$enabled = (bool) mpc_get_homepage_setting('featured_enabled', 1);
 
 if (!$enabled) {
     return;
 }
 
-$heading = $plugin_active
-    ? mpc_get_homepage_setting('featured_heading', 'Featured Content')
-    : 'Featured Content';
+$heading = trim((string) mpc_get_homepage_setting('featured_heading'));
+$label = trim((string) mpc_get_homepage_setting('featured_label'));
+$title = trim((string) mpc_get_homepage_setting('featured_title'));
+$text = trim((string) mpc_get_homepage_setting('featured_text'));
+$image_id = absint(mpc_get_homepage_setting('featured_image_id'));
+$media_type = sanitize_key((string) mpc_get_homepage_setting('featured_media_type', 'image'));
+$video_url = trim((string) mpc_get_homepage_setting('featured_video_url'));
+$cta_text = trim((string) mpc_get_homepage_setting('featured_cta_text'));
+$cta_url = trim((string) mpc_get_homepage_setting('featured_cta_url'));
+$show_quote = (bool) mpc_get_homepage_setting('featured_show_quote', 1);
 
-$label = $plugin_active
-    ? mpc_get_homepage_setting('featured_label', 'Latest Release')
-    : 'Latest Release';
+if (!in_array($media_type, ['image', 'video'], true)) {
+    $media_type = 'image';
+}
 
-$title = $plugin_active
-    ? mpc_get_homepage_setting('featured_title', '')
+$image_html = $image_id
+    ? wp_get_attachment_image($image_id, 'large', false, [
+        'class' => 'featured-content-card__img',
+        'loading' => 'lazy',
+    ])
     : '';
 
-$text = $plugin_active
-    ? mpc_get_homepage_setting('featured_text', '')
-    : '';
+$embed_html = '';
 
-$image_id = $plugin_active
-    ? absint(mpc_get_homepage_setting('featured_image_id', 0))
-    : 0;
+if ($media_type === 'video' && $video_url) {
+    $embed_html = wp_oembed_get($video_url);
 
-$cta_text = $plugin_active
-    ? mpc_get_homepage_setting('featured_cta_text', '')
-    : '';
+    if (!$embed_html) {
+        $embed_html = sprintf(
+            '<p><a href="%s" target="_blank" rel="noopener noreferrer">%s</a></p>',
+            esc_url($video_url),
+            esc_html__('Watch video', 'music-project-base')
+        );
+    }
+}
 
-$cta_url = $plugin_active
-    ? mpc_get_homepage_setting('featured_cta_url', '')
-    : '';
+$quote = null;
+$quote_text = '';
+$quote_source_name = '';
+$quote_source_url = '';
 
-$show_quote = $plugin_active
-    ? (bool) mpc_get_homepage_setting('featured_show_quote', 1)
-    : true;
+if ($show_quote && function_exists('mpc_get_featured_press_quote')) {
+    $quote = mpc_get_featured_press_quote();
 
-$featured_quote = ($show_quote && function_exists('mpc_get_featured_press_quote'))
-    ? mpc_get_featured_press_quote()
-    : null;
+    if (is_array($quote)) {
+        $quote_text = $quote['quote']
+            ?? $quote['text']
+            ?? $quote['quote_text']
+            ?? '';
 
+        $quote_source_name = $quote['source_name']
+            ?? $quote['source']
+            ?? '';
+
+        $quote_source_url = $quote['source_url']
+            ?? '';
+    }
+}
+
+$has_media = ($media_type === 'video' && $embed_html) || $image_html;
 ?>
 
-<section class="home-section home-featured-content">
-    <header class="section-header">
-        <?php if ($heading) : ?>
+<section id="featured" class="home-section home-featured-content">
+    <?php if ($heading) : ?>
+        <header class="section-header">
             <h2><?php echo esc_html($heading); ?></h2>
-        <?php endif; ?>
-    </header>
+        </header>
+    <?php endif; ?>
 
     <div class="featured-content-layout">
-        <article class="featured-content-card">
-            <?php if ($image_id) : ?>
+        <article class="featured-content-card featured-content-card--media-<?php echo esc_attr($media_type); ?>">
+            <?php if ($has_media) : ?>
                 <div class="featured-content-card__image">
-                    <?php
-                    echo wp_get_attachment_image(
-                        $image_id,
-                        'large',
-                        false,
-                        [
-                            'class' => 'featured-content-card__img',
-                        ]
-                    );
-                    ?>
+                    <?php if ($media_type === 'video' && $embed_html) : ?>
+                        <div class="featured-content-card__embed">
+                            <?php echo $embed_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        </div>
+                    <?php else : ?>
+                        <?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
 
@@ -85,52 +109,36 @@ $featured_quote = ($show_quote && function_exists('mpc_get_featured_press_quote'
 
                 <?php if ($title) : ?>
                     <h3><?php echo esc_html($title); ?></h3>
-                <?php else : ?>
-                    <h3>Featured title goes here</h3>
                 <?php endif; ?>
 
                 <?php if ($text) : ?>
-                    <p><?php echo nl2br(esc_html($text)); ?></p>
-                <?php else : ?>
-                    <p>This area can feature a release, video, announcement, press link, or custom promo.</p>
+                    <p><?php echo esc_html($text); ?></p>
                 <?php endif; ?>
 
                 <?php if ($cta_text && $cta_url) : ?>
-                    <p>
-                        <a class="button featured-content-card__button" href="<?php echo esc_url($cta_url); ?>">
-                            <?php echo esc_html($cta_text); ?>
-                        </a>
-                    </p>
+                    <a class="featured-content-card__button" href="<?php echo esc_url($cta_url); ?>">
+                        <?php echo esc_html($cta_text); ?>
+                    </a>
                 <?php endif; ?>
             </div>
         </article>
 
-        <?php if ($show_quote) : ?>
-            <div class="featured-quote-card">
-                <?php if ($featured_quote && !empty($featured_quote['text'])) : ?>
-                    <blockquote class="press-quote">
-                        <p>
-                            “<?php echo esc_html($featured_quote['text']); ?>”
-                        </p>
+        <?php if ($quote_text) : ?>
+            <aside class="featured-quote-card">
+                <blockquote class="press-quote">
+                    <p>“<?php echo esc_html($quote_text); ?>”</p>
 
-                        <?php if (!empty($featured_quote['source_name'])) : ?>
-                            <cite>
-                                <?php if (!empty($featured_quote['source_url'])) : ?>
-                                    <a href="<?php echo esc_url($featured_quote['source_url']); ?>" target="_blank" rel="noopener noreferrer">
-                                        <?php echo esc_html($featured_quote['source_name']); ?>
-                                    </a>
-                                <?php else : ?>
-                                    <?php echo esc_html($featured_quote['source_name']); ?>
-                                <?php endif; ?>
-                            </cite>
-                        <?php endif; ?>
-                    </blockquote>
-                <?php else : ?>
-                    <blockquote class="press-quote press-quote--empty">
-                        <p>No featured press quote yet.</p>
-                    </blockquote>
-                <?php endif; ?>
-            </div>
+                    <?php if ($quote_source_url && $quote_source_name) : ?>
+                        <cite>
+                            <a href="<?php echo esc_url($quote_source_url); ?>" target="_blank" rel="noopener noreferrer">
+                                <?php echo esc_html($quote_source_name); ?>
+                            </a>
+                        </cite>
+                    <?php elseif ($quote_source_name) : ?>
+                        <cite><?php echo esc_html($quote_source_name); ?></cite>
+                    <?php endif; ?>
+                </blockquote>
+            </aside>
         <?php endif; ?>
     </div>
 </section>
