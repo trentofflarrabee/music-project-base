@@ -22,6 +22,7 @@ Text Domain: music-project-base
     --mpb-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mpb-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mpb-font-accent: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mpb-font-quote: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
     --mpb-heading-text-transform: none;
     --mpb-heading-letter-spacing: -0.04em;
@@ -908,6 +909,7 @@ body.mpb-texture-body .home-hero--full-bleed::after {
 
 .press-quote p {
     margin: 0;
+    font-family: var(--mpb-font-quote);
     font-size: clamp(1.5rem, 4vw, 3rem);
     line-height: 1.05;
     font-weight: 700;

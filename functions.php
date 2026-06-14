@@ -87,6 +87,7 @@ function mpb_get_theme_style_defaults() {
         'font_accent' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         'heading_text_transform' => 'none',
         'heading_letter_spacing' => '-0.04em',
+        'font_quote' => '',
 
         'texture_enabled' => 0,
         'texture_image_id' => 0,
@@ -146,6 +147,11 @@ function mpb_get_theme_style_inline_css() {
     $font_heading = mpb_clean_font_family($settings['font_heading']);
     $font_body = mpb_clean_font_family($settings['font_body']);
     $font_accent = mpb_clean_font_family($settings['font_accent']);
+    $font_quote = mpb_clean_font_family($settings['font_quote']);
+
+    if (!$font_quote) {
+        $font_quote = $font_heading;
+    }
 
     $heading_text_transform = sanitize_key($settings['heading_text_transform']);
     $heading_letter_spacing = esc_html($settings['heading_letter_spacing']);
@@ -170,6 +176,7 @@ function mpb_get_theme_style_inline_css() {
             --mpb-font-heading: {$font_heading};
             --mpb-font-body: {$font_body};
             --mpb-font-accent: {$font_accent};
+            --mpb-font-quote: {$font_quote};
 
             --mpb-heading-text-transform: {$heading_text_transform};
             --mpb-heading-letter-spacing: {$heading_letter_spacing};
