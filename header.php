@@ -33,17 +33,24 @@
             <span class="site-menu-toggle__bars" aria-hidden="true"></span>
         </button>
 
-        <nav class="site-nav" aria-label="<?php esc_attr_e('Primary Menu', 'music-project-base'); ?>">
-            <?php
-            wp_nav_menu([
-                'theme_location' => 'primary',
-                'container'      => false,
-                'menu_class'     => 'site-nav__menu',
-                'menu_id'        => 'primary-menu',
-                'fallback_cb'    => false,
-                'depth'          => 2,
-            ]);
-            ?>
-        </nav>
+<nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e('Primary menu', 'music-project-base'); ?>">
+    <?php
+    wp_nav_menu([
+        'theme_location' => 'primary',
+        'menu_id' => 'primary-menu',
+        'menu_class' => 'site-nav__menu',
+        'container' => false,
+        'depth' => 1,
+    ]);
+    ?>
+
+    <div class="site-nav__footer">
+        <?php
+        get_template_part('template-parts/social-links', null, [
+            'display' => 'icons',
+        ]);
+        ?>
+    </div>
+</nav>
     </div>
 </header>
