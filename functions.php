@@ -89,6 +89,12 @@ function mpb_get_theme_style_defaults() {
         'heading_letter_spacing' => '-0.04em',
         'font_quote' => '',
 
+        'heading_alignment_scope' => 'none',
+
+        'hero_heading_color' => '#ffffff',
+        'hero_lead_color' => '#f5f5f5',
+        'hero_text_shadow' => 'subtle',
+
         'texture_enabled' => 0,
         'texture_image_id' => 0,
         'texture_opacity' => '0.08',
@@ -160,6 +166,19 @@ function mpb_get_theme_style_inline_css() {
     $heading_text_transform = sanitize_key($settings['heading_text_transform']);
     $heading_letter_spacing = esc_html($settings['heading_letter_spacing']);
 
+    $hero_heading_color = sanitize_hex_color($settings['hero_heading_color'] ?? '') ?: '#ffffff';
+$hero_lead_color = sanitize_hex_color($settings['hero_lead_color'] ?? '') ?: '#f5f5f5';
+
+$hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
+
+$hero_text_shadow_map = [
+    'none'   => 'none',
+    'subtle' => '0 1px 2px rgba(0, 0, 0, 0.65), 0 8px 24px rgba(0, 0, 0, 0.35)',
+    'strong' => '0 2px 4px rgba(0, 0, 0, 0.85), 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 1px rgba(0, 0, 0, 0.95)',
+];
+
+$hero_text_shadow_css = $hero_text_shadow_map[$hero_text_shadow] ?? $hero_text_shadow_map['subtle'];
+
     $texture_opacity = is_numeric($settings['texture_opacity'])
         ? max(0, min(1, (float) $settings['texture_opacity']))
         : 0.08;
@@ -185,6 +204,11 @@ function mpb_get_theme_style_inline_css() {
             --mpb-heading-text-transform: {$heading_text_transform};
             --mpb-heading-letter-spacing: {$heading_letter_spacing};
 
+            --mpb-hero-heading-color: {$hero_heading_color};
+--mpb-hero-lead-color: {$hero_lead_color};
+--mpb-hero-text-shadow: {$hero_text_shadow_css};
+
+
             --mpb-texture-image: {$texture_url};
             --mpb-texture-opacity: {$texture_opacity};
             --mpb-texture-size: {$texture_size};
@@ -196,26 +220,22 @@ function mpb_get_theme_style_inline_css() {
 function mpb_theme_style_body_classes($classes) {
     $settings = mpb_get_theme_style_settings();
 
+    $heading_alignment_scope = $settings['heading_alignment_scope'] ?? 'none';
+
+    if ($heading_alignment_scope === 'home') {
+        $classes[] = 'mpb-heading-align-home';
+    }
+
+    if ($heading_alignment_scope === 'all') {
+        $classes[] = 'mpb-heading-align-all';
+    }
+
     if (!empty($settings['texture_enabled']) && !empty($settings['texture_image_id'])) {
         $classes[] = 'mpb-texture-enabled';
 
         if (!empty($settings['texture_apply_body'])) {
             $classes[] = 'mpb-texture-body';
         }
-
-        $theme_style = function_exists('mpc_get_theme_style_settings')
-    ? mpc_get_theme_style_settings()
-    : [];
-
-$heading_alignment_scope = $theme_style['heading_alignment_scope'] ?? 'none';
-
-if ($heading_alignment_scope === 'home') {
-    $classes[] = 'mpb-heading-align-home';
-}
-
-if ($heading_alignment_scope === 'all') {
-    $classes[] = 'mpb-heading-align-all';
-}
 
         if (!empty($settings['texture_apply_footer'])) {
             $classes[] = 'mpb-texture-footer';
@@ -224,15 +244,19 @@ if ($heading_alignment_scope === 'all') {
         if (!empty($settings['texture_apply_buttons'])) {
             $classes[] = 'mpb-texture-buttons';
         }
+
         if (!empty($settings['texture_apply_mobile_nav'])) {
             $classes[] = 'mpb-texture-mobile-nav';
         }
+
         if (!empty($settings['texture_apply_cards'])) {
             $classes[] = 'mpb-texture-cards';
         }
+
         if (!empty($settings['texture_apply_media_frames'])) {
             $classes[] = 'mpb-texture-media-frames';
         }
+
         if (!empty($settings['texture_apply_sections'])) {
             $classes[] = 'mpb-texture-sections';
         }
