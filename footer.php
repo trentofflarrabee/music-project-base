@@ -87,6 +87,17 @@ $show_socials = function_exists('mpc_get_footer_setting')
     </div>
 </footer>
 
+<?php if (!is_front_page()) : ?>
+<button
+    class="scroll-top"
+    type="button"
+    aria-label="<?php esc_attr_e('Scroll to top', 'music-project-base'); ?>"
+    hidden
+>
+    <span aria-hidden="true">↑</span>
+</button>
+<?php endif; ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

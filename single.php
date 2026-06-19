@@ -15,7 +15,7 @@ $blog_label = $posts_page_id ? get_the_title($posts_page_id) : __('Blog', 'music
         <?php while (have_posts()) : ?>
             <?php the_post(); ?>
 
-            <article <?php post_class('single-post'); ?>>
+            <article <?php post_class('single-entry'); ?>>
                 <a class="single-post__back-link" href="<?php echo esc_url($blog_url); ?>">
                     <?php
                     printf(

@@ -97,6 +97,10 @@ function mpb_get_theme_style_defaults() {
         'texture_apply_body' => 1,
         'texture_apply_footer' => 1,
         'texture_apply_buttons' => 0,
+        'texture_apply_mobile_nav' => 1,
+        'texture_apply_cards' => 0,
+        'texture_apply_media_frames' => 0,
+        'texture_apply_sections' => 0,
     ];
 }
 
@@ -205,6 +209,18 @@ function mpb_theme_style_body_classes($classes) {
 
         if (!empty($settings['texture_apply_buttons'])) {
             $classes[] = 'mpb-texture-buttons';
+        }
+        if (!empty($settings['texture_apply_mobile_nav'])) {
+            $classes[] = 'mpb-texture-mobile-nav';
+        }
+        if (!empty($settings['texture_apply_cards'])) {
+            $classes[] = 'mpb-texture-cards';
+        }
+        if (!empty($settings['texture_apply_media_frames'])) {
+            $classes[] = 'mpb-texture-media-frames';
+        }
+        if (!empty($settings['texture_apply_sections'])) {
+            $classes[] = 'mpb-texture-sections';
         }
     }
 
