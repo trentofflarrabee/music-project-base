@@ -203,6 +203,20 @@ function mpb_theme_style_body_classes($classes) {
             $classes[] = 'mpb-texture-body';
         }
 
+        $theme_style = function_exists('mpc_get_theme_style_settings')
+    ? mpc_get_theme_style_settings()
+    : [];
+
+$heading_alignment_scope = $theme_style['heading_alignment_scope'] ?? 'none';
+
+if ($heading_alignment_scope === 'home') {
+    $classes[] = 'mpb-heading-align-home';
+}
+
+if ($heading_alignment_scope === 'all') {
+    $classes[] = 'mpb-heading-align-all';
+}
+
         if (!empty($settings['texture_apply_footer'])) {
             $classes[] = 'mpb-texture-footer';
         }

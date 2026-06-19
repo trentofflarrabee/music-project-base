@@ -140,6 +140,86 @@ h3,
     font-family: var(--mpb-font-accent);
 }
 
+/* =========================================================
+   HEADING ALIGNMENT OPTIONS
+   ========================================================= */
+
+/* Center homepage headings */
+
+body.mpb-heading-align-home .home-section .section-header,
+body.mpb-heading-align-home .home-section .section-header h2,
+body.mpb-heading-align-home .home-section .section-header p,
+body.mpb-heading-align-home .home-hero__content,
+body.mpb-heading-align-home .home-hero__content h1,
+body.mpb-heading-align-home .home-hero__content p {
+    text-align: center;
+    margin-inline: auto;
+}
+
+body.mpb-heading-align-home .home-hero__content {
+    display: grid;
+    justify-items: center;
+}
+
+body.mpb-heading-align-home .home-hero .social-links {
+    justify-content: center;
+}
+
+/* Center all headings */
+
+body.mpb-heading-align-all h1,
+body.mpb-heading-align-all h2,
+body.mpb-heading-align-all h3,
+body.mpb-heading-align-all h4,
+body.mpb-heading-align-all h5,
+body.mpb-heading-align-all h6 {
+    text-align: center;
+    margin-inline: auto;
+}
+
+body.mpb-heading-align-all .section-header,
+body.mpb-heading-align-all .section-header p,
+body.mpb-heading-align-all .home-hero__content,
+body.mpb-heading-align-all .home-hero__content p,
+body.mpb-heading-align-all .theme-page__header,
+body.mpb-heading-align-all .theme-archive__header,
+body.mpb-heading-align-all .theme-search__header,
+body.mpb-heading-align-all .blog-archive__header,
+body.mpb-heading-align-all .single-post__header {
+    text-align: center;
+    margin-inline: auto;
+}
+
+body.mpb-heading-align-all .home-hero__content {
+    display: grid;
+    justify-items: center;
+}
+
+body.mpb-heading-align-all .home-hero .social-links {
+    justify-content: center;
+}
+
+/* Centered heading mode: stack Blog heading and View All link */
+
+body.mpb-heading-align-home .home-blog__header,
+body.mpb-heading-align-all .home-blog__header {
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.85rem;
+}
+
+body.mpb-heading-align-home .home-blog__header .section-header,
+body.mpb-heading-align-all .home-blog__header .section-header {
+    margin-bottom: 0;
+}
+
+body.mpb-heading-align-home .home-blog__view-all,
+body.mpb-heading-align-all .home-blog__view-all {
+    justify-self: center;
+}
+
 
 /* =========================================================
    5. ACCESSIBILITY HELPERS
