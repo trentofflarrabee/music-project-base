@@ -11,6 +11,7 @@ function mpb_get_default_home_sections() {
     return [
         'hero',
         'featured-content',
+        'services',
         'shows',
         'blog',
         'newsletter',

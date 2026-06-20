@@ -19,6 +19,21 @@ Text Domain: music-project-base
     --mpb-color-button-bg: #f5f5f5;
     --mpb-color-button-text: #111111;
 
+    --mpb-color-header-bg: #000000;
+--mpb-color-header-text: #f5f5f5;
+--mpb-color-header-border: #1f1f1f;
+
+--mpb-color-media-frame-bg: #181818;
+
+--mpb-color-mobile-nav-bg: #000000;
+--mpb-color-mobile-nav-text: #f5f5f5;
+--mpb-color-mobile-nav-border: #242424;
+
+--mpb-color-footer-bg: #000000;
+--mpb-color-footer-text: #f5f5f5;
+--mpb-color-footer-muted: #b8b8b8;
+--mpb-color-footer-border: #1f1f1f;
+
     --mpb-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mpb-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mpb-font-accent: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -364,16 +379,19 @@ body.mpb-texture-buttons .event-body a {
    8. HEADER / NAVIGATION
    ========================================================= */
 
-.site-header,
+.site-header {
+    background: var(--mpb-color-header-bg);
+}
+
 .site-footer {
-    background: #000;
+    background: var(--mpb-color-footer-bg);
 }
 
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--mpb-color-header-border);
 }
 
 .site-header__inner,
@@ -400,10 +418,19 @@ body.mpb-texture-buttons .event-body a {
 
 .site-branding__name,
 .site-footer__name {
-    color: var(--mpb-color-text);
     font-weight: 800;
     text-decoration: none;
     letter-spacing: -0.03em;
+}
+
+.site-branding__name {
+    color: var(--mpb-color-header-text);
+    font-size: 1.25rem;
+}
+
+.site-footer__name {
+    color: var(--mpb-color-footer-text);
+    font-size: 1.5rem;
 }
 
 .site-branding__name {
@@ -440,12 +467,26 @@ body.mpb-texture-buttons .event-body a {
     list-style: none;
 }
 
-.site-nav__menu a,
-.site-footer__menu a {
-    color: var(--mpb-color-text);
+.site-nav__menu a {
+    color: var(--mpb-color-header-text);
     text-decoration: none;
     font-weight: 700;
     opacity: 0.8;
+}
+
+.site-footer__menu a {
+    color: var(--mpb-color-footer-text);
+    text-decoration: none;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.site-nav__menu a:visited {
+    color: var(--mpb-color-header-text);
+}
+
+.site-footer__menu a:visited {
+    color: var(--mpb-color-footer-text);
 }
 
 .site-nav__menu a:hover,
@@ -464,10 +505,10 @@ body.mpb-texture-buttons .event-body a {
     display: none;
     width: 44px;
     height: 44px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid var(--mpb-color-header-border);
     border-radius: 0;
     background: var(--mpb-color-surface);
-    color: var(--mpb-color-text);
+    color: var(--mpb-color-header-text);
     cursor: pointer;
 }
 
@@ -568,7 +609,7 @@ body.mpb-texture-buttons .event-body a {
     position: relative;
     overflow: hidden;
     padding-block: 4rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--mpb-color-footer-border);
 }
 
 .site-footer__inner {
@@ -621,6 +662,19 @@ body.mpb-texture-buttons .event-body a {
 .site-footer--layout-stacked .site-footer__menu,
 .site-footer--layout-stacked .social-links {
     justify-content: center;
+}
+
+.site-footer,
+.site-footer__name,
+.site-footer__menu a,
+.site-footer__menu a:visited,
+.site-footer .social-links__link {
+    color: var(--mpb-color-footer-text);
+}
+
+.site-footer__tagline,
+.site-footer__copyright {
+    color: var(--mpb-color-footer-muted);
 }
 
 
@@ -1034,7 +1088,7 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     display: grid;
     place-items: center;
     padding: 1.5rem;
-    background: #181818;
+    background: var(--mpb-color-media-frame-bg, var(--mpb-color-surface));
     border-bottom: 1px solid var(--mpb-border-subtle);
 }
 
@@ -1209,6 +1263,144 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     }
 }
 
+/* =========================================================
+   HOME SERVICES
+   ========================================================= */
+
+.home-services__grid {
+    width: min(100%, var(--mpb-width-site));
+    margin-inline: auto;
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.home-service-card,
+.home-services__empty {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--mpb-radius-card);
+    background: var(--mpb-color-surface);
+    border: 1px solid var(--mpb-border-subtle);
+    box-shadow: var(--mpb-shadow-card);
+}
+
+.home-service-card {
+    display: grid;
+    align-content: start;
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.home-service-card:hover {
+    transform: var(--mpb-card-hover-transform);
+    border-color: var(--mpb-border-medium);
+    box-shadow: var(--mpb-shadow-card-hover);
+}
+
+.home-service-card h3 {
+    margin: 0 0 0.85rem;
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    line-height: 1;
+}
+
+.home-service-card p {
+    margin: 0;
+    color: var(--mpb-color-muted);
+}
+
+.home-service-card__link {
+    display: inline-flex;
+    width: max-content;
+    margin-top: 1.25rem;
+    color: var(--mpb-color-accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.home-service-card__link:hover,
+.home-service-card__link:focus {
+    text-decoration: underline;
+}
+
+.home-services__cta {
+    width: min(100%, var(--mpb-width-site));
+    margin: clamp(2rem, 5vw, 3rem) auto 0;
+    text-align: center;
+}
+
+.home-services__empty {
+    width: min(100%, var(--mpb-width-content));
+    margin-inline: auto;
+    color: var(--mpb-color-muted);
+    text-align: center;
+}
+
+.home-services__empty p {
+    margin: 0;
+}
+
+/* Services Layout: Grid */
+
+@media (min-width: 760px) {
+    .home-services--layout-grid .home-services__grid {
+        grid-template-columns: repeat(var(--mpb-services-columns), minmax(0, 1fr));
+    }
+}
+
+/* Services Layout: Featured First */
+
+@media (min-width: 900px) {
+    .home-services--layout-featured-first .home-services__grid {
+        grid-template-columns: repeat(var(--mpb-services-columns), minmax(0, 1fr));
+    }
+
+    .home-services--layout-featured-first .home-service-card:first-child {
+        grid-column: span 2;
+        padding: clamp(1.5rem, 4vw, 2.75rem);
+    }
+
+    .home-services--layout-featured-first .home-service-card:first-child h3 {
+        font-size: clamp(2.25rem, 5vw, 4.5rem);
+    }
+}
+
+/* Services Layout: Compact */
+
+.home-services--layout-compact .home-services__grid {
+    width: min(100%, var(--mpb-width-content));
+    gap: 0.75rem;
+}
+
+.home-services--layout-compact .home-service-card {
+    padding: 1.25rem 1.5rem;
+}
+
+.home-services--layout-compact .home-service-card h3 {
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+}
+
+.home-services--layout-compact .home-service-card__link {
+    margin-top: 0.75rem;
+}
+
+/* Texture support */
+
+body.mpb-texture-cards .home-service-card,
+body.mpb-texture-cards .home-services__empty {
+    background-color: var(--mpb-color-surface);
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    background-blend-mode: soft-light;
+}
+
+@media (max-width: 720px) {
+    .home-service-card {
+        padding: 1.25rem;
+    }
+}
 
 /* =========================================================
    13. SHOWS / EVENTS
@@ -1331,7 +1523,7 @@ body.mpb-texture-body .home-hero--full-bleed::after {
 .blog-archive-card__image-link,
 .theme-archive-card__image-link {
     display: block;
-    background: #222;
+    background: var(--mpb-color-media-frame-bg, var(--mpb-color-surface));
 }
 
 .home-blog-card__image,
@@ -2222,7 +2414,7 @@ body.mpb-texture-sections .single-main > * {
 
 @media (max-width: 720px) {
     .site-header {
-        background: #000;
+        background: var(--mpb-color-header-bg);
         z-index: 2000;
     }
 
@@ -2249,19 +2441,22 @@ body.mpb-texture-sections .single-main > * {
         z-index: 2004;
     }
 
-    .site-menu-toggle {
-        display: inline-grid;
-        place-items: center;
-        flex: 0 0 auto;
-        border-radius: 0;
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(8px);
-    }
+.site-menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 0;
+    background: transparent;
+    color: var(--mpb-color-header-text);
+    border-color: var(--mpb-color-header-border);
+    backdrop-filter: none;
+}
 
-    .site-header.is-menu-open .site-menu-toggle {
-        background: rgba(0, 0, 0, 0.55);
-        border-color: rgba(255, 255, 255, 0.28);
-    }
+.site-header.is-menu-open .site-menu-toggle {
+    background: transparent;
+    border-color: var(--mpb-color-mobile-nav-border);
+    color: var(--mpb-color-mobile-nav-text);
+}
 
     .site-nav {
         position: fixed;
@@ -2273,7 +2468,7 @@ body.mpb-texture-sections .single-main > * {
         min-height: 100vh;
         min-height: 100dvh;
         padding: calc(72px + 2rem) 1.5rem 2rem;
-        background: #000;
+        background: var(--mpb-color-mobile-nav-bg);
         border: 0;
         box-shadow: none;
         overflow-y: auto;
@@ -2313,7 +2508,7 @@ body.mpb-texture-sections .single-main > * {
         display: block;
         padding: 0.2rem 0;
         border-radius: 0;
-        color: var(--mpb-color-text);
+        color: var(--mpb-color-mobile-nav-text);
         font-family: var(--mpb-font-heading);
         font-size: clamp(3rem, 12vw, 6.5rem);
         font-weight: 900;
@@ -2381,7 +2576,7 @@ body.mpb-texture-sections .single-main > * {
         display: grid;
         gap: 1rem;
         padding-top: 1.5rem;
-        border-top: 1px solid var(--mpb-border-medium);
+        border-top: 1px solid var(--mpb-color-mobile-nav-border);
         opacity: 0;
         transform: translateY(12px);
         transition:
@@ -2408,7 +2603,7 @@ body.mpb-texture-sections .single-main > * {
     }
 
     body.mpb-texture-mobile-nav .site-nav {
-        background-color: #080808;
+        background-color: var(--mpb-color-mobile-nav-bg);
     }
 
     body.mpb-texture-mobile-nav .site-nav::before {

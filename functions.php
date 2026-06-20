@@ -82,11 +82,27 @@ function mpb_get_theme_style_defaults() {
         'color_button_background' => '#f5f5f5',
         'color_button_text' => '#111111',
 
+        // Site chrome.
+'header_background_color' => '#000000',
+'header_text_color' => '#f5f5f5',
+'header_border_color' => '#1f1f1f',
+
+'mobile_nav_background_color' => '#000000',
+'mobile_nav_text_color' => '#f5f5f5',
+'mobile_nav_border_color' => '#242424',
+
+'footer_background_color' => '#000000',
+'footer_text_color' => '#f5f5f5',
+'footer_muted_color' => '#b8b8b8',
+'footer_border_color' => '#1f1f1f',
+
         'font_heading' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         'font_body' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         'font_accent' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         'heading_text_transform' => 'none',
         'heading_letter_spacing' => '-0.04em',
+
+
         'font_quote' => '',
 
         'heading_alignment_scope' => 'none',
@@ -94,6 +110,10 @@ function mpb_get_theme_style_defaults() {
         'hero_heading_color' => '#ffffff',
         'hero_lead_color' => '#f5f5f5',
         'hero_text_shadow' => 'subtle',
+
+        'corner_style' => 'rounded',
+'card_shadow_style' => 'standard',
+'border_strength' => 'subtle',
 
         'texture_enabled' => 0,
         'texture_image_id' => 0,
@@ -154,6 +174,20 @@ function mpb_get_theme_style_inline_css() {
     $color_button_background = sanitize_hex_color($settings['color_button_background']) ?: '#f5f5f5';
     $color_button_text = sanitize_hex_color($settings['color_button_text']) ?: '#111111';
 
+
+    $header_background_color = sanitize_hex_color($settings['header_background_color'] ?? '') ?: '#000000';
+$header_text_color = sanitize_hex_color($settings['header_text_color'] ?? '') ?: '#f5f5f5';
+$header_border_color = sanitize_hex_color($settings['header_border_color'] ?? '') ?: '#1f1f1f';
+
+$mobile_nav_background_color = sanitize_hex_color($settings['mobile_nav_background_color'] ?? '') ?: '#000000';
+$mobile_nav_text_color = sanitize_hex_color($settings['mobile_nav_text_color'] ?? '') ?: '#f5f5f5';
+$mobile_nav_border_color = sanitize_hex_color($settings['mobile_nav_border_color'] ?? '') ?: '#242424';
+
+$footer_background_color = sanitize_hex_color($settings['footer_background_color'] ?? '') ?: '#000000';
+$footer_text_color = sanitize_hex_color($settings['footer_text_color'] ?? '') ?: '#f5f5f5';
+$footer_muted_color = sanitize_hex_color($settings['footer_muted_color'] ?? '') ?: '#b8b8b8';
+$footer_border_color = sanitize_hex_color($settings['footer_border_color'] ?? '') ?: '#1f1f1f';
+
     $font_heading = mpb_clean_font_family($settings['font_heading']);
     $font_body = mpb_clean_font_family($settings['font_body']);
     $font_accent = mpb_clean_font_family($settings['font_accent']);
@@ -179,6 +213,88 @@ $hero_text_shadow_map = [
 
 $hero_text_shadow_css = $hero_text_shadow_map[$hero_text_shadow] ?? $hero_text_shadow_map['subtle'];
 
+
+
+$corner_style = sanitize_key($settings['corner_style'] ?? 'rounded');
+
+$corner_style_map = [
+    'sharp' => [
+        'card' => '0',
+        'media' => '0',
+        'control' => '0',
+    ],
+    'subtle' => [
+        'card' => '6px',
+        'media' => '4px',
+        'control' => '4px',
+    ],
+    'rounded' => [
+        'card' => '16px',
+        'media' => '12px',
+        'control' => '999px',
+    ],
+    'soft' => [
+        'card' => '28px',
+        'media' => '22px',
+        'control' => '999px',
+    ],
+];
+
+$corner_values = $corner_style_map[$corner_style] ?? $corner_style_map['rounded'];
+
+$card_shadow_style = sanitize_key($settings['card_shadow_style'] ?? 'standard');
+
+$card_shadow_style_map = [
+    'none' => [
+        'card' => 'none',
+        'hover' => 'none',
+        'transform' => 'none',
+    ],
+    'subtle' => [
+        'card' => '0 8px 24px rgba(0, 0, 0, 0.14)',
+        'hover' => '0 12px 32px rgba(0, 0, 0, 0.18)',
+        'transform' => 'translateY(-1px)',
+    ],
+    'standard' => [
+        'card' => '0 20px 70px rgba(0, 0, 0, 0.22)',
+        'hover' => '0 24px 80px rgba(0, 0, 0, 0.32)',
+        'transform' => 'translateY(-2px)',
+    ],
+    'dramatic' => [
+        'card' => '0 30px 90px rgba(0, 0, 0, 0.34)',
+        'hover' => '0 38px 120px rgba(0, 0, 0, 0.46)',
+        'transform' => 'translateY(-3px)',
+    ],
+];
+
+$shadow_values = $card_shadow_style_map[$card_shadow_style] ?? $card_shadow_style_map['standard'];
+
+$border_strength = sanitize_key($settings['border_strength'] ?? 'subtle');
+
+$border_strength_map = [
+    'minimal' => [
+        'subtle' => 'rgba(255, 255, 255, 0.03)',
+        'medium' => 'rgba(255, 255, 255, 0.08)',
+        'strong' => 'rgba(255, 255, 255, 0.14)',
+    ],
+    'subtle' => [
+        'subtle' => 'rgba(255, 255, 255, 0.06)',
+        'medium' => 'rgba(255, 255, 255, 0.14)',
+        'strong' => 'rgba(255, 255, 255, 0.22)',
+    ],
+    'defined' => [
+        'subtle' => 'rgba(255, 255, 255, 0.12)',
+        'medium' => 'rgba(255, 255, 255, 0.22)',
+        'strong' => 'rgba(255, 255, 255, 0.34)',
+    ],
+];
+
+$border_values = $border_strength_map[$border_strength] ?? $border_strength_map['subtle'];
+
+
+
+
+
     $texture_opacity = is_numeric($settings['texture_opacity'])
         ? max(0, min(1, (float) $settings['texture_opacity']))
         : 0.08;
@@ -196,6 +312,19 @@ $hero_text_shadow_css = $hero_text_shadow_map[$hero_text_shadow] ?? $hero_text_s
             --mpb-color-button-bg: {$color_button_background};
             --mpb-color-button-text: {$color_button_text};
 
+            --mpb-color-header-bg: {$header_background_color};
+--mpb-color-header-text: {$header_text_color};
+--mpb-color-header-border: {$header_border_color};
+
+--mpb-color-mobile-nav-bg: {$mobile_nav_background_color};
+--mpb-color-mobile-nav-text: {$mobile_nav_text_color};
+--mpb-color-mobile-nav-border: {$mobile_nav_border_color};
+
+--mpb-color-footer-bg: {$footer_background_color};
+--mpb-color-footer-text: {$footer_text_color};
+--mpb-color-footer-muted: {$footer_muted_color};
+--mpb-color-footer-border: {$footer_border_color};
+
             --mpb-font-heading: {$font_heading};
             --mpb-font-body: {$font_body};
             --mpb-font-accent: {$font_accent};
@@ -207,6 +336,18 @@ $hero_text_shadow_css = $hero_text_shadow_map[$hero_text_shadow] ?? $hero_text_s
             --mpb-hero-heading-color: {$hero_heading_color};
 --mpb-hero-lead-color: {$hero_lead_color};
 --mpb-hero-text-shadow: {$hero_text_shadow_css};
+
+--mpb-radius-card: {$corner_values['card']};
+--mpb-radius-media: {$corner_values['media']};
+--mpb-radius-control: {$corner_values['control']};
+
+--mpb-shadow-card: {$shadow_values['card']};
+--mpb-shadow-card-hover: {$shadow_values['hover']};
+--mpb-card-hover-transform: {$shadow_values['transform']};
+
+--mpb-border-subtle: {$border_values['subtle']};
+--mpb-border-medium: {$border_values['medium']};
+--mpb-border-strong: {$border_values['strong']};
 
 
             --mpb-texture-image: {$texture_url};
