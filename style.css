@@ -184,23 +184,11 @@ h3,
 
 /* Center homepage headings */
 
-body.mpb-heading-align-home .home-section .section-header,
-body.mpb-heading-align-home .home-section .section-header h2,
-body.mpb-heading-align-home .home-section .section-header p,
-body.mpb-heading-align-home .home-hero__content,
-body.mpb-heading-align-home .home-hero__content h1,
-body.mpb-heading-align-home .home-hero__content p {
+body.mpb-heading-align-home .home-section:not(.home-hero) .section-header,
+body.mpb-heading-align-home .home-section:not(.home-hero) .section-header h2,
+body.mpb-heading-align-home .home-section:not(.home-hero) .section-header p {
     text-align: center;
     margin-inline: auto;
-}
-
-body.mpb-heading-align-home .home-hero__content {
-    display: grid;
-    justify-items: center;
-}
-
-body.mpb-heading-align-home .home-hero .social-links {
-    justify-content: center;
 }
 
 /* Center all headings */
@@ -217,8 +205,6 @@ body.mpb-heading-align-all h6 {
 
 body.mpb-heading-align-all .section-header,
 body.mpb-heading-align-all .section-header p,
-body.mpb-heading-align-all .home-hero__content,
-body.mpb-heading-align-all .home-hero__content p,
 body.mpb-heading-align-all .theme-page__header,
 body.mpb-heading-align-all .theme-archive__header,
 body.mpb-heading-align-all .theme-search__header,
@@ -226,15 +212,6 @@ body.mpb-heading-align-all .blog-archive__header,
 body.mpb-heading-align-all .single-post__header {
     text-align: center;
     margin-inline: auto;
-}
-
-body.mpb-heading-align-all .home-hero__content {
-    display: grid;
-    justify-items: center;
-}
-
-body.mpb-heading-align-all .home-hero .social-links {
-    justify-content: center;
 }
 
 /* Centered heading mode: stack Blog heading and View All link */
@@ -257,7 +234,6 @@ body.mpb-heading-align-home .home-blog__view-all,
 body.mpb-heading-align-all .home-blog__view-all {
     justify-self: center;
 }
-
 
 /* =========================================================
    5. ACCESSIBILITY HELPERS
@@ -791,25 +767,21 @@ body.mpb-texture-buttons .event-body a {
     height: 1.1rem;
 }
 
-
 /* =========================================================
    11. HERO
    ========================================================= */
 
 .home-hero {
-    width: min(100%, var(--mpb-width-site));
-    margin-inline: auto;
-    min-height: calc(100vh - 72px);
-    display: grid;
-    align-items: center;
-    gap: 2rem;
+    --mpb-hero-content-width: 680px;
+
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
 }
 
 .home-hero__media {
     position: relative;
     width: 100%;
-    max-width: 720px;
-    justify-self: center;
 }
 
 .home-hero__image-wrap {
@@ -824,8 +796,8 @@ body.mpb-texture-buttons .event-body a {
     height: clamp(280px, 45vw, 560px);
     object-fit: cover;
     object-position: center;
-    border-radius: 18px;
-    background: var(--mpb-color-surface);
+    border-radius: var(--mpb-radius-media);
+    background: var(--mpb-color-media-frame-bg, var(--mpb-color-surface));
     box-shadow: 0 25px 90px rgba(0, 0, 0, 0.35);
 }
 
@@ -837,8 +809,19 @@ body.mpb-texture-buttons .event-body a {
     display: grid;
     place-items: center;
     min-height: 280px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--mpb-border-medium);
     color: var(--mpb-color-muted);
+}
+
+.home-hero__content-shell {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: 100%;
+}
+
+.home-hero__content {
+    width: min(100%, var(--mpb-hero-content-width));
 }
 
 .home-hero__content h1 {
@@ -847,6 +830,7 @@ body.mpb-texture-buttons .event-body a {
     font-size: clamp(3rem, 10vw, 7rem);
     line-height: 0.9;
     text-shadow: var(--mpb-hero-text-shadow);
+    text-wrap: balance;
 }
 
 .home-hero__content p {
@@ -856,32 +840,52 @@ body.mpb-texture-buttons .event-body a {
     text-shadow: var(--mpb-hero-text-shadow);
 }
 
+.home-hero__content .social-links {
+    margin-top: 1.75rem;
+}
 
-/* Hero Variant: Full-Bleed Media */
+
+/* Hero Layout: Split */
+
+.home-hero--split {
+    width: min(100%, var(--mpb-width-site));
+    min-height: calc(100vh - 72px);
+    margin-inline: auto;
+    display: grid;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+}
+
+.home-hero--split .home-hero__content-shell {
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    .home-hero--split {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+
+/* Hero Layout: Full Bleed */
 
 .home-hero--full-bleed {
-    position: relative;
     width: 100%;
     max-width: none;
     min-height: calc(100vh - 72px);
     margin-inline: 0;
-    padding: clamp(5rem, 10vw, 8rem) 1.5rem;
+    padding: 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    align-items: end;
-    justify-items: center;
-    isolation: isolate;
-    overflow: hidden;
 }
 
 .home-hero--full-bleed .home-hero__media {
     position: absolute;
     inset: 0;
+    z-index: 0;
     width: 100%;
     max-width: none;
     height: 100%;
-    justify-self: stretch;
-    z-index: -3;
 }
 
 .home-hero--full-bleed .home-hero__image-wrap {
@@ -904,10 +908,21 @@ body.mpb-texture-buttons .event-body a {
 .home-hero--full-bleed .home-hero__overlay {
     position: absolute;
     inset: 0;
-    z-index: -2;
-    pointer-events: none;
+    z-index: 1;
     opacity: var(--mpb-hero-overlay-opacity, 0.45);
+    pointer-events: none;
 }
+
+.home-hero--full-bleed .home-hero__content-shell {
+    z-index: 2;
+    width: min(100%, var(--mpb-width-site));
+    min-height: calc(100vh - 72px);
+    margin-inline: auto;
+    padding: clamp(5rem, 10vw, 8rem) 1.5rem;
+}
+
+
+/* Hero Overlay Styles */
 
 .home-hero--full-bleed.home-hero--overlay-side .home-hero__overlay {
     background:
@@ -949,81 +964,96 @@ body.mpb-texture-buttons .event-body a {
     background: rgba(0, 0, 0, 0.7);
 }
 
-.home-hero--full-bleed .home-hero__content {
-    grid-column: 1 / -1;
-    width: min(100%, var(--mpb-width-site));
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-block: var(--mpb-section-padding-block);
-    justify-self: center;
+
+/* Hero V2 Placement */
+
+.home-hero--x-left .home-hero__content-shell {
+    justify-items: start;
 }
 
-.home-hero--full-bleed .home-hero__content h1 {
-    max-width: 900px;
-    font-size: clamp(4rem, 13vw, 11rem);
-    line-height: 0.82;
-    text-wrap: balance;
+.home-hero--x-center .home-hero__content-shell {
+    justify-items: center;
 }
 
-.home-hero--full-bleed .home-hero__content p {
-    max-width: 620px;
-    color: var(--mpb-hero-lead-color);
-    opacity: 1;
+.home-hero--x-right .home-hero__content-shell {
+    justify-items: end;
 }
 
-.home-hero--full-bleed .social-links {
-    margin-top: 1.75rem;
+.home-hero--y-top .home-hero__content-shell {
+    align-items: start;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-left {
-    align-items: end;
-}
-
-.home-hero--full-bleed.home-hero--content-center-left {
+.home-hero--y-center .home-hero__content-shell {
     align-items: center;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content,
-.home-hero--full-bleed.home-hero--content-center-left .home-hero__content {
+.home-hero--y-bottom .home-hero__content-shell {
+    align-items: end;
+}
+
+
+/* Hero V2 Text Alignment */
+.home-hero--text-auto.home-hero--x-left .home-hero__content,
+.home-hero--text-auto.home-hero--x-left .home-hero__content h1,
+.home-hero--text-left .home-hero__content,
+.home-hero--text-left .home-hero__content h1 {
     text-align: left;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-center {
-    align-items: end;
+.home-hero--text-auto.home-hero--x-center .home-hero__content,
+.home-hero--text-auto.home-hero--x-center .home-hero__content h1,
+.home-hero--text-center .home-hero__content,
+.home-hero--text-center .home-hero__content h1 {
     text-align: center;
 }
 
-.home-hero--full-bleed.home-hero--content-center-center {
-    align-items: center;
-    text-align: center;
+.home-hero--text-auto.home-hero--x-right .home-hero__content,
+.home-hero--text-auto.home-hero--x-right .home-hero__content h1,
+.home-hero--text-right .home-hero__content,
+.home-hero--text-right .home-hero__content h1 {
+    text-align: right;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content,
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content {
-    width: min(100%, var(--mpb-width-content));
-    max-width: 900px;
-    display: grid;
-    justify-items: center;
-    text-align: center;
+.home-hero--text-auto.home-hero--x-left .home-hero__content p,
+.home-hero--text-left .home-hero__content p {
+    margin-left: 0;
+    margin-right: auto;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content p,
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content p {
+.home-hero--text-auto.home-hero--x-center .home-hero__content p,
+.home-hero--text-center .home-hero__content p {
     margin-inline: auto;
 }
 
-.home-hero--full-bleed.home-hero--content-bottom-center .social-links,
-.home-hero--full-bleed.home-hero--content-center-center .social-links {
+.home-hero--text-auto.home-hero--x-right .home-hero__content p,
+.home-hero--text-right .home-hero__content p {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.home-hero--text-auto.home-hero--x-left .home-hero__content .social-links,
+.home-hero--text-left .home-hero__content .social-links {
+    justify-content: flex-start;
+}
+
+.home-hero--text-auto.home-hero--x-center .home-hero__content .social-links,
+.home-hero--text-center .home-hero__content .social-links {
     justify-content: center;
 }
+
+.home-hero--text-auto.home-hero--x-right .home-hero__content .social-links,
+.home-hero--text-right .home-hero__content .social-links {
+    justify-content: flex-end;
+}
+
+
+/* Hero Texture Interaction */
 
 body.mpb-texture-body .home-hero--full-bleed::after {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 1;
     background-image: var(--mpb-texture-image);
     background-size: var(--mpb-texture-size);
     background-repeat: var(--mpb-texture-repeat);
@@ -1031,6 +1061,59 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     pointer-events: none;
 }
 
+
+/* Hero Media Fallbacks */
+
+@media (min-width: 768px) {
+    .home-hero__media.has-desktop-video .home-hero__image-wrap {
+        display: none;
+    }
+
+    .home-hero__media.has-desktop-video .home-hero__video {
+        display: block;
+    }
+}
+
+
+/* Hero Mobile */
+
+@media (max-width: 720px) {
+    .home-hero--split {
+        min-height: auto;
+        padding-block: 3rem 4rem;
+    }
+
+    .home-hero--full-bleed {
+        min-height: calc(100vh - 72px);
+    }
+
+    .home-hero--full-bleed .home-hero__content-shell {
+        min-height: calc(100vh - 72px);
+        padding: 4rem 1.5rem;
+    }
+
+    .home-hero__content h1 {
+        font-size: clamp(3rem, 16vw, 5rem);
+    }
+
+    .home-hero--full-bleed .home-hero__content h1 {
+        font-size: clamp(3.5rem, 18vw, 6rem);
+    }
+
+    .home-hero__content p {
+        font-size: 1rem;
+    }
+
+    .home-hero--full-bleed.home-hero--overlay-side .home-hero__overlay {
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.72) 0%,
+                rgba(0, 0, 0, 0.24) 52%,
+                rgba(0, 0, 0, 0.32) 100%
+            );
+    }
+}
 
 
 /* =========================================================
@@ -2354,21 +2437,8 @@ body.mpb-texture-sections .single-main > * {
    ========================================================= */
 
 @media (min-width: 768px) {
-    .home-hero {
-        grid-template-columns: 1fr 1fr;
-        padding-inline: 3rem;
-    }
-
     .home-section {
         padding-inline: 3rem;
-    }
-
-    .home-hero__media.has-desktop-video .home-hero__image-wrap {
-        display: none;
-    }
-
-    .home-hero__media.has-desktop-video .home-hero__video {
-        display: block;
     }
 
     .featured-content-layout {
@@ -2630,18 +2700,10 @@ body.mpb-texture-sections .single-main > * {
 /* General Mobile */
 
 @media (max-width: 720px) {
-    .home-section {
-        padding-block: 4rem;
-    }
 
-    .home-hero {
-        min-height: auto;
-        padding-block: 3rem 4rem;
-    }
-
-    .home-hero__content h1 {
-        font-size: clamp(3rem, 16vw, 5rem);
-    }
+.home-section:not(.home-hero) {
+    padding-block: 4rem;
+}
 
     .section-header h2 {
         font-size: clamp(2.75rem, 14vw, 4.5rem);
@@ -2994,151 +3056,3 @@ body.mpb-texture-buttons .scroll-top {
     }
 }
 
-
-
-/* =========================================================
-   HERO CONTENT POSITION OVERRIDES
-   Full-bleed hero position should beat heading alignment modes.
-   ========================================================= */
-
-/* Content Positions */
-
-.home-hero--full-bleed .home-hero__content {
-    align-self: center;
-    justify-self: center;
-}
-
-/* Bottom Left */
-
-.home-hero--full-bleed.home-hero--content-bottom-left {
-    align-items: end;
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content {
-    width: min(100%, var(--mpb-width-site));
-    max-width: 1200px;
-    display: block;
-    justify-self: center;
-    text-align: left;
-    padding-top: 0;
-    padding-bottom: clamp(1.5rem, 5vw, 4rem);
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content p {
-    margin-left: 0;
-    margin-right: auto;
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-left .social-links {
-    justify-content: flex-start;
-}
-
-/* Center Left */
-
-.home-hero--full-bleed.home-hero--content-center-left {
-    align-items: center;
-}
-
-.home-hero--full-bleed.home-hero--content-center-left .home-hero__content {
-    width: min(100%, var(--mpb-width-site));
-    max-width: 1200px;
-    display: block;
-    justify-self: center;
-    text-align: left;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.home-hero--full-bleed.home-hero--content-center-left .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-center-left .home-hero__content p {
-    margin-left: 0;
-    margin-right: auto;
-}
-
-.home-hero--full-bleed.home-hero--content-center-left .social-links {
-    justify-content: flex-start;
-}
-
-/* Bottom Center */
-
-.home-hero--full-bleed.home-hero--content-bottom-center {
-    align-items: end;
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content {
-    width: min(100%, var(--mpb-width-content));
-    max-width: 900px;
-    display: grid;
-    justify-items: center;
-    justify-self: center;
-    text-align: center;
-    padding-top: 0;
-    padding-bottom: clamp(1.5rem, 5vw, 4rem);
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-bottom-center .home-hero__content p {
-    margin-inline: auto;
-}
-
-.home-hero--full-bleed.home-hero--content-bottom-center .social-links {
-    justify-content: center;
-}
-
-/* Center Center */
-
-.home-hero--full-bleed.home-hero--content-center-center {
-    align-items: center;
-}
-
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content {
-    width: min(100%, var(--mpb-width-content));
-    max-width: 900px;
-    display: grid;
-    justify-items: center;
-    justify-self: center;
-    text-align: center;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content h1,
-.home-hero--full-bleed.home-hero--content-center-center .home-hero__content p {
-    margin-inline: auto;
-}
-
-.home-hero--full-bleed.home-hero--content-center-center .social-links {
-    justify-content: center;
-}
-
-/* Hero position should win over heading alignment options */
-
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content,
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-center-left .home-hero__content,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-center-left .home-hero__content {
-    display: block;
-    text-align: left;
-    justify-items: initial;
-}
-
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content h1,
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content p,
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-center-left .home-hero__content h1,
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-center-left .home-hero__content p,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content h1,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-bottom-left .home-hero__content p,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-center-left .home-hero__content h1,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-center-left .home-hero__content p {
-    text-align: left;
-    margin-left: 0;
-    margin-right: auto;
-}
-
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-bottom-left .social-links,
-body.mpb-heading-align-home .home-hero--full-bleed.home-hero--content-center-left .social-links,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-bottom-left .social-links,
-body.mpb-heading-align-all .home-hero--full-bleed.home-hero--content-center-left .social-links {
-    justify-content: flex-start;
-}
