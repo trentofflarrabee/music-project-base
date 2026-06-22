@@ -153,6 +153,28 @@ function mpb_clean_font_family($value) {
     return trim($value);
 }
 
+function mpb_hex_to_rgb_channels($hex) {
+    $hex = sanitize_hex_color($hex);
+
+    if (!$hex) {
+        return '0, 0, 0';
+    }
+
+    $hex = ltrim($hex, '#');
+
+    if (strlen($hex) === 3) {
+        $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+    }
+
+    if (strlen($hex) !== 6) {
+        return '0, 0, 0';
+    }
+
+    return hexdec(substr($hex, 0, 2)) . ', ' .
+        hexdec(substr($hex, 2, 2)) . ', ' .
+        hexdec(substr($hex, 4, 2));
+}
+
 function mpb_get_theme_style_inline_css() {
     $settings = mpb_get_theme_style_settings();
 
@@ -205,14 +227,22 @@ $hero_lead_color = sanitize_hex_color($settings['hero_lead_color'] ?? '') ?: '#f
 
 $hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
 
+$hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
+
+$hero_text_shadow_color = sanitize_hex_color($settings['hero_text_shadow_color'] ?? '') ?: '#000000';
+$hero_text_shadow_rgb = function_exists('mpb_hex_to_rgb_channels')
+    ? mpb_hex_to_rgb_channels($hero_text_shadow_color)
+    : '0, 0, 0';
+
 $hero_text_shadow_map = [
-    'none'   => 'none',
-    'subtle' => '0 1px 2px rgba(0, 0, 0, 0.65), 0 8px 24px rgba(0, 0, 0, 0.35)',
-    'strong' => '0 2px 4px rgba(0, 0, 0, 0.85), 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 1px rgba(0, 0, 0, 0.95)',
+    'none' => 'none',
+
+    'subtle' => "0 1px 2px rgba({$hero_text_shadow_rgb}, 0.65), 0 8px 24px rgba({$hero_text_shadow_rgb}, 0.35)",
+
+    'strong' => "0 2px 4px rgba({$hero_text_shadow_rgb}, 0.85), 0 12px 36px rgba({$hero_text_shadow_rgb}, 0.75), 0 0 1px rgba({$hero_text_shadow_rgb}, 0.95)",
 ];
 
 $hero_text_shadow_css = $hero_text_shadow_map[$hero_text_shadow] ?? $hero_text_shadow_map['subtle'];
-
 
 
 $corner_style = sanitize_key($settings['corner_style'] ?? 'rounded');
@@ -313,17 +343,17 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-color-button-text: {$color_button_text};
 
             --mpb-color-header-bg: {$header_background_color};
---mpb-color-header-text: {$header_text_color};
---mpb-color-header-border: {$header_border_color};
+            --mpb-color-header-text: {$header_text_color};
+            --mpb-color-header-border: {$header_border_color};
 
---mpb-color-mobile-nav-bg: {$mobile_nav_background_color};
---mpb-color-mobile-nav-text: {$mobile_nav_text_color};
---mpb-color-mobile-nav-border: {$mobile_nav_border_color};
+            --mpb-color-mobile-nav-bg: {$mobile_nav_background_color};
+            --mpb-color-mobile-nav-text: {$mobile_nav_text_color};
+            --mpb-color-mobile-nav-border: {$mobile_nav_border_color};
 
---mpb-color-footer-bg: {$footer_background_color};
---mpb-color-footer-text: {$footer_text_color};
---mpb-color-footer-muted: {$footer_muted_color};
---mpb-color-footer-border: {$footer_border_color};
+            --mpb-color-footer-bg: {$footer_background_color};
+            --mpb-color-footer-text: {$footer_text_color};
+            --mpb-color-footer-muted: {$footer_muted_color};
+            --mpb-color-footer-border: {$footer_border_color};
 
             --mpb-font-heading: {$font_heading};
             --mpb-font-body: {$font_body};
@@ -334,20 +364,23 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-heading-letter-spacing: {$heading_letter_spacing};
 
             --mpb-hero-heading-color: {$hero_heading_color};
---mpb-hero-lead-color: {$hero_lead_color};
---mpb-hero-text-shadow: {$hero_text_shadow_css};
+            --mpb-hero-lead-color: {$hero_lead_color};
 
---mpb-radius-card: {$corner_values['card']};
---mpb-radius-media: {$corner_values['media']};
---mpb-radius-control: {$corner_values['control']};
+            --mpb-hero-text-shadow-color: {$hero_text_shadow_color};
+            --mpb-hero-text-shadow-color-rgb: {$hero_text_shadow_rgb};
+            --mpb-hero-text-shadow: {$hero_text_shadow_css};
 
---mpb-shadow-card: {$shadow_values['card']};
---mpb-shadow-card-hover: {$shadow_values['hover']};
---mpb-card-hover-transform: {$shadow_values['transform']};
+            --mpb-radius-card: {$corner_values['card']};
+            --mpb-radius-media: {$corner_values['media']};
+            --mpb-radius-control: {$corner_values['control']};
 
---mpb-border-subtle: {$border_values['subtle']};
---mpb-border-medium: {$border_values['medium']};
---mpb-border-strong: {$border_values['strong']};
+            --mpb-shadow-card: {$shadow_values['card']};
+            --mpb-shadow-card-hover: {$shadow_values['hover']};
+            --mpb-card-hover-transform: {$shadow_values['transform']};
+
+            --mpb-border-subtle: {$border_values['subtle']};
+            --mpb-border-medium: {$border_values['medium']};
+            --mpb-border-strong: {$border_values['strong']};
 
 
             --mpb-texture-image: {$texture_url};

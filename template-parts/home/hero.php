@@ -23,72 +23,10 @@ if (!in_array($layout, ['split', 'full_bleed'], true)) {
     $layout = 'split';
 }
 
-$heading = trim((string) mpc_get_homepage_setting('hero_heading'));
-$text = trim((string) mpc_get_homepage_setting('hero_text'));
-$mobile_image_id = absint(mpc_get_homepage_setting('hero_mobile_image_id'));
-$desktop_video_id = absint(mpc_get_homepage_setting('hero_desktop_video_id'));
-$cta_text = trim((string) mpc_get_homepage_setting('hero_cta_text'));
-$cta_url = trim((string) mpc_get_homepage_setting('hero_cta_url'));
-$overlay_opacity = absint(mpc_get_homepage_setting('hero_overlay_opacity', 45));
-$overlay_opacity = min(100, max(0, $overlay_opacity));
-$overlay_opacity_css = $overlay_opacity / 100;
+$height = sanitize_key((string) mpc_get_homepage_setting('hero_height', 'full_screen'));
 
-$overlay_style = sanitize_key((string) mpc_get_homepage_setting('hero_overlay_style', 'side'));
-$content_position = sanitize_key((string) mpc_get_homepage_setting('hero_content_position', 'bottom_left'));
-
-if (!in_array($overlay_style, ['side', 'bottom', 'center', 'even'], true)) {
-    $overlay_style = 'side';
-}
-
-if (!in_array($content_position, ['bottom_left', 'center_left', 'bottom_center', 'center_center'], true)) {
-    $content_position = 'bottom_left';
-}
-
-$mobile_image_url = $mobile_image_id ? wp_get_attachment_image_url($mobile_image_id, 'large') : '';
-$desktop_video_url = $desktop_video_id ? wp_get_attachment_url($desktop_video_id) : '';
-
-$classes = [
-    'home-section',
-    'home-hero',
-    'home-hero--' . str_replace('_', '-', $layout),
-    'home-hero--overlay-' . str_replace('_', '-', $overlay_style),
-    'home-hero--content-' . str_replace('_', '-', $content_position),
-];
-
-if ($desktop_video_url) {
-    $classes[] = 'home-hero--has-desktop-video';
-} else {
-    $classes[] = 'home-hero--image-only';
-}
-
-if ($mobile_image_url) {
-    $classes[] = 'home-hero--has-image';
-}
-?>
-
-<?php
-/**
- * Homepage Hero Section
- */
-
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-if (!function_exists('mpc_get_homepage_setting')) {
-    return;
-}
-
-$enabled = (bool) mpc_get_homepage_setting('hero_enabled', 1);
-
-if (!$enabled) {
-    return;
-}
-
-$layout = sanitize_key((string) mpc_get_homepage_setting('hero_layout', 'split'));
-
-if (!in_array($layout, ['split', 'full_bleed'], true)) {
-    $layout = 'split';
+if (!in_array($height, ['compact', 'standard', 'full_screen'], true)) {
+    $height = 'full_screen';
 }
 
 $heading = trim((string) mpc_get_homepage_setting('hero_heading'));
@@ -167,6 +105,7 @@ $classes = [
     'home-section',
     'home-hero',
     'home-hero--' . str_replace('_', '-', $layout),
+    'home-hero--height-' . str_replace('_', '-', $height),
     'home-hero--overlay-' . str_replace('_', '-', $overlay_style),
 
     // Legacy class kept for backward compatibility during transition.
@@ -187,13 +126,19 @@ if ($desktop_video_url) {
 if ($mobile_image_url) {
     $classes[] = 'home-hero--has-image';
 }
+
+$media_classes = ['home-hero__media'];
+
+if ($desktop_video_url) {
+    $media_classes[] = 'has-desktop-video';
+}
 ?>
 
 <section
     class="<?php echo esc_attr(implode(' ', $classes)); ?>"
     style="--mpb-hero-overlay-opacity: <?php echo esc_attr($overlay_opacity_css); ?>;"
 >
-    <div class="home-hero__media <?php echo $desktop_video_url ? 'has-desktop-video' : ''; ?>" aria-hidden="true">
+    <div class="<?php echo esc_attr(implode(' ', $media_classes)); ?>" aria-hidden="true">
         <?php if ($mobile_image_url) : ?>
             <div class="home-hero__image-wrap">
                 <img
