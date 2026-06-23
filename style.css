@@ -20,19 +20,19 @@ Text Domain: music-project-base
     --mpb-color-button-text: #111111;
 
     --mpb-color-header-bg: #000000;
---mpb-color-header-text: #f5f5f5;
---mpb-color-header-border: #1f1f1f;
+    --mpb-color-header-text: #f5f5f5;
+    --mpb-color-header-border: #1f1f1f;
 
---mpb-color-media-frame-bg: #181818;
+    --mpb-color-media-frame-bg: #181818;
 
---mpb-color-mobile-nav-bg: #000000;
---mpb-color-mobile-nav-text: #f5f5f5;
---mpb-color-mobile-nav-border: #242424;
+    --mpb-color-mobile-nav-bg: #000000;
+    --mpb-color-mobile-nav-text: #f5f5f5;
+    --mpb-color-mobile-nav-border: #242424;
 
---mpb-color-footer-bg: #000000;
---mpb-color-footer-text: #f5f5f5;
---mpb-color-footer-muted: #b8b8b8;
---mpb-color-footer-border: #1f1f1f;
+    --mpb-color-footer-bg: #000000;
+    --mpb-color-footer-text: #f5f5f5;
+    --mpb-color-footer-muted: #b8b8b8;
+    --mpb-color-footer-border: #1f1f1f;
 
     --mpb-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --mpb-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -1646,6 +1646,199 @@ body.mpb-texture-cards .home-services__empty {
 }
 
 /* =========================================================
+   HOME QUOTES / TESTIMONIALS
+   ========================================================= */
+
+.home-quotes {
+    position: relative;
+    padding-inline: 1.5rem;
+}
+
+.home-quotes--tone-default {
+    background: transparent;
+}
+
+.home-quotes--tone-surface {
+    background: var(--mpb-color-surface);
+}
+
+.home-quotes--tone-contrast {
+    background: var(--mpb-color-footer-bg, var(--mpb-color-surface));
+    color: var(--mpb-color-footer-text, var(--mpb-color-text));
+}
+
+.home-quotes__inner {
+    width: min(100%, var(--mpb-width-site));
+    margin-inline: auto;
+}
+
+.home-quotes--tone-contrast .section-header h2,
+.home-quotes--tone-contrast .section-header p {
+    color: inherit;
+}
+
+.home-quotes--tone-contrast .section-header p {
+    opacity: 0.78;
+}
+
+.home-quotes__grid {
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.home-quote-card,
+.home-quotes__empty {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--mpb-radius-card);
+    background: var(--mpb-color-surface);
+    border: 1px solid var(--mpb-border-subtle);
+    box-shadow: var(--mpb-shadow-card);
+}
+
+.home-quotes--tone-surface .home-quote-card,
+.home-quotes--tone-surface .home-quotes__empty {
+    background: var(--mpb-color-background, var(--mpb-color-bg));
+}
+
+.home-quotes--tone-contrast .home-quote-card,
+.home-quotes--tone-contrast .home-quotes__empty {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: inherit;
+}
+
+.home-quote-card {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+}
+
+.home-quote-card__quote {
+    margin: 0;
+    color: var(--mpb-color-text);
+    font-family: var(--mpb-font-quote, var(--mpb-font-heading));
+    font-size: clamp(1.35rem, 3vw, 2.25rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+}
+
+.home-quotes--tone-contrast .home-quote-card__quote {
+    color: inherit;
+}
+
+.home-quote-card__quote::before {
+    content: "“";
+}
+
+.home-quote-card__quote::after {
+    content: "”";
+}
+
+.home-quote-card__footer {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--mpb-color-muted);
+    font-size: 0.95rem;
+}
+
+.home-quotes--tone-contrast .home-quote-card__footer {
+    color: currentColor;
+    opacity: 0.78;
+}
+
+.home-quote-card__footer cite {
+    color: inherit;
+    font-style: normal;
+    font-weight: 800;
+}
+
+.home-quote-card__footer span {
+    color: inherit;
+}
+
+/* Center Single Quote */
+.home-quotes--layout-single .home-quote-card {
+    text-align: center;
+    justify-items: center;
+}
+
+.home-quotes--layout-featured-first .home-quote-card:first-child {
+    text-align: center;
+    justify-items: center;
+}
+
+.home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__quote,
+.home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__footer {
+    text-align: center;
+    justify-items: center;
+}
+
+.home-quotes--layout-single .home-quote-card__quote {
+    text-align: center;
+}
+
+.home-quotes--layout-single .home-quote-card__footer {
+    justify-items: center;
+    text-align: center;
+}
+
+.home-quotes__empty {
+    width: min(100%, var(--mpb-width-content));
+    margin-inline: auto;
+    color: var(--mpb-color-muted);
+    text-align: center;
+}
+
+.home-quotes__empty p {
+    margin: 0;
+}
+
+@media (min-width: 780px) {
+    .home-quotes--layout-grid .home-quotes__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .home-quotes--layout-featured-first .home-quotes__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .home-quotes--layout-featured-first .home-quote-card:first-child {
+        grid-column: span 2;
+    }
+
+    .home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__quote {
+        font-size: clamp(1.75rem, 4vw, 3.35rem);
+    }
+
+    .home-quotes--layout-single .home-quotes__grid {
+        width: min(100%, var(--mpb-width-content));
+        margin-inline: auto;
+    }
+}
+
+body.mpb-texture-cards .home-quote-card,
+body.mpb-texture-cards .home-quotes__empty {
+    background-image: var(--mpb-texture-image);
+    background-size: var(--mpb-texture-size);
+    background-repeat: var(--mpb-texture-repeat);
+    background-blend-mode: soft-light;
+}
+
+@media (max-width: 720px) {
+    .home-quotes {
+        padding-inline: 1rem;
+    }
+
+    .home-quote-card {
+        padding: 1.35rem;
+    }
+
+    .home-quote-card__quote {
+        font-size: clamp(1.3rem, 7vw, 2rem);
+    }
+}
+
+/* =========================================================
    13. SHOWS / EVENTS
    ========================================================= */
 
@@ -3215,4 +3408,3 @@ body.mpb-texture-buttons .scroll-top {
         font-size: 1.2rem;
     }
 }
-

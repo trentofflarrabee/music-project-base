@@ -12,6 +12,7 @@ function mpb_get_default_home_sections() {
         'hero',
         'featured-content',
         'services',
+        'quotes',
         'shows',
         'blog',
         'newsletter',
