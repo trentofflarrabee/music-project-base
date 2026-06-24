@@ -163,7 +163,9 @@ $render_quote_card = static function ($quote_text, $quote_source_name, $quote_so
                 <?php endif; ?>
 
                 <?php if ($text) : ?>
-                    <p><?php echo esc_html($text); ?></p>
+                    <div class="featured-content-card__text">
+                        <?php echo wp_kses_post(wpautop($text)); ?>
+                    </div>
                 <?php endif; ?>
 
                 <?php if ($cta_text && $cta_url) : ?>

@@ -16,6 +16,7 @@ $intro = trim((string) ($settings['quotes_intro'] ?? ''));
 $layout = sanitize_key((string) ($settings['quotes_layout'] ?? 'grid'));
 $count = absint($settings['quotes_count'] ?? 3);
 $featured_only = !empty($settings['quotes_featured_only']);
+$show_attribution = !empty($settings['quotes_show_attribution']);
 $tone = sanitize_key((string) ($settings['quotes_background_tone'] ?? 'surface'));
 
 if (!in_array($layout, ['single', 'grid', 'featured_first'], true)) {
@@ -135,7 +136,7 @@ if ($featured_only) {
                             </blockquote>
                         <?php endif; ?>
 
-                        <?php if ($quote_source || $quote_context) : ?>
+                        <?php if ($show_attribution && ($quote_source || $quote_context)) : ?>
                             <footer class="home-quote-card__footer">
                                 <?php if ($quote_source) : ?>
                                     <cite><?php echo esc_html($quote_source); ?></cite>

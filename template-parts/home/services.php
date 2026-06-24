@@ -47,7 +47,9 @@ if (!$items && !current_user_can('manage_options')) {
             <?php endif; ?>
 
             <?php if ($intro) : ?>
-                <p><?php echo esc_html($intro); ?></p>
+                <div class="home-services__intro section-header__content">
+                    <?php echo wp_kses_post(wpautop($intro)); ?>
+                </div>
             <?php endif; ?>
         </header>
     <?php endif; ?>
@@ -68,7 +70,9 @@ if (!$items && !current_user_can('manage_options')) {
                     <?php endif; ?>
 
                     <?php if ($description) : ?>
-                        <p><?php echo esc_html($description); ?></p>
+                        <div class="home-service-card__description">
+                            <?php echo wp_kses_post(wpautop($description)); ?>
+                        </div>
                     <?php endif; ?>
 
                     <?php if ($link_url) : ?>

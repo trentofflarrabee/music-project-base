@@ -1462,6 +1462,67 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     margin-inline: auto;
 }
 
+/* Rich text content inside homepage modules */
+
+.featured-content-card__text > :first-child,
+.home-services__intro > :first-child,
+.home-service-card__description > :first-child {
+    margin-top: 0;
+}
+
+.featured-content-card__text > :last-child,
+.home-services__intro > :last-child,
+.home-service-card__description > :last-child {
+    margin-bottom: 0;
+}
+
+.featured-content-card__text ul,
+.featured-content-card__text ol,
+.home-services__intro ul,
+.home-services__intro ol,
+.home-service-card__description ul,
+.home-service-card__description ol {
+    margin: 1rem 0 0;
+    padding-left: 1.35rem;
+}
+
+.featured-content-card__text li + li,
+.home-services__intro li + li,
+.home-service-card__description li + li {
+    margin-top: 0.35rem;
+}
+
+.featured-content-card__text a,
+.home-services__intro a,
+.home-service-card__description a {
+    color: var(--mpb-color-accent);
+    font-weight: 700;
+}
+
+.home-services__intro {
+    max-width: min(100%, var(--mpb-width-content));
+    margin: 0.75rem 0 0;
+    color: var(--mpb-color-muted);
+}
+
+.home-services__intro > :first-child {
+    margin-top: 0;
+}
+
+.home-services__intro > :last-child {
+    margin-bottom: 0;
+}
+
+body.mpb-heading-align-home .home-services__intro,
+body.mpb-heading-align-all .home-services__intro {
+    margin-inline: auto;
+    text-align: center;
+}
+
+.home-service-card__description {
+    color: var(--mpb-color-muted);
+}
+
 @media (min-width: 768px) {
     .home-featured-content--quote-beside .featured-content-layout {
         grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
@@ -1505,6 +1566,8 @@ body.mpb-texture-body .home-hero--full-bleed::after {
         order: 1;
     }
 }
+
+
 
 /* =========================================================
    HOME SERVICES
