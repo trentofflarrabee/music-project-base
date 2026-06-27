@@ -69,6 +69,7 @@ function mpb_enqueue_assets() {
         '0.1.0',
         true
     );
+
 }
 add_action('wp_enqueue_scripts', 'mpb_enqueue_assets');
 
@@ -83,18 +84,21 @@ function mpb_get_theme_style_defaults() {
         'color_button_text' => '#111111',
 
         // Site chrome.
-'header_background_color' => '#000000',
-'header_text_color' => '#f5f5f5',
-'header_border_color' => '#1f1f1f',
+        'header_background_color' => '#000000',
+        'header_text_color' => '#f5f5f5',
+        'header_border_color' => '#1f1f1f',
 
-'mobile_nav_background_color' => '#000000',
-'mobile_nav_text_color' => '#f5f5f5',
-'mobile_nav_border_color' => '#242424',
+        'header_behavior' => 'standard',
+        'brand_display' => 'logo_name',
 
-'footer_background_color' => '#000000',
-'footer_text_color' => '#f5f5f5',
-'footer_muted_color' => '#b8b8b8',
-'footer_border_color' => '#1f1f1f',
+        'mobile_nav_background_color' => '#000000',
+        'mobile_nav_text_color' => '#f5f5f5',
+        'mobile_nav_border_color' => '#242424',
+
+        'footer_background_color' => '#000000',
+        'footer_text_color' => '#f5f5f5',
+        'footer_muted_color' => '#b8b8b8',
+        'footer_border_color' => '#1f1f1f',
 
         'font_heading' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         'font_body' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -110,6 +114,7 @@ function mpb_get_theme_style_defaults() {
         'hero_heading_color' => '#ffffff',
         'hero_lead_color' => '#f5f5f5',
         'hero_text_shadow' => 'subtle',
+        'hero_text_shadow_color' => '#000000',
 
         'corner_style' => 'rounded',
 'card_shadow_style' => 'standard',
@@ -224,8 +229,6 @@ $footer_border_color = sanitize_hex_color($settings['footer_border_color'] ?? ''
 
     $hero_heading_color = sanitize_hex_color($settings['hero_heading_color'] ?? '') ?: '#ffffff';
 $hero_lead_color = sanitize_hex_color($settings['hero_lead_color'] ?? '') ?: '#f5f5f5';
-
-$hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
 
 $hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
 
@@ -404,6 +407,48 @@ function mpb_theme_style_body_classes($classes) {
         $classes[] = 'mpb-heading-align-all';
     }
 
+    /**
+     * Header behavior.
+     *
+     * Transparent modes only apply visually on the front page via CSS.
+     */
+    $allowed_header_behaviors = [
+        'standard',
+        'sticky',
+        'transparent',
+        'transparent_scroll',
+    ];
+
+    $header_behavior = sanitize_key($settings['header_behavior'] ?? 'standard');
+
+    if (!in_array($header_behavior, $allowed_header_behaviors, true)) {
+        $header_behavior = 'standard';
+    }
+
+    $classes[] = 'mpb-header-' . str_replace('_', '-', $header_behavior);
+
+    if (is_front_page()) {
+        $classes[] = 'mpb-is-front-page';
+    }
+
+    /**
+     * Brand display.
+     */
+    $allowed_brand_displays = [
+        'logo_name',
+        'logo_only',
+        'name_only',
+        'hidden',
+    ];
+
+    $brand_display = sanitize_key($settings['brand_display'] ?? 'logo_name');
+
+    if (!in_array($brand_display, $allowed_brand_displays, true)) {
+        $brand_display = 'logo_name';
+    }
+
+    $classes[] = 'mpb-brand-' . str_replace('_', '-', $brand_display);
+
     if (!empty($settings['texture_enabled']) && !empty($settings['texture_image_id'])) {
         $classes[] = 'mpb-texture-enabled';
 
@@ -439,5 +484,4 @@ function mpb_theme_style_body_classes($classes) {
     return $classes;
 }
 add_filter('body_class', 'mpb_theme_style_body_classes');
-
 require_once get_template_directory() . '/inc/template-functions.php';

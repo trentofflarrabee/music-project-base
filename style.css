@@ -485,19 +485,34 @@ body.mpb-texture-buttons .event-body a {
    8. HEADER / NAVIGATION
    ========================================================= */
 
+body {
+    --mpb-admin-bar-offset: 0px;
+}
+
+body.admin-bar {
+    --mpb-admin-bar-offset: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar {
+        --mpb-admin-bar-offset: 46px;
+    }
+}
+
 .site-header {
+    position: relative;
+    z-index: 100;
     background: var(--mpb-color-header-bg);
+    border-bottom: 1px solid var(--mpb-color-header-border);
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        backdrop-filter 180ms ease;
 }
 
 .site-footer {
     background: var(--mpb-color-footer-bg);
-}
-
-.site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--mpb-color-header-border);
 }
 
 .site-header__inner,
@@ -663,6 +678,78 @@ body.mpb-texture-buttons .event-body a {
     transform: rotate(-45deg);
 }
 
+/* Header behavior options */
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-menu-open {
+    background: var(--mpb-color-header-bg);
+    border-bottom-color: var(--mpb-color-header-border);
+}
+
+body.mpb-header-sticky .site-header {
+    position: sticky;
+    top: var(--mpb-admin-bar-offset);
+}
+
+body.mpb-is-front-page.mpb-header-transparent .site-header {
+    position: absolute;
+    inset: 0 0 auto;
+    background: transparent;
+    border-bottom-color: transparent;
+}
+
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header {
+    position: fixed;
+    inset: var(--mpb-admin-bar-offset) 0 auto;
+    background: transparent;
+    border-bottom-color: transparent;
+}
+
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled {
+    background: var(--mpb-color-header-bg);
+    border-bottom-color: var(--mpb-color-header-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(10px);
+}
+
+/* Transparent header text treatment */
+
+body.mpb-is-front-page.mpb-header-transparent .site-branding__name,
+body.mpb-is-front-page.mpb-header-transparent .site-nav__menu a,
+body.mpb-is-front-page.mpb-header-transparent .site-nav__menu a:visited,
+body.mpb-is-front-page.mpb-header-transparent .site-menu-toggle,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header:not(.is-scrolled) .site-branding__name,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header:not(.is-scrolled) .site-nav__menu a,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header:not(.is-scrolled) .site-nav__menu a:visited,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header:not(.is-scrolled) .site-menu-toggle {
+    color: var(--mpb-hero-heading-color, #ffffff);
+}
+
+body.mpb-is-front-page.mpb-header-transparent .site-menu-toggle,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header:not(.is-scrolled) .site-menu-toggle {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled .site-branding__name,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled .site-nav__menu a,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled .site-nav__menu a:visited,
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled .site-menu-toggle {
+    color: var(--mpb-color-header-text);
+}
+
+body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-scrolled .site-menu-toggle {
+    border-color: var(--mpb-color-header-border);
+}
+
+/* Brand display helpers */
+
+.site-branding {
+    gap: 0.75rem;
+}
+
+body.mpb-brand-hidden .site-header__inner {
+    justify-content: flex-end;
+}
+
 
 /* Current / Active Menu Items */
 
@@ -702,10 +789,6 @@ body.mpb-texture-buttons .event-body a {
     text-decoration: underline;
 }
 
-.site-nav__menu a:visited,
-.site-footer__menu a:visited {
-    color: var(--mpb-color-text);
-}
 
 /* =========================================================
    9. FOOTER

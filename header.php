@@ -9,17 +9,37 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<?php
+$theme_style = function_exists('mpb_get_theme_style_settings')
+    ? mpb_get_theme_style_settings()
+    : [];
+
+$brand_display = sanitize_key($theme_style['brand_display'] ?? 'logo_name');
+
+if (!in_array($brand_display, ['logo_name', 'logo_only', 'name_only', 'hidden'], true)) {
+    $brand_display = 'logo_name';
+}
+
+$show_logo = has_custom_logo() && in_array($brand_display, ['logo_name', 'logo_only'], true);
+$show_name = in_array($brand_display, ['logo_name', 'name_only'], true);
+$show_branding = $brand_display !== 'hidden' && ($show_logo || $show_name);
+?>
+
 <header class="site-header">
     <div class="site-header__inner">
-        <div class="site-branding">
-            <?php if (has_custom_logo()) : ?>
-                <?php the_custom_logo(); ?>
-            <?php else : ?>
-                <a class="site-branding__name" href="<?php echo esc_url(home_url('/')); ?>">
-                    <?php bloginfo('name'); ?>
-                </a>
-            <?php endif; ?>
-        </div>
+        <?php if ($show_branding) : ?>
+            <div class="site-branding">
+                <?php if ($show_logo) : ?>
+                    <?php the_custom_logo(); ?>
+                <?php endif; ?>
+
+                <?php if ($show_name) : ?>
+                    <a class="site-branding__name" href="<?php echo esc_url(home_url('/')); ?>">
+                        <?php bloginfo('name'); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
 
         <button
             class="site-menu-toggle"
@@ -33,24 +53,24 @@
             <span class="site-menu-toggle__bars" aria-hidden="true"></span>
         </button>
 
-<nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e('Primary menu', 'music-project-base'); ?>">
-    <?php
-    wp_nav_menu([
-        'theme_location' => 'primary',
-        'menu_id' => 'primary-menu',
-        'menu_class' => 'site-nav__menu',
-        'container' => false,
-        'depth' => 1,
-    ]);
-    ?>
+        <nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e('Primary menu', 'music-project-base'); ?>">
+            <?php
+            wp_nav_menu([
+                'theme_location' => 'primary',
+                'menu_id' => 'primary-menu',
+                'menu_class' => 'site-nav__menu',
+                'container' => false,
+                'depth' => 1,
+            ]);
+            ?>
 
-    <div class="site-nav__footer">
-        <?php
-        get_template_part('template-parts/social-links', null, [
-            'display' => 'icons',
-        ]);
-        ?>
-    </div>
-</nav>
+            <div class="site-nav__footer">
+                <?php
+                get_template_part('template-parts/social-links', null, [
+                    'display' => 'icons',
+                ]);
+                ?>
+            </div>
+        </nav>
     </div>
 </header>
