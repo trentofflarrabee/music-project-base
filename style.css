@@ -3365,8 +3365,14 @@ body.mpb-texture-sections .single-main > * {
    PAGE CONTENT / WORDPRESS BLOCK POLISH
    ========================================================= */
 
+.theme-page__header,
 .theme-page__content {
-    width: min(100%, 760px);
+    width: min(100%, var(--mpb-width-reading));
+    margin-inline: auto;
+}
+
+.theme-page__featured-image {
+    width: min(100%, var(--mpb-width-content));
     margin-inline: auto;
 }
 
