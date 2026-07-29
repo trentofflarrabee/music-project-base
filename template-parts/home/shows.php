@@ -1,13 +1,21 @@
 <?php
+/**
+ * Homepage Shows / Events section.
+ */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-$plugin_active = function_exists('mpc_get_integration_setting');
+$plugin_active = function_exists(
+    'mpc_get_integration_setting'
+);
 
 $enabled = $plugin_active
-    ? (bool) mpc_get_integration_setting('shows_enabled', 1)
+    ? (bool) mpc_get_integration_setting(
+        'shows_enabled',
+        1
+    )
     : true;
 
 if (!$enabled) {
@@ -15,25 +23,80 @@ if (!$enabled) {
 }
 
 $heading = $plugin_active
-    ? mpc_get_integration_setting('shows_heading', 'Shows')
-    : 'Shows';
+    ? trim(
+        (string) mpc_get_integration_setting(
+            'shows_heading',
+            'Shows'
+        )
+    )
+    : __('Shows', 'music-project-base');
 
 $embed = $plugin_active
-    ? mpc_get_integration_setting('shows_embed', '')
+    ? trim(
+        (string) mpc_get_integration_setting(
+            'shows_embed',
+            ''
+        )
+    )
     : '';
 
+$rendered_embed = '';
+
+if ($embed !== '') {
+    $rendered_embed = function_exists(
+        'mpc_render_integration_content'
+    )
+        ? mpc_render_integration_content(
+            $embed,
+            'shows'
+        )
+        : do_shortcode($embed);
+}
+
+$rendered_embed = trim(
+    (string) $rendered_embed
+);
+
+if (
+    $rendered_embed === ''
+    && !current_user_can('manage_options')
+) {
+    return;
+}
 ?>
 
-<section id="shows" class="home-section home-shows">
-    <header class="section-header">
-        <h2><?php echo esc_html($heading); ?></h2>
-    </header>
+<section
+    id="shows"
+    class="home-section home-shows"
+>
+    <?php if ($heading) : ?>
+        <header class="section-header">
+            <h2>
+                <?php echo esc_html($heading); ?>
+            </h2>
+        </header>
+    <?php endif; ?>
 
     <div class="shows-embed">
-        <?php if ($embed) : ?>
-            <?php echo do_shortcode($embed); ?>
+        <?php if ($rendered_embed !== '') : ?>
+            <?php
+            /*
+             * Integration content was sanitized when saved and rendered
+             * through Core's integration renderer.
+             */
+            echo $rendered_embed; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            ?>
         <?php else : ?>
-            <p>Shows/events embed will render here.</p>
+            <div class="shows-empty">
+                <p>
+                    <?php
+                    esc_html_e(
+                        'Add a shows shortcode, trusted provider embed, or supported URL under Music Project → Integrations.',
+                        'music-project-base'
+                    );
+                    ?>
+                </p>
+            </div>
         <?php endif; ?>
     </div>
 </section>

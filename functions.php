@@ -291,53 +291,58 @@ if (!$font_slot_quote) {
     $font_slot_quote = $font_slot_display;
 }
 
-$font_slots = [
-    'body' => $font_slot_body,
-    'heading' => $font_slot_display,
-    'accent' => $font_slot_accent,
-    'quote' => $font_slot_quote,
+/*
+ * Semantic roles reference the font-slot variables rather than copying
+ * their current font-family values. This preserves the distinction between
+ * the configured font library and the roles assigned to that library.
+ */
+$font_slot_references = [
+    'body'    => 'var(--mpb-font-slot-body)',
+    'heading' => 'var(--mpb-font-slot-display)',
+    'accent'  => 'var(--mpb-font-slot-accent)',
+    'quote'   => 'var(--mpb-font-slot-quote)',
 ];
 
 // Assigned typography roles.
 $font_body = mpb_resolve_font_role(
     $settings['font_role_body'] ?? 'body',
-    $font_slots,
+    $font_slot_references,
     'body'
 );
 
 $font_heading = mpb_resolve_font_role(
     $settings['font_role_heading'] ?? 'heading',
-    $font_slots,
+    $font_slot_references,
     'heading'
 );
 
 $font_hero_heading = mpb_resolve_font_role(
     $settings['font_role_hero_heading'] ?? 'heading',
-    $font_slots,
+    $font_slot_references,
     'heading'
 );
 
 $font_nav = mpb_resolve_font_role(
     $settings['font_role_nav'] ?? 'accent',
-    $font_slots,
+    $font_slot_references,
     'accent'
 );
 
 $font_button = mpb_resolve_font_role(
     $settings['font_role_button'] ?? 'accent',
-    $font_slots,
+    $font_slot_references,
     'accent'
 );
 
 $font_accent = mpb_resolve_font_role(
     $settings['font_role_accent'] ?? 'accent',
-    $font_slots,
+    $font_slot_references,
     'accent'
 );
 
 $font_quote = mpb_resolve_font_role(
     $settings['font_role_quote'] ?? 'quote',
-    $font_slots,
+    $font_slot_references,
     'quote'
 );
 
