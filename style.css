@@ -1021,6 +1021,11 @@ body.mpb-brand-hidden .site-header__inner {
     text-align: center;
 }
 
+.site-footer--layout-stacked .site-footer__brand-wrap {
+    justify-items: center;
+    text-align: center;
+}
+
 .site-footer--layout-stacked .site-footer__tagline {
     margin-inline: auto;
 }
