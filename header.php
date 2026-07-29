@@ -1,8 +1,15 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
+<html class="no-js" <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+
     <?php wp_head(); ?>
 </head>
 
@@ -41,17 +48,23 @@ $show_branding = $brand_display !== 'hidden' && ($show_logo || $show_name);
             </div>
         <?php endif; ?>
 
-        <button
-            class="site-menu-toggle"
-            type="button"
-            aria-controls="primary-menu"
-            aria-expanded="false"
-        >
-            <span class="screen-reader-text">
-                <?php esc_html_e('Menu', 'music-project-base'); ?>
-            </span>
-            <span class="site-menu-toggle__bars" aria-hidden="true"></span>
-        </button>
+<button
+    class="site-menu-toggle"
+    type="button"
+    aria-controls="site-navigation"
+    aria-expanded="false"
+    data-open-label="<?php esc_attr_e('Open menu', 'music-project-base'); ?>"
+    data-close-label="<?php esc_attr_e('Close menu', 'music-project-base'); ?>"
+>
+    <span class="screen-reader-text">
+        <?php esc_html_e('Open menu', 'music-project-base'); ?>
+    </span>
+
+    <span
+        class="site-menu-toggle__bars"
+        aria-hidden="true"
+    ></span>
+</button>
 
         <nav id="site-navigation" class="site-nav" aria-label="<?php esc_attr_e('Primary menu', 'music-project-base'); ?>">
             <?php

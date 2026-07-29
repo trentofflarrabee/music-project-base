@@ -155,10 +155,14 @@ if ($desktop_video_url) {
             <video
                 class="home-hero__video"
                 src="<?php echo esc_url($desktop_video_url); ?>"
+                <?php if ($mobile_image_url) : ?>
+                    poster="<?php echo esc_url($mobile_image_url); ?>"
+                <?php endif; ?>
                 autoplay
                 muted
                 loop
                 playsinline
+                preload="metadata"
             ></video>
         <?php endif; ?>
 

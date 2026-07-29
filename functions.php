@@ -32,6 +32,30 @@ function mpb_setup_theme() {
 }
 add_action('after_setup_theme', 'mpb_setup_theme');
 
+/**
+ * Get a cache-busting version for a theme asset.
+ *
+ * The file modification time updates automatically whenever the asset is
+ * overwritten. The theme version remains as a safe fallback.
+ *
+ * @param string $absolute_path Absolute filesystem path to the asset.
+ * @return string
+ */
+function mpb_get_asset_version($absolute_path) {
+    if (is_string($absolute_path) && file_exists($absolute_path)) {
+        $modified_time = filemtime($absolute_path);
+
+        if ($modified_time) {
+            return (string) $modified_time;
+        }
+    }
+
+    $theme = wp_get_theme(get_template());
+    $version = $theme->get('Version');
+
+    return $version ?: '0.1.0';
+}
+
 function mpb_enqueue_assets() {
     $theme_style = function_exists('mpc_get_theme_style_settings')
         ? mpc_get_theme_style_settings()
@@ -54,7 +78,9 @@ function mpb_enqueue_assets() {
         'mpb-style',
         get_stylesheet_uri(),
         [],
-        '0.1.0'
+        mpb_get_asset_version(
+            get_stylesheet_directory() . '/style.css'
+        )
     );
 
     wp_add_inline_style(
@@ -66,7 +92,9 @@ function mpb_enqueue_assets() {
         'mpb-navigation',
         get_template_directory_uri() . '/assets/js/navigation.js',
         [],
-        '0.1.0',
+        mpb_get_asset_version(
+            get_template_directory() . '/assets/js/navigation.js'
+        ),
         true
     );
 

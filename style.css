@@ -751,14 +751,20 @@ body.mpb-is-front-page.mpb-header-transparent-scroll .site-header.is-menu-open {
     border-bottom-color: var(--mpb-color-header-border);
 }
 
-body.mpb-header-sticky .site-header {
+/*
+ * Every header behavior except Standard remains attached to the viewport.
+ *
+ * The homepage transparent-mode rules below override this base behavior
+ * with their intentional absolute or fixed presentation.
+ */
+body:not(.mpb-header-standard) .site-header {
     position: sticky;
     top: var(--mpb-admin-bar-offset);
 }
 
 body.mpb-is-front-page.mpb-header-transparent .site-header {
     position: absolute;
-    inset: 0 0 auto;
+    inset: var(--mpb-admin-bar-offset) 0 auto;
     background: transparent;
     border-bottom-color: transparent;
 }
@@ -1866,8 +1872,14 @@ body.mpb-texture-cards .home-services__empty {
 }
 
 .home-quotes--tone-contrast {
-    background: var(--mpb-color-footer-bg, var(--mpb-color-surface));
-    color: var(--mpb-color-footer-text, var(--mpb-color-text));
+    background: var(
+        --mpb-color-footer-bg,
+        var(--mpb-color-surface)
+    );
+    color: var(
+        --mpb-color-footer-text,
+        var(--mpb-color-text)
+    );
 }
 
 .home-quotes__inner {
@@ -1884,29 +1896,37 @@ body.mpb-texture-cards .home-services__empty {
     opacity: 0.78;
 }
 
-.home-quotes__grid {
+.home-quotes__grid,
+.home-quotes__secondary-grid {
     display: grid;
     gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.home-quotes__featured {
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
 }
 
 .home-quote-card,
 .home-quotes__empty {
     padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--mpb-border-subtle);
     border-radius: var(--mpb-radius-card);
     background: var(--mpb-color-surface);
-    border: 1px solid var(--mpb-border-subtle);
     box-shadow: var(--mpb-shadow-card);
 }
 
 .home-quotes--tone-surface .home-quote-card,
 .home-quotes--tone-surface .home-quotes__empty {
-    background: var(--mpb-color-background, var(--mpb-color-bg));
+    background: var(
+        --mpb-color-background,
+        var(--mpb-color-bg)
+    );
 }
 
 .home-quotes--tone-contrast .home-quote-card,
 .home-quotes--tone-contrast .home-quotes__empty {
-    background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
     color: inherit;
 }
 
@@ -1919,7 +1939,6 @@ body.mpb-texture-cards .home-services__empty {
 .home-quote-card__quote {
     margin: 0;
     color: var(--mpb-color-text);
-    /* font-family: var(--mpb-font-quote, var(--mpb-font-heading)); */
     font-size: clamp(1.35rem, 3vw, 2.25rem);
     line-height: 1.15;
     letter-spacing: -0.03em;
@@ -1959,30 +1978,31 @@ body.mpb-texture-cards .home-services__empty {
     color: inherit;
 }
 
-/* Center Single Quote */
-.home-quotes--layout-single .home-quote-card {
-    text-align: center;
+/*
+ * Single and Featured First are intentional presentation modes.
+ * Grid never styles a card differently because of stored featured status.
+ */
+.home-quotes--layout-single .home-quote-card,
+.home-quote-card--featured {
     justify-items: center;
-}
-
-.home-quotes--layout-featured-first .home-quote-card:first-child {
-    text-align: center;
-    justify-items: center;
-}
-
-.home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__quote,
-.home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__footer {
-    text-align: center;
-    justify-items: center;
-}
-
-.home-quotes--layout-single .home-quote-card__quote {
     text-align: center;
 }
 
-.home-quotes--layout-single .home-quote-card__footer {
+.home-quotes--layout-single .home-quote-card__footer,
+.home-quote-card--featured .home-quote-card__footer {
     justify-items: center;
     text-align: center;
+}
+
+.home-quote-card--featured {
+    width: 100%;
+    padding: clamp(2rem, 5vw, 4rem);
+}
+
+.home-quote-card--featured .home-quote-card__quote {
+    width: min(100%, var(--mpb-width-content));
+    font-size: clamp(1.75rem, 4vw, 3.35rem);
+    text-wrap: balance;
 }
 
 .home-quotes__empty {
@@ -1997,20 +2017,9 @@ body.mpb-texture-cards .home-services__empty {
 }
 
 @media (min-width: 780px) {
-    .home-quotes--layout-grid .home-quotes__grid {
+    .home-quotes--layout-grid .home-quotes__grid,
+    .home-quotes__secondary-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .home-quotes--layout-featured-first .home-quotes__grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .home-quotes--layout-featured-first .home-quote-card:first-child {
-        grid-column: span 2;
-    }
-
-    .home-quotes--layout-featured-first .home-quote-card:first-child .home-quote-card__quote {
-        font-size: clamp(1.75rem, 4vw, 3.35rem);
     }
 
     .home-quotes--layout-single .home-quotes__grid {
@@ -2032,11 +2041,13 @@ body.mpb-texture-cards .home-quotes__empty {
         padding-inline: 1rem;
     }
 
-    .home-quote-card {
+    .home-quote-card,
+    .home-quote-card--featured {
         padding: 1.35rem;
     }
 
-    .home-quote-card__quote {
+    .home-quote-card__quote,
+    .home-quote-card--featured .home-quote-card__quote {
         font-size: clamp(1.3rem, 7vw, 2rem);
     }
 }
@@ -3237,6 +3248,76 @@ body.mpb-texture-sections .single-main > * {
         position: relative;
         z-index: 1;
     }
+
+    /* Mobile navigation keyboard focus */
+
+.site-menu-toggle:focus-visible,
+.site-nav__menu a:focus-visible,
+.site-nav__footer a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+/*
+ * No-JavaScript fallback.
+ *
+ * Without JavaScript, the mobile menu remains expanded as a normal part
+ * of the header instead of leaving visitors with a nonfunctional button.
+ */
+@media (max-width: 720px) {
+    html.no-js .site-header__inner {
+        flex-wrap: wrap;
+    }
+
+    html.no-js .site-menu-toggle {
+        display: none;
+    }
+
+    html.no-js .site-nav {
+        position: static;
+        inset: auto;
+        z-index: auto;
+        display: grid;
+        flex: 1 0 100%;
+        grid-template-rows: auto;
+        gap: 1.25rem;
+        width: 100%;
+        min-height: 0;
+        padding: 1rem 0;
+        overflow: visible;
+        border-top: 1px solid var(--mpb-color-mobile-nav-border);
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: none;
+        transition: none;
+    }
+
+    html.no-js .site-nav__menu {
+        align-content: start;
+        min-height: 0;
+        gap: 0.75rem;
+    }
+
+    html.no-js .site-nav__menu a {
+        padding: 0.25rem 0;
+        font-size: 1.25rem;
+        line-height: 1.2;
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    html.no-js .site-header .site-nav__footer {
+        padding-top: 1rem;
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
 }
 
 
@@ -3397,13 +3478,56 @@ body.mpb-texture-sections .single-main > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     .site-nav,
     .site-nav__menu a,
     .site-nav__footer {
         transition: none;
         transform: none;
     }
+
+    /*
+     * Replace desktop hero video with the configured hero image.
+     * The !important declaration is intentional because later
+     * desktop layout rules may otherwise display the video.
+     */
+    .home-hero__video,
+    .home-hero__media.has-desktop-video .home-hero__video,
+    .home-hero--has-desktop-video .home-hero__video {
+        display: none !important;
+    }
+
+    .home-hero__media.has-desktop-video .home-hero__image-wrap,
+    .home-hero--has-desktop-video.home-hero--has-image
+        .home-hero__image-wrap {
+        display: block;
+    }
+
+    /*
+     * Preserve the media area's shape when a video exists but no
+     * fallback image was configured.
+     */
+    .home-hero--has-desktop-video:not(.home-hero--has-image)
+        .home-hero__media {
+        min-height: var(--mpb-hero-media-height);
+        border-radius: var(--mpb-radius-media);
+        background: var(
+            --mpb-color-media-frame-bg,
+            var(--mpb-color-surface)
+        );
+    }
+
+    .home-hero--full-bleed.home-hero--has-desktop-video:not(
+        .home-hero--has-image
+    ) .home-hero__media {
+        min-height: 100%;
+        border-radius: 0;
+    }
 }
+
 
 /* =========================================================
    PAGE CONTENT / WORDPRESS BLOCK POLISH
