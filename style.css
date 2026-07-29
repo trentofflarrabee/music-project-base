@@ -34,10 +34,20 @@ Text Domain: music-project-base
     --mpb-color-footer-muted: #b8b8b8;
     --mpb-color-footer-border: #1f1f1f;
 
-    --mpb-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --mpb-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --mpb-font-accent: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --mpb-font-quote: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+/* Font library slots */
+--mpb-font-slot-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+--mpb-font-slot-display: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+--mpb-font-slot-accent: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+--mpb-font-slot-quote: var(--mpb-font-slot-display);
+
+/* Assigned typography roles */
+--mpb-font-body: var(--mpb-font-slot-body);
+--mpb-font-heading: var(--mpb-font-slot-display);
+--mpb-font-hero-heading: var(--mpb-font-slot-display);
+--mpb-font-nav: var(--mpb-font-slot-accent);
+--mpb-font-button: var(--mpb-font-slot-accent);
+--mpb-font-accent: var(--mpb-font-slot-accent);
+--mpb-font-quote: var(--mpb-font-slot-quote);
 
     --mpb-heading-text-transform: none;
     --mpb-heading-letter-spacing: -0.04em;
@@ -279,24 +289,42 @@ body.mpb-texture-footer .site-footer::before {
     pointer-events: none;
 }
 
-
 /* =========================================================
    4. TYPOGRAPHY
    ========================================================= */
 
+/* General headings */
+
 h1,
 h2,
 h3,
-.section-header h2,
-.home-hero__content h1,
-.single-post__header h1 {
+h4,
+h5,
+h6 {
     font-family: var(--mpb-font-heading);
     text-transform: var(--mpb-heading-text-transform);
     letter-spacing: var(--mpb-heading-letter-spacing);
 }
 
+/* Hero / display headlines */
+
+.home-hero__content h1,
+.site-status-content h1 {
+    font-family: var(--mpb-font-hero-heading);
+}
+
+/* Navigation and site branding */
+
+.site-branding__name,
+.site-footer__name,
 .site-nav,
 .site-footer__nav,
+.site-menu-toggle {
+    font-family: var(--mpb-font-nav);
+}
+
+/* Accent labels, metadata, and interface text */
+
 .social-links,
 .featured-content-card__label,
 .home-blog-card__date,
@@ -304,8 +332,51 @@ h3,
 .theme-archive-card__date,
 .theme-search-card__type,
 .single-post__meta,
-.single-post__back-link {
+.single-post__back-link,
+.single-post__nav-item span,
+.blog-archive__eyebrow,
+.theme-error__eyebrow,
+.site-status-eyebrow,
+.site-status-brand__name,
+.event-date,
+.event-meta,
+.home-quote-card__footer,
+.press-quote cite {
     font-family: var(--mpb-font-accent);
+}
+
+/* Buttons, calls to action, and action links */
+
+.button,
+.home-hero__button,
+.featured-content-card__button,
+.show-btn,
+.newsletter-form button,
+.newsletter-form input[type="submit"],
+.event-body a,
+.home-service-card__link,
+.home-blog__view-all,
+.home-blog-card__link,
+.blog-archive-card__link,
+.theme-archive-card__link,
+.theme-page__content .wp-block-button__link,
+.theme-search__form input[type="submit"],
+.theme-search__form button,
+.theme-error__search input[type="submit"],
+.theme-error__search button,
+.blog-archive__pagination .page-numbers,
+.theme-archive__pagination .page-numbers,
+.scroll-top {
+    font-family: var(--mpb-font-button);
+}
+
+/* Quotes, testimonials, and editorial blockquotes */
+
+.press-quote p,
+.home-quote-card__quote,
+.single-post__content blockquote,
+.theme-page__content blockquote {
+    font-family: var(--mpb-font-quote);
 }
 
 /* =========================================================
@@ -552,10 +623,6 @@ body.admin-bar {
 .site-footer__name {
     color: var(--mpb-color-footer-text);
     font-size: 1.5rem;
-}
-
-.site-branding__name {
-    font-size: 1.25rem;
 }
 
 .site-footer__name {
@@ -816,7 +883,6 @@ body.mpb-brand-hidden .site-header__inner {
 .site-footer__tagline {
     max-width: 620px;
     margin: 0;
-    color: var(--mpb-color-muted);
 }
 
 .site-footer .social-links {
@@ -825,7 +891,6 @@ body.mpb-brand-hidden .site-header__inner {
 
 .site-footer__copyright {
     margin: 0;
-    color: var(--mpb-color-muted);
 }
 
 
@@ -1483,7 +1548,7 @@ body.mpb-texture-body .home-hero--full-bleed::after {
 
 .press-quote p {
     margin: 0;
-    font-family: var(--mpb-font-quote);
+    /* font-family: var(--mpb-font-quote); */
     font-size: clamp(1.5rem, 4vw, 3rem);
     line-height: 1.05;
     font-weight: 700;
@@ -1586,14 +1651,6 @@ body.mpb-texture-body .home-hero--full-bleed::after {
     max-width: min(100%, var(--mpb-width-content));
     margin: 0.75rem 0 0;
     color: var(--mpb-color-muted);
-}
-
-.home-services__intro > :first-child {
-    margin-top: 0;
-}
-
-.home-services__intro > :last-child {
-    margin-bottom: 0;
 }
 
 body.mpb-heading-align-home .home-services__intro,
@@ -1862,7 +1919,7 @@ body.mpb-texture-cards .home-services__empty {
 .home-quote-card__quote {
     margin: 0;
     color: var(--mpb-color-text);
-    font-family: var(--mpb-font-quote, var(--mpb-font-heading));
+    /* font-family: var(--mpb-font-quote, var(--mpb-font-heading)); */
     font-size: clamp(1.35rem, 3vw, 2.25rem);
     line-height: 1.15;
     letter-spacing: -0.03em;
@@ -2390,7 +2447,7 @@ body.mpb-texture-cards .home-quotes__empty {
 .blog-archive__eyebrow {
     margin: 0 0 0.75rem;
     color: var(--mpb-color-muted);
-    font-family: var(--mpb-font-accent);
+    /* font-family: var(--mpb-font-accent); */
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -2586,7 +2643,7 @@ body.mpb-texture-cards .home-quotes__empty {
 
 .single-post__nav-item span {
     color: var(--mpb-color-muted);
-    font-family: var(--mpb-font-accent);
+    /* font-family: var(--mpb-font-accent); */
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -2612,21 +2669,11 @@ body.mpb-texture-cards .home-quotes__empty {
 .single .site-header {
     width: 100%;
     max-width: none;
-    background: #000;
-}
-
-.single .site-header__inner {
-    width: min(100% - 3rem, 1200px);
-    margin-inline: auto;
+    background: var(--mpb-color-header-bg);
 }
 
 .single .single-main {
     padding-top: clamp(4rem, 8vw, 7rem);
-}
-
-.single .single-entry {
-    width: min(100%, var(--mpb-width-content));
-    margin-inline: auto;
 }
 
 /* =========================================================
@@ -2719,9 +2766,6 @@ body.mpb-texture-cards .home-quotes__empty {
     text-wrap: balance;
 }
 
-.theme-page__featured-image {
-    margin: clamp(2rem, 5vw, 3.5rem) 0;
-}
 
 .theme-page__image {
     display: block;
@@ -2844,7 +2888,7 @@ body.mpb-texture-cards .home-quotes__empty {
 .theme-error__eyebrow {
     margin: 0 0 0.75rem;
     color: var(--mpb-color-muted);
-    font-family: var(--mpb-font-accent);
+    /* font-family: var(--mpb-font-accent); */
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -3078,7 +3122,7 @@ body.mpb-texture-sections .single-main > * {
         padding: 0.2rem 0;
         border-radius: 0;
         color: var(--mpb-color-mobile-nav-text);
-        font-family: var(--mpb-font-heading);
+        /* font-family: var(--mpb-font-heading); */
         font-size: clamp(3rem, 12vw, 6.5rem);
         font-weight: 900;
         line-height: 0.9;
@@ -3373,7 +3417,7 @@ body.mpb-texture-sections .single-main > * {
 
 .theme-page__featured-image {
     width: min(100%, var(--mpb-width-content));
-    margin-inline: auto;
+    margin: clamp(2rem, 5vw, 3.5rem) auto;
 }
 
 .theme-page__content > * + * {
@@ -3385,7 +3429,7 @@ body.mpb-texture-sections .single-main > * {
 .theme-page__content h4 {
     margin-top: 2.5rem;
     margin-bottom: 1rem;
-    font-family: var(--mpb-font-heading);
+    /* font-family: var(--mpb-font-heading); */
     line-height: 0.95;
     text-wrap: balance;
 }

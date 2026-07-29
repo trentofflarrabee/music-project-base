@@ -100,14 +100,22 @@ function mpb_get_theme_style_defaults() {
         'footer_muted_color' => '#b8b8b8',
         'footer_border_color' => '#1f1f1f',
 
-        'font_heading' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        'font_body' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        'font_accent' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+'font_body' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+'font_heading' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+'font_accent' => 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+'font_quote' => '',
+
+'font_role_body' => 'body',
+'font_role_heading' => 'heading',
+'font_role_hero_heading' => 'heading',
+'font_role_nav' => 'accent',
+'font_role_button' => 'accent',
+'font_role_accent' => 'accent',
+'font_role_quote' => 'quote',
+
+
         'heading_text_transform' => 'none',
         'heading_letter_spacing' => '-0.04em',
-
-
-        'font_quote' => '',
 
         'heading_alignment_scope' => 'none',
 
@@ -156,6 +164,24 @@ function mpb_clean_font_family($value) {
     $value = preg_replace('/[^a-zA-Z0-9\s,\-_"\'().]/', '', $value);
 
     return trim($value);
+}
+
+/**
+ * Resolve a typography role to one of the configured font slots.
+ */
+function mpb_resolve_font_role($role, array $font_slots, $fallback_role = 'body') {
+    $role = sanitize_key((string) $role);
+    $fallback_role = sanitize_key((string) $fallback_role);
+
+    if (isset($font_slots[$role]) && $font_slots[$role]) {
+        return $font_slots[$role];
+    }
+
+    if (isset($font_slots[$fallback_role]) && $font_slots[$fallback_role]) {
+        return $font_slots[$fallback_role];
+    }
+
+    return $font_slots['body'] ?? 'system-ui, sans-serif';
 }
 
 function mpb_hex_to_rgb_channels($hex) {
@@ -215,14 +241,77 @@ $footer_text_color = sanitize_hex_color($settings['footer_text_color'] ?? '') ?:
 $footer_muted_color = sanitize_hex_color($settings['footer_muted_color'] ?? '') ?: '#b8b8b8';
 $footer_border_color = sanitize_hex_color($settings['footer_border_color'] ?? '') ?: '#1f1f1f';
 
-    $font_heading = mpb_clean_font_family($settings['font_heading']);
-    $font_body = mpb_clean_font_family($settings['font_body']);
-    $font_accent = mpb_clean_font_family($settings['font_accent']);
-    $font_quote = mpb_clean_font_family($settings['font_quote']);
+// Font library slots.
+$font_slot_body = mpb_clean_font_family($settings['font_body'] ?? '');
+$font_slot_display = mpb_clean_font_family($settings['font_heading'] ?? '');
+$font_slot_accent = mpb_clean_font_family($settings['font_accent'] ?? '');
+$font_slot_quote = mpb_clean_font_family($settings['font_quote'] ?? '');
 
-    if (!$font_quote) {
-        $font_quote = $font_heading;
-    }
+if (!$font_slot_body) {
+    $font_slot_body = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+}
+
+if (!$font_slot_display) {
+    $font_slot_display = $font_slot_body;
+}
+
+if (!$font_slot_accent) {
+    $font_slot_accent = $font_slot_body;
+}
+
+if (!$font_slot_quote) {
+    $font_slot_quote = $font_slot_display;
+}
+
+$font_slots = [
+    'body' => $font_slot_body,
+    'heading' => $font_slot_display,
+    'accent' => $font_slot_accent,
+    'quote' => $font_slot_quote,
+];
+
+// Assigned typography roles.
+$font_body = mpb_resolve_font_role(
+    $settings['font_role_body'] ?? 'body',
+    $font_slots,
+    'body'
+);
+
+$font_heading = mpb_resolve_font_role(
+    $settings['font_role_heading'] ?? 'heading',
+    $font_slots,
+    'heading'
+);
+
+$font_hero_heading = mpb_resolve_font_role(
+    $settings['font_role_hero_heading'] ?? 'heading',
+    $font_slots,
+    'heading'
+);
+
+$font_nav = mpb_resolve_font_role(
+    $settings['font_role_nav'] ?? 'accent',
+    $font_slots,
+    'accent'
+);
+
+$font_button = mpb_resolve_font_role(
+    $settings['font_role_button'] ?? 'accent',
+    $font_slots,
+    'accent'
+);
+
+$font_accent = mpb_resolve_font_role(
+    $settings['font_role_accent'] ?? 'accent',
+    $font_slots,
+    'accent'
+);
+
+$font_quote = mpb_resolve_font_role(
+    $settings['font_role_quote'] ?? 'quote',
+    $font_slots,
+    'quote'
+);
 
     $heading_text_transform = sanitize_key($settings['heading_text_transform']);
     $heading_letter_spacing = esc_html($settings['heading_letter_spacing']);
@@ -358,8 +447,18 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-color-footer-muted: {$footer_muted_color};
             --mpb-color-footer-border: {$footer_border_color};
 
-            --mpb-font-heading: {$font_heading};
+            /* Font library slots. */
+            --mpb-font-slot-body: {$font_slot_body};
+            --mpb-font-slot-display: {$font_slot_display};
+            --mpb-font-slot-accent: {$font_slot_accent};
+            --mpb-font-slot-quote: {$font_slot_quote};
+
+            /* Assigned typography roles. */
             --mpb-font-body: {$font_body};
+            --mpb-font-heading: {$font_heading};
+            --mpb-font-hero-heading: {$font_hero_heading};
+            --mpb-font-nav: {$font_nav};
+            --mpb-font-button: {$font_button};
             --mpb-font-accent: {$font_accent};
             --mpb-font-quote: {$font_quote};
 
