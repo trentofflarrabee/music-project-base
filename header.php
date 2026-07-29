@@ -78,9 +78,14 @@ $show_branding = $brand_display !== 'hidden' && ($show_logo || $show_name);
 
             <div class="site-nav__footer">
                 <?php
-                get_template_part('template-parts/social-links', null, [
-                    'display' => 'icons',
-                ]);
+                    get_template_part(
+                        'template-parts/social-links',
+                        null,
+                        [
+                            'context' => 'navigation',
+                            'display' => 'icons',
+                        ]
+                    );
                 ?>
             </div>
         </nav>

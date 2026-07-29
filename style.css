@@ -155,7 +155,7 @@ a {
 body.site-status-page {
     min-height: 100vh;
     margin: 0;
-    background: var(--mpb-color-background, var(--mpb-color-bg, #101010));
+    background: var(--mpb-color-bg, #101010);
     color: var(--mpb-color-text, #f5f5f5);
 }
 
@@ -246,8 +246,8 @@ body.mpb-texture-cards .site-status-card {
 
 .site-status-preview-bar {
     position: fixed;
-    inset: 0 0 auto;
-    z-index: 99999;
+inset: var(--mpb-admin-bar-offset) 0 auto;
+z-index: 99998;
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -264,8 +264,13 @@ body.mpb-texture-cards .site-status-card {
     text-decoration: underline;
 }
 
-body.site-status-page:has(.site-status-preview-bar) .site-status-screen {
-    padding-top: calc(clamp(2rem, 6vw, 5rem) + 2.5rem);
+.site-status-page--previewing .site-status-screen {
+    padding-top: calc(clamp(2rem, 6vw, 5rem) + 2.75rem);
+}
+
+.site-status-preview-bar a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
 }
 
 @media (max-width: 720px) {
@@ -606,7 +611,7 @@ body.admin-bar {
 
 .site-header__inner,
 .site-footer__inner {
-    width: min(100% - 3rem, 1200px);
+    width: min(100% - 3rem, var(--mpb-width-site));
     margin-inline: auto;
 }
 
@@ -640,10 +645,6 @@ body.admin-bar {
 
 .site-footer__name {
     color: var(--mpb-color-footer-text);
-    font-size: 1.5rem;
-}
-
-.site-footer__name {
     font-size: 1.5rem;
 }
 
@@ -888,25 +889,107 @@ body.mpb-brand-hidden .site-header__inner {
 .site-footer {
     position: relative;
     overflow: hidden;
-    padding-block: 4rem;
+    padding-block: clamp(3rem, 6vw, 5rem);
     border-top: 1px solid var(--mpb-color-footer-border);
+    background: var(--mpb-color-footer-bg);
+    color: var(--mpb-color-footer-text);
 }
 
 .site-footer__inner {
     position: relative;
     z-index: 1;
     display: grid;
-    gap: 2rem;
+    gap: clamp(2rem, 4vw, 3rem);
+}
+
+.site-footer__main {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
 }
 
 .site-footer__brand-wrap {
     display: grid;
     gap: 0.65rem;
+    min-width: 0;
+}
+
+.site-footer__brand {
+    min-width: 0;
+}
+
+.site-footer__brand .custom-logo-link {
+    display: inline-flex;
+    max-width: 100%;
+}
+
+.site-footer__brand .custom-logo {
+    width: auto;
+    max-width: min(180px, 100%);
+    height: auto;
+}
+
+.site-footer__name,
+.site-footer__menu a,
+.site-footer__menu a:visited,
+.site-footer .social-links__link {
+    color: var(--mpb-color-footer-text);
+}
+
+.site-footer__name {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    text-decoration: none;
 }
 
 .site-footer__tagline {
     max-width: 620px;
     margin: 0;
+    color: var(--mpb-color-footer-muted);
+}
+
+.site-footer__connections {
+    display: grid;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.site-footer__nav {
+    min-width: 0;
+}
+
+.site-footer__menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-footer__menu a {
+    font-weight: 700;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.site-footer__menu a:hover,
+.site-footer__menu a:focus {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.site-footer__name:focus-visible,
+.site-footer__brand .custom-logo-link:focus-visible,
+.site-footer__menu a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+.site-footer__socials {
+    min-width: 0;
 }
 
 .site-footer .social-links {
@@ -915,20 +998,25 @@ body.mpb-brand-hidden .site-header__inner {
 
 .site-footer__copyright {
     margin: 0;
+    color: var(--mpb-color-footer-muted);
+    font-size: 0.9rem;
 }
-
 
 /* Footer Layout: Simple */
 
-.site-footer--layout-simple .site-footer__inner {
-    grid-template-columns: 1fr;
+.site-footer--layout-simple .site-footer__main {
+    grid-template-columns: minmax(0, 1fr);
 }
 
+.site-footer--layout-simple .site-footer__connections {
+    justify-items: start;
+}
 
-/* Footer Layout: Stacked */
+/* Footer Layout: Stacked / Centered */
 
-.site-footer--layout-stacked .site-footer__inner {
-    grid-template-columns: 1fr;
+.site-footer--layout-stacked .site-footer__inner,
+.site-footer--layout-stacked .site-footer__main,
+.site-footer--layout-stacked .site-footer__connections {
     justify-items: center;
     text-align: center;
 }
@@ -942,49 +1030,54 @@ body.mpb-brand-hidden .site-header__inner {
     justify-content: center;
 }
 
-.site-footer,
-.site-footer__name,
-.site-footer__menu a,
-.site-footer__menu a:visited,
-.site-footer .social-links__link {
-    color: var(--mpb-color-footer-text);
-}
-
-.site-footer__tagline,
-.site-footer__copyright {
-    color: var(--mpb-color-footer-muted);
-}
-
-
 /* Footer Layout: Split */
 
 @media (min-width: 768px) {
-    .site-footer--layout-split .site-footer__inner {
-        grid-template-columns: minmax(0, 1fr) auto;
+    .site-footer--layout-split .site-footer__main {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(220px, auto);
         align-items: start;
     }
 
     .site-footer--layout-split .site-footer__brand-wrap {
         grid-column: 1;
-        grid-row: 1 / span 3;
     }
 
-    .site-footer--layout-split .site-footer__nav {
+    .site-footer--layout-split .site-footer__connections {
         grid-column: 2;
         justify-self: end;
+        justify-items: end;
+        text-align: right;
     }
 
+    .site-footer--layout-split .site-footer__menu,
     .site-footer--layout-split .social-links {
-        grid-column: 2;
-        justify-self: end;
         justify-content: flex-end;
     }
 
-    .site-footer--layout-split .site-footer__copyright {
-        grid-column: 1 / -1;
+    /*
+     * Keep Split usable when one side is disabled or has no configured
+     * content.
+     */
+    .site-footer--layout-split:not(.site-footer--has-brand)
+        .site-footer__main,
+    .site-footer--layout-split:not(.site-footer--has-connections)
+        .site-footer__main {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .site-footer--layout-split:not(.site-footer--has-brand)
+        .site-footer__connections {
+        grid-column: 1;
+        justify-self: end;
+    }
+
+    .site-footer--layout-split:not(.site-footer--has-connections)
+        .site-footer__brand-wrap {
+        grid-column: 1;
     }
 }
-
 
 /* =========================================================
    10. SOCIAL LINKS
@@ -1018,6 +1111,11 @@ body.mpb-brand-hidden .site-header__inner {
 .social-links__link:focus {
     opacity: 1;
     text-decoration: underline;
+}
+
+.social-links__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
 }
 
 .social-links__icon {

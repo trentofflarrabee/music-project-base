@@ -617,3 +617,4 @@ function mpb_theme_style_body_classes($classes) {
 }
 add_filter('body_class', 'mpb_theme_style_body_classes');
 require_once get_template_directory() . '/inc/template-functions.php';
+require_once get_template_directory() . '/inc/social-links.php';
