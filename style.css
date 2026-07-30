@@ -11,6 +11,7 @@ Text Domain: music-project-base
    ========================================================= */
 
 :root {
+    /* Core palette */
     --mpb-color-bg: #111111;
     --mpb-color-surface: #101010;
     --mpb-color-text: #f5f5f5;
@@ -19,6 +20,7 @@ Text Domain: music-project-base
     --mpb-color-button-bg: #f5f5f5;
     --mpb-color-button-text: #111111;
 
+    /* Site chrome */
     --mpb-color-header-bg: #000000;
     --mpb-color-header-text: #f5f5f5;
     --mpb-color-header-border: #1f1f1f;
@@ -35,12 +37,27 @@ Text Domain: music-project-base
     --mpb-color-footer-border: #1f1f1f;
 
     /* Font library slots */
-    --mpb-font-slot-body: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-    --mpb-font-slot-display: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-    --mpb-font-slot-accent: system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
+    --mpb-font-slot-body:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    --mpb-font-slot-display:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    --mpb-font-slot-accent:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
     --mpb-font-slot-quote: var(--mpb-font-slot-display);
 
     /* Assigned typography roles */
@@ -52,38 +69,61 @@ Text Domain: music-project-base
     --mpb-font-accent: var(--mpb-font-slot-accent);
     --mpb-font-quote: var(--mpb-font-slot-quote);
 
+    /* Heading treatment */
     --mpb-heading-text-transform: none;
     --mpb-heading-letter-spacing: -0.04em;
 
+    /* Texture */
     --mpb-texture-image: none;
     --mpb-texture-opacity: 0.08;
     --mpb-texture-size: 420px;
     --mpb-texture-repeat: repeat;
 
-
-    /* existing color/font/texture vars... */
-
+    /* Layout widths and gutters */
     --mpb-width-site: 1200px;
     --mpb-width-content: 900px;
     --mpb-width-reading: 720px;
 
+    --mpb-gutter-page: 1.5rem;
+    --mpb-gutter-page-compact: 1rem;
+
+    --mpb-width-shell: min(
+        calc(
+            100%
+            - var(--mpb-gutter-page)
+            - var(--mpb-gutter-page)
+        ),
+        var(--mpb-width-site)
+    );
+
+    /* Shape and elevation */
     --mpb-radius-card: 16px;
     --mpb-radius-media: 12px;
     --mpb-radius-control: 999px;
 
-    --mpb-shadow-card: 0 20px 70px rgba(0, 0, 0, 0.22);
-    --mpb-shadow-card-hover: 0 24px 80px rgba(0, 0, 0, 0.32);
+    --mpb-shadow-card:
+        0 20px 70px rgba(0, 0, 0, 0.22);
+
+    --mpb-shadow-card-hover:
+        0 24px 80px rgba(0, 0, 0, 0.32);
+
     --mpb-card-hover-transform: translateY(-2px);
 
+    /* Border-strength foundation */
     --mpb-border-subtle: rgba(255, 255, 255, 0.06);
     --mpb-border-medium: rgba(255, 255, 255, 0.14);
     --mpb-border-strong: rgba(255, 255, 255, 0.22);
 
+    /* Semantic border roles */
+    --mpb-border-divider: var(--mpb-border-medium);
+    --mpb-border-control: var(--mpb-border-medium);
+    --mpb-border-interactive: var(--mpb-border-medium);
+
+    /* Vertical rhythm */
     --mpb-section-padding-block: clamp(4rem, 8vw, 8rem);
     --mpb-page-padding-block: clamp(4rem, 8vw, 7rem);
     --mpb-card-padding: 1.5rem;
 }
-
 
 /* =========================================================
    2. GLOBAL BASE
@@ -542,8 +582,8 @@ body.mpb-texture-buttons .event-body a {
 
 .home-section {
     padding-block: var(--mpb-section-padding-block);
-    padding-inline: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-inline: var(--mpb-gutter-page);
+    border-bottom: 1px solid var(--mpb-border-divider);
 }
 
 .home-section > .section-header,
@@ -611,7 +651,7 @@ body.admin-bar {
 
 .site-header__inner,
 .site-footer__inner {
-    width: min(100% - 3rem, var(--mpb-width-site));
+    width: var(--mpb-width-shell);
     margin-inline: auto;
 }
 
@@ -1980,7 +2020,7 @@ body.mpb-texture-cards .home-services__empty {
 
 .home-quotes {
     position: relative;
-    padding-inline: 1.5rem;
+    padding-inline: var(--mpb-gutter-page);
 }
 
 .home-quotes--tone-default {
@@ -2562,7 +2602,7 @@ body.mpb-texture-cards .home-quotes__empty {
 
 .blog-archive-main {
     padding-block: var(--mpb-page-padding-block);
-    padding-inline: 1.5rem;
+    padding-inline: var(--mpb-gutter-page);
 }
 
 .blog-archive {
@@ -2621,7 +2661,7 @@ body.mpb-texture-cards .home-quotes__empty {
 .single-main {
     position: relative;
     padding-block: var(--mpb-page-padding-block);
-    padding-inline: 1.5rem;
+    padding-inline: var(--mpb-gutter-page);
 }
 
 .single-entry {
@@ -2748,7 +2788,7 @@ body.mpb-texture-cards .home-quotes__empty {
 .single-post__footer {
     margin-top: clamp(3rem, 7vw, 5rem);
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--mpb-border-divider);
 }
 
 .single-post__nav {
@@ -2767,7 +2807,7 @@ body.mpb-texture-cards .home-quotes__empty {
 
 .single-post__nav-item a:hover,
 .single-post__nav-item a:focus {
-    border-color: rgba(255, 255, 255, 0.16);
+    border-color: var(--mpb-border-interactive);
     transform: translateY(-1px);
 }
 
@@ -2841,8 +2881,8 @@ body.mpb-texture-cards .home-quotes__empty {
     width: 100%;
     max-width: 420px;
     padding: 0.85rem 1rem;
+    border: 1px solid var(--mpb-border-control);
     border-radius: var(--mpb-radius-control);
-    border: 1px solid rgba(255, 255, 255, 0.18);
     background: var(--mpb-color-surface);
     color: var(--mpb-color-text);
 }
@@ -2863,7 +2903,7 @@ body.mpb-texture-cards .home-quotes__empty {
 .search-main,
 .error-main {
     padding-block: var(--mpb-page-padding-block);
-    padding-inline: 1.5rem;
+    padding-inline: var(--mpb-gutter-page);
 }
 
 .theme-page,
@@ -2951,11 +2991,11 @@ body.mpb-texture-cards .home-quotes__empty {
     min-width: 42px;
     min-height: 42px;
     padding: 0.65rem 0.85rem;
+    border: 1px solid var(--mpb-border-subtle);
     border-radius: var(--mpb-radius-control);
     background: var(--mpb-color-surface);
     color: var(--mpb-color-text);
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .blog-archive__pagination .page-numbers.current,
@@ -2982,7 +3022,7 @@ body.mpb-texture-cards .home-quotes__empty {
     flex: 1 1 260px;
     min-height: 46px;
     padding: 0.85rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid var(--mpb-border-control);
     background: var(--mpb-color-surface);
     color: var(--mpb-color-text);
 }
@@ -3503,7 +3543,7 @@ body.mpb-texture-sections .single-main > * {
 
     .single-main {
         padding-block: 4rem;
-        padding-inline: 1rem;
+        padding-inline: var(--mpb-gutter-page-compact);
     }
 
     .single-entry {
