@@ -256,27 +256,94 @@ function mpb_get_theme_style_inline_css() {
         }
     }
 
-    $color_background = sanitize_hex_color($settings['color_background']) ?: '#111111';
-    $color_surface = sanitize_hex_color($settings['color_surface']) ?: '#101010';
-    $color_text = sanitize_hex_color($settings['color_text']) ?: '#f5f5f5';
-    $color_muted = sanitize_hex_color($settings['color_muted']) ?: '#b8b8b8';
-    $color_accent = sanitize_hex_color($settings['color_accent']) ?: '#ffffff';
-    $color_button_background = sanitize_hex_color($settings['color_button_background']) ?: '#f5f5f5';
-    $color_button_text = sanitize_hex_color($settings['color_button_text']) ?: '#111111';
+$color_background = sanitize_hex_color(
+    $settings['color_background']
+) ?: '#111111';
+
+$color_surface = sanitize_hex_color(
+    $settings['color_surface']
+) ?: '#101010';
+
+$color_text = sanitize_hex_color(
+    $settings['color_text']
+) ?: '#f5f5f5';
+
+$color_muted = sanitize_hex_color(
+    $settings['color_muted']
+) ?: '#b8b8b8';
+
+$color_accent = sanitize_hex_color(
+    $settings['color_accent']
+) ?: '#ffffff';
+
+$color_button_background = sanitize_hex_color(
+    $settings['color_button_background']
+) ?: '#f5f5f5';
+
+$color_button_text = sanitize_hex_color(
+    $settings['color_button_text']
+) ?: '#111111';
+
+$color_text_rgb = mpb_hex_to_rgb_channels(
+    $color_text
+);
+
+$color_button_text_rgb = mpb_hex_to_rgb_channels(
+    $color_button_text
+);
 
 
-    $header_background_color = sanitize_hex_color($settings['header_background_color'] ?? '') ?: '#000000';
-$header_text_color = sanitize_hex_color($settings['header_text_color'] ?? '') ?: '#f5f5f5';
-$header_border_color = sanitize_hex_color($settings['header_border_color'] ?? '') ?: '#1f1f1f';
+$header_background_color = sanitize_hex_color(
+    $settings['header_background_color'] ?? ''
+) ?: '#000000';
 
-$mobile_nav_background_color = sanitize_hex_color($settings['mobile_nav_background_color'] ?? '') ?: '#000000';
-$mobile_nav_text_color = sanitize_hex_color($settings['mobile_nav_text_color'] ?? '') ?: '#f5f5f5';
-$mobile_nav_border_color = sanitize_hex_color($settings['mobile_nav_border_color'] ?? '') ?: '#242424';
+$header_text_color = sanitize_hex_color(
+    $settings['header_text_color'] ?? ''
+) ?: '#f5f5f5';
 
-$footer_background_color = sanitize_hex_color($settings['footer_background_color'] ?? '') ?: '#000000';
-$footer_text_color = sanitize_hex_color($settings['footer_text_color'] ?? '') ?: '#f5f5f5';
-$footer_muted_color = sanitize_hex_color($settings['footer_muted_color'] ?? '') ?: '#b8b8b8';
-$footer_border_color = sanitize_hex_color($settings['footer_border_color'] ?? '') ?: '#1f1f1f';
+$header_border_color = sanitize_hex_color(
+    $settings['header_border_color'] ?? ''
+) ?: '#1f1f1f';
+
+$mobile_nav_background_color = sanitize_hex_color(
+    $settings['mobile_nav_background_color'] ?? ''
+) ?: '#000000';
+
+$mobile_nav_text_color = sanitize_hex_color(
+    $settings['mobile_nav_text_color'] ?? ''
+) ?: '#f5f5f5';
+
+$mobile_nav_border_color = sanitize_hex_color(
+    $settings['mobile_nav_border_color'] ?? ''
+) ?: '#242424';
+
+$footer_background_color = sanitize_hex_color(
+    $settings['footer_background_color'] ?? ''
+) ?: '#000000';
+
+$footer_text_color = sanitize_hex_color(
+    $settings['footer_text_color'] ?? ''
+) ?: '#f5f5f5';
+
+$footer_muted_color = sanitize_hex_color(
+    $settings['footer_muted_color'] ?? ''
+) ?: '#b8b8b8';
+
+$footer_border_color = sanitize_hex_color(
+    $settings['footer_border_color'] ?? ''
+) ?: '#1f1f1f';
+
+$header_text_rgb = mpb_hex_to_rgb_channels(
+    $header_text_color
+);
+
+$mobile_nav_text_rgb = mpb_hex_to_rgb_channels(
+    $mobile_nav_text_color
+);
+
+$footer_text_rgb = mpb_hex_to_rgb_channels(
+    $footer_text_color
+);
 
 // Font library slots.
 $font_slot_body = mpb_clean_font_family($settings['font_body'] ?? '');
@@ -364,8 +431,17 @@ $font_quote = mpb_resolve_font_role(
     $heading_text_transform = sanitize_key($settings['heading_text_transform']);
     $heading_letter_spacing = esc_html($settings['heading_letter_spacing']);
 
-    $hero_heading_color = sanitize_hex_color($settings['hero_heading_color'] ?? '') ?: '#ffffff';
-$hero_lead_color = sanitize_hex_color($settings['hero_lead_color'] ?? '') ?: '#f5f5f5';
+$hero_heading_color = sanitize_hex_color(
+    $settings['hero_heading_color'] ?? ''
+) ?: '#ffffff';
+
+$hero_lead_color = sanitize_hex_color(
+    $settings['hero_lead_color'] ?? ''
+) ?: '#f5f5f5';
+
+$hero_heading_color_rgb = mpb_hex_to_rgb_channels(
+    $hero_heading_color
+);
 
 $hero_text_shadow = sanitize_key($settings['hero_text_shadow'] ?? 'subtle');
 
@@ -439,29 +515,30 @@ $card_shadow_style_map = [
 
 $shadow_values = $card_shadow_style_map[$card_shadow_style] ?? $card_shadow_style_map['standard'];
 
-$border_strength = sanitize_key($settings['border_strength'] ?? 'subtle');
+$border_strength = sanitize_key(
+    $settings['border_strength'] ?? 'subtle'
+);
 
 $border_strength_map = [
     'minimal' => [
-        'subtle' => 'rgba(255, 255, 255, 0.03)',
-        'medium' => 'rgba(255, 255, 255, 0.08)',
-        'strong' => 'rgba(255, 255, 255, 0.14)',
+        'subtle' => '0.03',
+        'medium' => '0.08',
+        'strong' => '0.14',
     ],
     'subtle' => [
-        'subtle' => 'rgba(255, 255, 255, 0.06)',
-        'medium' => 'rgba(255, 255, 255, 0.14)',
-        'strong' => 'rgba(255, 255, 255, 0.22)',
+        'subtle' => '0.06',
+        'medium' => '0.14',
+        'strong' => '0.22',
     ],
     'defined' => [
-        'subtle' => 'rgba(255, 255, 255, 0.12)',
-        'medium' => 'rgba(255, 255, 255, 0.22)',
-        'strong' => 'rgba(255, 255, 255, 0.34)',
+        'subtle' => '0.12',
+        'medium' => '0.22',
+        'strong' => '0.34',
     ],
 ];
 
-$border_values = $border_strength_map[$border_strength] ?? $border_strength_map['subtle'];
-
-
+$border_values = $border_strength_map[$border_strength]
+    ?? $border_strength_map['subtle'];
 
 
 
@@ -477,21 +554,27 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-color-bg: {$color_background};
             --mpb-color-surface: {$color_surface};
             --mpb-color-text: {$color_text};
+            --mpb-color-text-rgb: {$color_text_rgb};
             --mpb-color-muted: {$color_muted};
             --mpb-color-accent: {$color_accent};
+
             --mpb-color-button-bg: {$color_button_background};
             --mpb-color-button-text: {$color_button_text};
+            --mpb-color-button-text-rgb: {$color_button_text_rgb};
 
             --mpb-color-header-bg: {$header_background_color};
             --mpb-color-header-text: {$header_text_color};
+            --mpb-color-header-text-rgb: {$header_text_rgb};
             --mpb-color-header-border: {$header_border_color};
 
             --mpb-color-mobile-nav-bg: {$mobile_nav_background_color};
             --mpb-color-mobile-nav-text: {$mobile_nav_text_color};
+            --mpb-color-mobile-nav-text-rgb: {$mobile_nav_text_rgb};
             --mpb-color-mobile-nav-border: {$mobile_nav_border_color};
 
             --mpb-color-footer-bg: {$footer_background_color};
             --mpb-color-footer-text: {$footer_text_color};
+            --mpb-color-footer-text-rgb: {$footer_text_rgb};
             --mpb-color-footer-muted: {$footer_muted_color};
             --mpb-color-footer-border: {$footer_border_color};
 
@@ -515,6 +598,7 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-heading-letter-spacing: {$heading_letter_spacing};
 
             --mpb-hero-heading-color: {$hero_heading_color};
+            --mpb-hero-heading-color-rgb: {$hero_heading_color_rgb};
             --mpb-hero-lead-color: {$hero_lead_color};
 
             --mpb-hero-text-shadow-color: {$hero_text_shadow_color};
@@ -529,9 +613,27 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             --mpb-shadow-card-hover: {$shadow_values['hover']};
             --mpb-card-hover-transform: {$shadow_values['transform']};
 
-            --mpb-border-subtle: {$border_values['subtle']};
-            --mpb-border-medium: {$border_values['medium']};
-            --mpb-border-strong: {$border_values['strong']};
+            --mpb-border-alpha-subtle: {$border_values['subtle']};
+            --mpb-border-alpha-medium: {$border_values['medium']};
+            --mpb-border-alpha-strong: {$border_values['strong']};
+
+            --mpb-border-subtle:
+                rgba(
+                    var(--mpb-color-text-rgb),
+                    var(--mpb-border-alpha-subtle)
+                );
+
+            --mpb-border-medium:
+                rgba(
+                    var(--mpb-color-text-rgb),
+                    var(--mpb-border-alpha-medium)
+                );
+
+            --mpb-border-strong:
+                rgba(
+                    var(--mpb-color-text-rgb),
+                    var(--mpb-border-alpha-strong)
+                );
 
 
             --mpb-texture-image: {$texture_url};
