@@ -63,6 +63,7 @@ Text Domain: music-project-base
     /* Assigned typography roles */
     --mpb-font-body: var(--mpb-font-slot-body);
     --mpb-font-heading: var(--mpb-font-slot-display);
+    --mpb-font-blog-heading: var(--mpb-font-slot-display);
     --mpb-font-hero-heading: var(--mpb-font-slot-display);
     --mpb-font-nav: var(--mpb-font-slot-accent);
     --mpb-font-button: var(--mpb-font-slot-accent);
@@ -374,6 +375,29 @@ h6 {
 .home-hero__content h1,
 .site-status-content h1 {
     font-family: var(--mpb-font-hero-heading);
+}
+
+/* Blog and editorial headings */
+
+.blog-archive__header h1,
+.blog-archive__intro h1,
+.blog-archive__intro h2,
+.blog-archive__intro h3,
+.blog-archive__intro h4,
+.blog-archive__intro h5,
+.blog-archive__intro h6,
+.blog-archive-card h2,
+.theme-archive__header h1,
+.theme-archive-card h2,
+.single-post__header h1,
+.single-post__content h1,
+.single-post__content h2,
+.single-post__content h3,
+.single-post__content h4,
+.single-post__content h5,
+.single-post__content h6,
+.single-post__nav-item a {
+    font-family: var(--mpb-font-blog-heading);
 }
 
 /* Navigation and site branding */

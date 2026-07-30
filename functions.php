@@ -135,6 +135,7 @@ function mpb_get_theme_style_defaults() {
 
 'font_role_body' => 'body',
 'font_role_heading' => 'heading',
+'font_role_blog_heading' => 'heading',
 'font_role_hero_heading' => 'heading',
 'font_role_nav' => 'accent',
 'font_role_button' => 'accent',
@@ -316,6 +317,12 @@ $font_heading = mpb_resolve_font_role(
     'heading'
 );
 
+$font_blog_heading = mpb_resolve_font_role(
+    $settings['font_role_blog_heading'] ?? 'heading',
+    $font_slot_references,
+    'heading'
+);
+
 $font_hero_heading = mpb_resolve_font_role(
     $settings['font_role_hero_heading'] ?? 'heading',
     $font_slot_references,
@@ -489,6 +496,7 @@ $border_values = $border_strength_map[$border_strength] ?? $border_strength_map[
             /* Assigned typography roles. */
             --mpb-font-body: {$font_body};
             --mpb-font-heading: {$font_heading};
+            --mpb-font-blog-heading: {$font_blog_heading};
             --mpb-font-hero-heading: {$font_hero_heading};
             --mpb-font-nav: {$font_nav};
             --mpb-font-button: {$font_button};
