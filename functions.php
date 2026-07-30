@@ -157,19 +157,27 @@ function mpb_get_theme_style_defaults() {
 'card_shadow_style' => 'standard',
 'border_strength' => 'subtle',
 
-        'texture_enabled' => 0,
-        'texture_image_id' => 0,
-        'texture_opacity' => '0.08',
-        'texture_size' => '420px',
-        'texture_repeat' => 'repeat',
-        'texture_apply_body' => 1,
-        'texture_apply_footer' => 1,
-        'texture_apply_buttons' => 0,
-        'texture_apply_mobile_nav' => 1,
-        'texture_apply_cards' => 0,
-        'texture_apply_media_frames' => 0,
-        'texture_apply_sections' => 0,
-    ];
+
+    'texture_enabled'            => 0,
+    'texture_image_id'           => 0,
+    'texture_opacity'            => '0.14',
+    'texture_size'               => '420px',
+    'texture_repeat'             => 'repeat',
+
+    // Texture V2 environmental zones.
+    'texture_apply_header'       => 0,
+    'texture_apply_mobile_nav'   => 1,
+    'texture_apply_footer'       => 1,
+    'texture_apply_sections'     => 0,
+    'texture_apply_editorial'    => 0,
+
+    // Legacy keys retained for compatibility with older saved data.
+    'texture_apply_body'         => 1,
+    'texture_apply_buttons'      => 0,
+    'texture_apply_cards'        => 0,
+    'texture_apply_media_frames' => 0,
+
+];
 }
 
 function mpb_get_theme_style_settings() {
@@ -589,37 +597,25 @@ function mpb_theme_style_body_classes($classes) {
 
     $classes[] = 'mpb-brand-' . str_replace('_', '-', $brand_display);
 
-    if (!empty($settings['texture_enabled']) && !empty($settings['texture_image_id'])) {
-        $classes[] = 'mpb-texture-enabled';
+    if ( ! empty( $settings['texture_enabled'] ) && ! empty( $settings['texture_image_id'] ) ) {
+    $classes[] = 'mpb-texture-enabled';
 
-        if (!empty($settings['texture_apply_body'])) {
-            $classes[] = 'mpb-texture-body';
-        }
-
-        if (!empty($settings['texture_apply_footer'])) {
-            $classes[] = 'mpb-texture-footer';
-        }
-
-        if (!empty($settings['texture_apply_buttons'])) {
-            $classes[] = 'mpb-texture-buttons';
-        }
-
-        if (!empty($settings['texture_apply_mobile_nav'])) {
-            $classes[] = 'mpb-texture-mobile-nav';
-        }
-
-        if (!empty($settings['texture_apply_cards'])) {
-            $classes[] = 'mpb-texture-cards';
-        }
-
-        if (!empty($settings['texture_apply_media_frames'])) {
-            $classes[] = 'mpb-texture-media-frames';
-        }
-
-        if (!empty($settings['texture_apply_sections'])) {
-            $classes[] = 'mpb-texture-sections';
-        }
+    if ( ! empty( $settings['texture_apply_header'] ) ) {
+        $classes[] = 'mpb-texture-header';
     }
+    if ( ! empty( $settings['texture_apply_mobile_nav'] ) ) {
+        $classes[] = 'mpb-texture-mobile-nav';
+    }
+    if ( ! empty( $settings['texture_apply_footer'] ) ) {
+        $classes[] = 'mpb-texture-footer';
+    }
+    if ( ! empty( $settings['texture_apply_sections'] ) ) {
+        $classes[] = 'mpb-texture-sections';
+    }
+    if ( ! empty( $settings['texture_apply_editorial'] ) ) {
+        $classes[] = 'mpb-texture-editorial';
+    }
+}
 
     return $classes;
 }

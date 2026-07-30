@@ -76,7 +76,7 @@ Text Domain: music-project-base
 
     /* Texture */
     --mpb-texture-image: none;
-    --mpb-texture-opacity: 0.08;
+    --mpb-texture-opacity: 0.14;
     --mpb-texture-size: 420px;
     --mpb-texture-repeat: repeat;
 
@@ -277,13 +277,6 @@ body.site-status-page {
     justify-content: center;
 }
 
-body.mpb-texture-cards .site-status-card {
-    background-color: var(--mpb-color-surface, #181818);
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    background-blend-mode: soft-light;
-}
 
 .site-status-preview-bar {
     position: fixed;
@@ -325,33 +318,16 @@ z-index: 99998;
 }
 
 
-/* =========================================================
+/* ==========================================================================
    3. GLOBAL TEXTURE SUPPORT
-   ========================================================= */
+   ========================================================================== */
 
-body.mpb-texture-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    opacity: var(--mpb-texture-opacity);
-    pointer-events: none;
-}
+/*
+ * Texture placement and layering are consolidated in the Texture Zones
+ * section so every zone follows the same rendering contract.
+ */
 
-body.mpb-texture-footer .site-footer::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    opacity: var(--mpb-texture-opacity);
-    pointer-events: none;
-}
+
 
 /* =========================================================
    4. TYPOGRAPHY
@@ -583,20 +559,6 @@ body.mpb-heading-align-all .home-blog__view-all {
 .theme-archive-card__link:hover {
     transform: translateY(-1px);
     opacity: 0.9;
-}
-
-body.mpb-texture-buttons .button,
-body.mpb-texture-buttons .home-hero__button,
-body.mpb-texture-buttons .featured-content-card__button,
-body.mpb-texture-buttons .show-btn,
-body.mpb-texture-buttons .newsletter-form button,
-body.mpb-texture-buttons .newsletter-form input[type="submit"],
-body.mpb-texture-buttons .event-body a {
-    background-color: var(--mpb-color-button-bg);
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    color: var(--mpb-color-button-text);
 }
 
 
@@ -1537,19 +1499,6 @@ body.mpb-brand-hidden .site-header__inner {
 }
 
 
-/* Hero Texture Interaction */
-
-body.mpb-texture-body .home-hero--full-bleed::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    opacity: calc(var(--mpb-texture-opacity) * 0.75);
-    pointer-events: none;
-}
 
 
 /* Hero Media Fallbacks */
@@ -2212,13 +2161,7 @@ body.mpb-texture-cards .home-services__empty {
     }
 }
 
-body.mpb-texture-cards .home-quote-card,
-body.mpb-texture-cards .home-quotes__empty {
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    background-blend-mode: soft-light;
-}
+
 
 @media (max-width: 720px) {
     .home-quotes {
@@ -3097,73 +3040,143 @@ body.mpb-texture-cards .home-quotes__empty {
 }
 
 
-/* =========================================================
+/* ==========================================================================
    19. TEXTURE ZONES
-   ========================================================= */
+   ========================================================================== */
 
-/* Cards / Panels */
+/*
+ * Texture V2 treats texture as an environmental background layer.
+ *
+ * Cards, controls, buttons, and media remain clean and opaque so texture
+ * never competes with content or interactive labels.
+ */
 
-body.mpb-texture-cards .featured-content-card,
-body.mpb-texture-cards .featured-quote-card,
-body.mpb-texture-cards .home-blog-card,
-body.mpb-texture-cards .blog-archive-card,
-body.mpb-texture-cards .theme-archive-card,
-body.mpb-texture-cards .shows-empty,
-body.mpb-texture-cards .event-card.spotify-style,
-body.mpb-texture-cards .blog-archive__empty,
-body.mpb-texture-cards .theme-archive__empty,
-body.mpb-texture-cards .theme-search__empty,
-body.mpb-texture-cards .single-post__nav-item a {
-    background-color: var(--mpb-color-surface);
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    background-blend-mode: soft-light;
+/* Shared texture hosts */
+
+/*
+ * Do not assign a position value to the header here.
+ * Its Standard, Sticky, Transparent, and Transparent + Scroll behaviors
+ * control whether it is relative, sticky, absolute, or fixed.
+ */
+body.mpb-texture-header .site-header {
+    isolation: isolate;
 }
 
-/* Media Frames */
-
-body.mpb-texture-media-frames .featured-content-card__media,
-body.mpb-texture-media-frames .featured-content-card__image,
-body.mpb-texture-media-frames .home-blog-card__image-link,
-body.mpb-texture-media-frames .blog-archive-card__image-link,
-body.mpb-texture-media-frames .theme-archive-card__image-link,
-body.mpb-texture-media-frames .home-hero__placeholder,
-body.mpb-texture-media-frames .event-date {
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    background-blend-mode: soft-light;
-}
-
-/* Section Backgrounds */
-
-body.mpb-texture-sections .home-section:not(.home-hero--full-bleed),
-body.mpb-texture-sections .blog-archive-main,
-body.mpb-texture-sections .single-main {
+body.mpb-texture-footer .site-footer,
+body.mpb-texture-sections .home-section:not(.home-hero),
+body.mpb-texture-editorial .blog-archive-main,
+body.mpb-texture-editorial .single-main,
+body.mpb-texture-editorial .page-main,
+body.mpb-texture-editorial .archive-main,
+body.mpb-texture-editorial .search-main,
+body.mpb-texture-editorial .error-main {
     position: relative;
     isolation: isolate;
 }
 
-body.mpb-texture-sections .home-section:not(.home-hero--full-bleed)::before,
-body.mpb-texture-sections .blog-archive-main::before,
-body.mpb-texture-sections .single-main::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-    opacity: calc(var(--mpb-texture-opacity) * 0.55);
-    pointer-events: none;
+/* Shared texture layer */
+body.mpb-texture-header .site-header::before,
+body.mpb-texture-footer .site-footer::before,
+body.mpb-texture-sections .home-section:not(.home-hero)::before,
+body.mpb-texture-editorial .blog-archive-main::before,
+body.mpb-texture-editorial .single-main::before,
+body.mpb-texture-editorial .page-main::before,
+body.mpb-texture-editorial .archive-main::before,
+body.mpb-texture-editorial .search-main::before,
+body.mpb-texture-editorial .error-main::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image: var(--mpb-texture-image);
+	background-position: center top;
+	background-size: var(--mpb-texture-size);
+	background-repeat: var(--mpb-texture-repeat);
+	opacity: var(--mpb-texture-opacity);
+	pointer-events: none;
 }
 
-body.mpb-texture-sections .home-section:not(.home-hero--full-bleed) > *,
-body.mpb-texture-sections .blog-archive-main > *,
-body.mpb-texture-sections .single-main > * {
-    position: relative;
-    z-index: 1;
+/* Keep content above texture layers */
+body.mpb-texture-header .site-header__inner,
+body.mpb-texture-footer .site-footer__inner,
+body.mpb-texture-sections .home-section:not(.home-hero) > *,
+body.mpb-texture-editorial .blog-archive-main > *,
+body.mpb-texture-editorial .single-main > *,
+body.mpb-texture-editorial .page-main > *,
+body.mpb-texture-editorial .archive-main > *,
+body.mpb-texture-editorial .search-main > *,
+body.mpb-texture-editorial .error-main > * {
+	position: relative;
+	z-index: 1;
+}
+
+/*
+ * Transparent desktop headers remain genuinely transparent over the hero.
+ * The texture appears once Transparent + Scroll becomes opaque.
+ */
+body.mpb-is-front-page.mpb-header-transparent.mpb-texture-header .site-header::before,
+body.mpb-is-front-page.mpb-header-transparent-scroll.mpb-texture-header .site-header:not(.is-scrolled)::before {
+	opacity: 0;
+}
+
+/* Editorial reading surfaces */
+body.mpb-texture-editorial .single-entry,
+body.mpb-texture-editorial .theme-page,
+body.mpb-texture-editorial .blog-archive__header,
+body.mpb-texture-editorial .theme-archive__header,
+body.mpb-texture-editorial .theme-search__header,
+body.mpb-texture-editorial .theme-error,
+body.mpb-texture-editorial .blog-archive__empty,
+body.mpb-texture-editorial .theme-archive__empty,
+body.mpb-texture-editorial .theme-search__empty {
+	border: 1px solid var(--mpb-border-subtle);
+	border-radius: var(--mpb-radius-card);
+	background: var(--mpb-color-surface);
+	box-shadow: var(--mpb-shadow-card);
+}
+
+body.mpb-texture-editorial .theme-page,
+body.mpb-texture-editorial .blog-archive__header,
+body.mpb-texture-editorial .theme-archive__header,
+body.mpb-texture-editorial .theme-search__header,
+body.mpb-texture-editorial .theme-error {
+	padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+/*
+ * Single posts already include their own editorial padding. Texture V2 only
+ * changes the article into a clear surface above the textured canvas.
+ */
+body.mpb-texture-editorial .single-entry {
+	background: var(--mpb-color-surface);
+	border-radius: var(--mpb-radius-card);
+}
+
+/* Mobile navigation texture */
+@media (max-width: 720px) {
+	body.mpb-texture-mobile-nav .site-nav {
+		isolation: isolate;
+		background-color: var(--mpb-color-mobile-nav-bg);
+	}
+
+	body.mpb-texture-mobile-nav .site-nav::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background-image: var(--mpb-texture-image);
+		background-position: center top;
+		background-size: var(--mpb-texture-size);
+		background-repeat: var(--mpb-texture-repeat);
+		opacity: var(--mpb-texture-opacity);
+		pointer-events: none;
+	}
+
+	body.mpb-texture-mobile-nav .site-nav__menu,
+	body.mpb-texture-mobile-nav .site-nav__footer {
+		position: relative;
+		z-index: 1;
+	}
 }
 
 
@@ -3406,28 +3419,7 @@ body.mpb-texture-sections .single-main > * {
         background: transparent;
     }
 
-    body.mpb-texture-mobile-nav .site-nav {
-        background-color: var(--mpb-color-mobile-nav-bg);
-    }
 
-    body.mpb-texture-mobile-nav .site-nav::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        background-image: var(--mpb-texture-image);
-        background-size: var(--mpb-texture-size);
-        background-repeat: var(--mpb-texture-repeat);
-        opacity: var(--mpb-texture-opacity);
-        pointer-events: none;
-        mix-blend-mode: normal;
-    }
-
-    body.mpb-texture-mobile-nav .site-nav__menu,
-    body.mpb-texture-mobile-nav .site-nav__footer {
-        position: relative;
-        z-index: 1;
-    }
 
     /* Mobile navigation keyboard focus */
 
@@ -3891,12 +3883,6 @@ body.is-menu-open .scroll-top {
     transform: translateY(10px);
 }
 
-body.mpb-texture-buttons .scroll-top {
-    background-color: var(--mpb-color-button-bg);
-    background-image: var(--mpb-texture-image);
-    background-size: var(--mpb-texture-size);
-    background-repeat: var(--mpb-texture-repeat);
-}
 
 @media (max-width: 720px) {
     .scroll-top {
