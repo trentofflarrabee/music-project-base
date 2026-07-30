@@ -5,6 +5,11 @@ if (!defined('ABSPATH')) {
 }
 
 function mpb_setup_theme() {
+    load_theme_textdomain(
+        'music-project-base',
+        get_template_directory() . '/languages'
+    );
+
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
 
