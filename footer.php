@@ -53,7 +53,10 @@ $footer_copyright = function_exists('mpc_get_footer_setting')
     ? trim(
         (string) mpc_get_footer_setting(
             'footer_copyright',
-            '© {year} {site_name}. All rights reserved.'
+            __(
+                '© {year} {site_name}. All rights reserved.',
+                'music-project-base'
+            )
         )
     )
     : $default_copyright;

@@ -17,18 +17,83 @@ if (!$enabled) {
     return;
 }
 
-$heading = trim((string) mpc_get_homepage_setting('blog_heading', 'Blog'));
-$layout = sanitize_key((string) mpc_get_homepage_setting('blog_layout', 'grid'));
-$featured_source = sanitize_key((string) mpc_get_homepage_setting('blog_featured_source', 'latest'));
-$featured_post_id = absint(mpc_get_homepage_setting('blog_featured_post_id', 0));
-$posts_per_page = absint(mpc_get_homepage_setting('blog_posts_per_page', 3));
-$additional_posts_count = absint(mpc_get_homepage_setting('blog_additional_posts', 2));
-$show_images = (bool) mpc_get_homepage_setting('blog_show_images', 1);
-$show_dates = (bool) mpc_get_homepage_setting('blog_show_dates', 1);
-$show_excerpts = (bool) mpc_get_homepage_setting('blog_show_excerpts', 1);
-$read_more_text = trim((string) mpc_get_homepage_setting('blog_read_more_text', 'Read More'));
-$view_all_text = trim((string) mpc_get_homepage_setting('blog_view_all_text', 'View All Posts'));
-$view_all_url = trim((string) mpc_get_homepage_setting('blog_view_all_url', '/blog'));
+$heading = trim(
+    (string) mpc_get_homepage_setting(
+        'blog_heading',
+        __('Blog', 'music-project-base')
+    )
+);
+
+$layout = sanitize_key(
+    (string) mpc_get_homepage_setting(
+        'blog_layout',
+        'grid'
+    )
+);
+
+$featured_source = sanitize_key(
+    (string) mpc_get_homepage_setting(
+        'blog_featured_source',
+        'latest'
+    )
+);
+
+$featured_post_id = absint(
+    mpc_get_homepage_setting(
+        'blog_featured_post_id',
+        0
+    )
+);
+
+$posts_per_page = absint(
+    mpc_get_homepage_setting(
+        'blog_posts_per_page',
+        3
+    )
+);
+
+$additional_posts_count = absint(
+    mpc_get_homepage_setting(
+        'blog_additional_posts',
+        2
+    )
+);
+
+$show_images = (bool) mpc_get_homepage_setting(
+    'blog_show_images',
+    1
+);
+
+$show_dates = (bool) mpc_get_homepage_setting(
+    'blog_show_dates',
+    1
+);
+
+$show_excerpts = (bool) mpc_get_homepage_setting(
+    'blog_show_excerpts',
+    1
+);
+
+$read_more_text = trim(
+    (string) mpc_get_homepage_setting(
+        'blog_read_more_text',
+        __('Read More', 'music-project-base')
+    )
+);
+
+$view_all_text = trim(
+    (string) mpc_get_homepage_setting(
+        'blog_view_all_text',
+        __('View All Posts', 'music-project-base')
+    )
+);
+
+$view_all_url = trim(
+    (string) mpc_get_homepage_setting(
+        'blog_view_all_url',
+        '/blog'
+    )
+);
 
 if (!in_array($layout, ['grid', 'featured_first', 'compact'], true)) {
     $layout = 'grid';

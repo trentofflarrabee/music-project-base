@@ -64,15 +64,38 @@ $blog_label = $posts_page_id ? get_the_title($posts_page_id) : __('Blog', 'music
                     ]);
                     ?>
 
-                    <nav class="single-post__nav" aria-label="<?php esc_attr_e('Post navigation', 'music-project-base'); ?>">
-                        <div class="single-post__nav-item single-post__nav-item--prev">
-                            <?php previous_post_link('%link', '<span>Previous</span>%title'); ?>
-                        </div>
+<nav
+    class="single-post__nav"
+    aria-label="<?php esc_attr_e('Post navigation', 'music-project-base'); ?>"
+>
+    <div class="single-post__nav-item single-post__nav-item--prev">
+        <?php
+        previous_post_link(
+            '%link',
+            '<span>'
+                . esc_html__(
+                    'Previous',
+                    'music-project-base'
+                )
+                . '</span>%title'
+        );
+        ?>
+    </div>
 
-                        <div class="single-post__nav-item single-post__nav-item--next">
-                            <?php next_post_link('%link', '<span>Next</span>%title'); ?>
-                        </div>
-                    </nav>
+    <div class="single-post__nav-item single-post__nav-item--next">
+        <?php
+        next_post_link(
+            '%link',
+            '<span>'
+                . esc_html__(
+                    'Next',
+                    'music-project-base'
+                )
+                . '</span>%title'
+        );
+        ?>
+    </div>
+</nav>
                 </footer>
             </article>
         <?php endwhile; ?>

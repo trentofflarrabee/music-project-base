@@ -22,7 +22,14 @@
 
     <?php else : ?>
 
-        <p>No content found.</p>
+        <p>
+            <?php
+            esc_html_e(
+                'No content found.',
+                'music-project-base'
+            );
+            ?>
+        </p>
 
     <?php endif; ?>
 

@@ -24,19 +24,22 @@ if (!$enabled) {
 
 $heading = $plugin_active
     ? trim(
-        (string) mpc_get_integration_setting(
-            'newsletter_heading',
-            'Newsletter'
-        )
+(string) mpc_get_integration_setting(
+    'newsletter_heading',
+    __('Newsletter', 'music-project-base')
+)
     )
     : __('Newsletter', 'music-project-base');
 
 $text = $plugin_active
     ? trim(
-        (string) mpc_get_integration_setting(
-            'newsletter_text',
-            'Sign up for updates.'
-        )
+(string) mpc_get_integration_setting(
+    'newsletter_text',
+    __(
+        'Sign up for updates.',
+        'music-project-base'
+    )
+)
     )
     : __(
         'Sign up for updates.',

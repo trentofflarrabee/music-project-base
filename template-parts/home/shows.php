@@ -26,7 +26,7 @@ $heading = $plugin_active
     ? trim(
         (string) mpc_get_integration_setting(
             'shows_heading',
-            'Shows'
+            __('Shows', 'music-project-base')
         )
     )
     : __('Shows', 'music-project-base');
