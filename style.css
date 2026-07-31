@@ -1,9 +1,14 @@
 /*
 Theme Name: Music Project Base
-Author: Your Name
+Theme URI: https://github.com/trentofflarrabee/music-project-base
+Description: A reusable WordPress theme for bands, artists, and music projects.
 Version: 0.1.0
-Description: A reusable WordPress theme for music projects.
+Requires at least: 6.8
+Requires PHP: 7.4
+Author: Trent Larrabee
+Update URI: https://github.com/trentofflarrabee/music-project-base
 Text Domain: music-project-base
+Domain Path: /languages
 */
 
 /* =========================================================
