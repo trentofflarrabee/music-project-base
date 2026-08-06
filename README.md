@@ -428,7 +428,7 @@ languages/
 Screenshot
 ----------
 
-Before public packaging, add this file to the root of the theme:
+The theme screenshot is stored at the root of the theme:
 
 ```
 screenshot.png
