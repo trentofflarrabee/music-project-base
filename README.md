@@ -443,22 +443,30 @@ Project target dimensions:
 The screenshot should show a representative homepage view and should not include browser chrome, administration controls, private information, or third-party trademarks that are not part of the site.
 
 Packaging
----------
+-----------
 
-A release ZIP should contain one top-level directory:
+Create a release ZIP from a clean, committed checkout of the intended release branch:
 
-```
+git archive \
+  --format=zip \
+  --prefix=music-project-base/ \
+  --output=../music-project-base.zip \
+  HEAD
+
+The release ZIP must contain one top-level directory:
+
 music-project-base/
-```
 
-The ZIP should include production theme files such as:
+The archive should include these production files and directories:
 
-```
 music-project-base/
 ├── assets/
 ├── inc/
 ├── template-parts/
 ├── 404.php
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
 ├── archive.php
 ├── footer.php
 ├── front-page.php
@@ -467,18 +475,16 @@ music-project-base/
 ├── home.php
 ├── index.php
 ├── page.php
-├── README.md
 ├── screenshot.png
 ├── search.php
 ├── single.php
 └── style.css
-```
 
-Do not include development-only files or directories such as:
+The repository's .gitattributes rules exclude .gitattributes, .gitignore, and .github from archives created with git archive.
 
-```
+Do not include development-only or local files such as:
+
 .git/
-.github/
 .DS_Store
 Thumbs.db
 node_modules/
@@ -486,7 +492,9 @@ vendor/
 IDE project files
 local database exports
 environment files
-```
+temporary or test ZIP files
+
+Install and test the generated ZIP on a clean WordPress site before publishing it.
 
 Development
 -----------
