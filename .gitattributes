@@ -16,3 +16,8 @@
 *.svg text
 *.ico binary
 *.zip binary
+
+# Exclude repository-only files from release archives created with git archive
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
