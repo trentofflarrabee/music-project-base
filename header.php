@@ -15,6 +15,18 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<a
+    class="skip-link screen-reader-text"
+    href="#site-main"
+>
+    <?php
+    esc_html_e(
+        'Skip to content',
+        'music-project-base'
+    );
+    ?>
+</a>
+
 <?php
 $theme_style = function_exists('mpb_get_theme_style_settings')
     ? mpb_get_theme_style_settings()

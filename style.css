@@ -557,6 +557,40 @@ body.mpb-heading-align-all .home-blog__view-all {
     border: 0;
 }
 
+.skip-link:focus {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100000;
+    width: auto;
+    height: auto;
+    padding: 0.8rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    border: 2px solid currentColor;
+    border-radius: var(--mpb-radius-control);
+    background: var(--mpb-color-button-bg);
+    color: var(--mpb-color-button-text);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    font-family: var(--mpb-font-accent);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+}
+
+.admin-bar .skip-link:focus {
+    top: calc(1rem + 32px);
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .skip-link:focus {
+        top: calc(1rem + 46px);
+    }
+}
+
 
 /* =========================================================
    6. BUTTONS / CTAS
