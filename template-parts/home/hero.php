@@ -166,9 +166,20 @@ if ($desktop_video_url) {
             ></video>
         <?php endif; ?>
 
-        <?php if (!$mobile_image_url && !$desktop_video_url) : ?>
+        <?php if (
+            !$mobile_image_url
+            && !$desktop_video_url
+            && current_user_can('manage_options')
+        ) : ?>
             <div class="home-hero__placeholder">
-                <span><?php esc_html_e('Add a hero image or video', 'music-project-base'); ?></span>
+                <span>
+                    <?php
+                    esc_html_e(
+                        'Add a hero image or video',
+                        'music-project-base'
+                    );
+                    ?>
+                </span>
             </div>
         <?php endif; ?>
     </div>
