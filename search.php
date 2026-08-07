@@ -43,10 +43,36 @@ $search_query = get_search_query();
                         <?php endif; ?>
 
                         <div class="theme-archive-card__body">
-                            <p class="theme-search-card__type">
-                                <?php echo esc_html(get_post_type_object(get_post_type())->labels->singular_name ?? get_post_type()); ?>
-                            </p>
+<p class="theme-search-card__type">
+    <?php
+    $post_type = get_post_type();
 
+    $post_type_object = is_string($post_type)
+        ? get_post_type_object($post_type)
+        : null;
+
+    $post_type_label = (
+        is_object($post_type_object)
+        && isset($post_type_object->labels)
+        && is_object($post_type_object->labels)
+        && isset(
+            $post_type_object->labels->singular_name
+        )
+        && is_scalar(
+            $post_type_object->labels->singular_name
+        )
+    )
+        ? (string) $post_type_object
+            ->labels
+            ->singular_name
+        : __(
+            'Content',
+            'music-project-base'
+        );
+
+    echo esc_html($post_type_label);
+    ?>
+</p>
                             <h2>
                                 <a href="<?php the_permalink(); ?>">
                                     <?php the_title(); ?>
