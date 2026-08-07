@@ -194,51 +194,77 @@ $featured_post = null;
 $secondary_posts = [];
 
 if ($layout === 'featured_first') {
-    if ($featured_source === 'manual' && $featured_post_id) {
-        $manual_post = get_post($featured_post_id);
+    if (
+        $featured_source === 'manual'
+        && $featured_post_id
+    ) {
+        $manual_post = get_post(
+            $featured_post_id
+        );
 
-        if ($manual_post && $manual_post->post_type === 'post' && $manual_post->post_status === 'publish') {
+        if (
+            $manual_post instanceof WP_Post
+            && $manual_post->post_type === 'post'
+            && $manual_post->post_status === 'publish'
+        ) {
             $featured_post = $manual_post;
         }
     }
 
     if (!$featured_post) {
-        $latest_query = new WP_Query([
-            'post_type' => 'post',
-            'post_status' => 'publish',
-            'posts_per_page' => 1,
-            'ignore_sticky_posts' => true,
-        ]);
+        $latest_query = new WP_Query(
+            [
+                'post_type'           => 'post',
+                'post_status'         => 'publish',
+                'posts_per_page'      => 1,
+                'ignore_sticky_posts' => true,
+                'no_found_rows'       => true,
+            ]
+        );
 
         if ($latest_query->have_posts()) {
-            $featured_post = $latest_query->posts[0];
+            $featured_post =
+                $latest_query->posts[0];
         }
 
         wp_reset_postdata();
     }
 
-    if ($featured_post && $additional_posts_count > 0) {
-        $secondary_query = new WP_Query([
-            'post_type' => 'post',
-            'post_status' => 'publish',
-            'posts_per_page' => $additional_posts_count,
-            'post__not_in' => [$featured_post->ID],
-            'ignore_sticky_posts' => true,
-        ]);
+    if (
+        $featured_post instanceof WP_Post
+        && $additional_posts_count > 0
+    ) {
+        $secondary_query = new WP_Query(
+            [
+                'post_type'           => 'post',
+                'post_status'         => 'publish',
+                'posts_per_page'      => $additional_posts_count,
+                'post__not_in'        => [
+                    $featured_post->ID,
+                ],
+                'ignore_sticky_posts' => true,
+                'no_found_rows'       => true,
+            ]
+        );
 
-        $secondary_posts = $secondary_query->posts;
+        $secondary_posts =
+            $secondary_query->posts;
 
         wp_reset_postdata();
     }
 } else {
-    $posts_query = new WP_Query([
-        'post_type' => 'post',
-        'post_status' => 'publish',
-        'posts_per_page' => $posts_per_page,
-        'ignore_sticky_posts' => true,
-    ]);
+    $posts_query = new WP_Query(
+        [
+            'post_type'           => 'post',
+            'post_status'         => 'publish',
+            'posts_per_page'      => $posts_per_page,
+            'ignore_sticky_posts' => true,
+            'no_found_rows'       => true,
+        ]
+    );
 
-    $secondary_posts = $posts_query->posts;
+    $secondary_posts =
+        $posts_query->posts;
 
     wp_reset_postdata();
 }
