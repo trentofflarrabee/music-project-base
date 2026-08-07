@@ -61,6 +61,15 @@ function mpb_get_asset_version($absolute_path) {
     return $version ?: '0.1.0';
 }
 
+/**
+ * Enqueue frontend styles and scripts.
+ *
+ * The Base stylesheet always loads from the parent theme. When a child theme
+ * is active, its stylesheet loads afterward so project-specific overrides do
+ * not replace the Base presentation layer.
+ *
+ * @return void
+ */
 function mpb_enqueue_assets() {
     $theme_style = function_exists('mpc_get_theme_style_settings')
         ? mpc_get_theme_style_settings()
@@ -79,12 +88,15 @@ function mpb_enqueue_assets() {
         );
     }
 
+    $parent_style_path =
+        get_template_directory() . '/style.css';
+
     wp_enqueue_style(
         'mpb-style',
-        get_stylesheet_uri(),
+        get_template_directory_uri() . '/style.css',
         [],
         mpb_get_asset_version(
-            get_stylesheet_directory() . '/style.css'
+            $parent_style_path
         )
     );
 
@@ -93,16 +105,38 @@ function mpb_enqueue_assets() {
         mpb_get_theme_style_inline_css()
     );
 
+    if (
+        get_stylesheet_directory()
+        !== get_template_directory()
+    ) {
+        $child_style_path =
+            get_stylesheet_directory() . '/style.css';
+
+        if (file_exists($child_style_path)) {
+            wp_enqueue_style(
+                'mpb-child-style',
+                get_stylesheet_uri(),
+                [
+                    'mpb-style',
+                ],
+                mpb_get_asset_version(
+                    $child_style_path
+                )
+            );
+        }
+    }
+
     wp_enqueue_script(
         'mpb-navigation',
-        get_template_directory_uri() . '/assets/js/navigation.js',
+        get_template_directory_uri()
+            . '/assets/js/navigation.js',
         [],
         mpb_get_asset_version(
-            get_template_directory() . '/assets/js/navigation.js'
+            get_template_directory()
+                . '/assets/js/navigation.js'
         ),
         true
     );
-
 }
 add_action('wp_enqueue_scripts', 'mpb_enqueue_assets');
 
