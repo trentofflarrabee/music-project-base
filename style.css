@@ -2949,6 +2949,10 @@ body.mpb-heading-align-all .home-services__intro {
     margin: 0 auto;
 }
 
+.home-newsletter .section-header p {
+    margin-inline: auto;
+}
+
 .newsletter-form {
     margin-top: 2rem;
 }
