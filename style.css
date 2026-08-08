@@ -2384,6 +2384,7 @@ body.mpb-heading-align-all .home-services__intro {
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
     flex-wrap: wrap;
 }
 
