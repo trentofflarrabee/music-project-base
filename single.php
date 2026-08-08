@@ -5,9 +5,67 @@
 
 get_header();
 
-$posts_page_id = (int) get_option('page_for_posts');
-$blog_url = $posts_page_id ? get_permalink($posts_page_id) : home_url('/blog/');
-$blog_label = $posts_page_id ? get_the_title($posts_page_id) : __('Blog', 'music-project-base');
+$posts_page_id = absint(
+    get_option(
+        'page_for_posts',
+        0
+    )
+);
+
+$front_page_id = absint(
+    get_option(
+        'page_on_front',
+        0
+    )
+);
+
+$posts_page_is_valid = (
+    get_option(
+        'show_on_front',
+        'posts'
+    ) === 'page'
+    && $posts_page_id > 0
+    && $posts_page_id !== $front_page_id
+    && get_post_type($posts_page_id) === 'page'
+    && get_post_status($posts_page_id) === 'publish'
+);
+
+$blog_url = '';
+$blog_label = '';
+
+if ($posts_page_is_valid) {
+    $posts_page_url =
+        get_permalink($posts_page_id);
+
+    if (
+        is_string($posts_page_url)
+        && $posts_page_url !== ''
+    ) {
+        $blog_url = $posts_page_url;
+
+        $posts_page_title =
+            get_the_title($posts_page_id);
+
+        $blog_label = (
+            is_string($posts_page_title)
+            && trim($posts_page_title) !== ''
+        )
+            ? trim($posts_page_title)
+            : __(
+                'Blog',
+                'music-project-base'
+            );
+    }
+}
+
+if ($blog_url === '') {
+    $blog_url = home_url('/');
+
+    $blog_label = __(
+        'Home',
+        'music-project-base'
+    );
+}
 ?>
 
 <main id="site-main" class="site-main single-main">
