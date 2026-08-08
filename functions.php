@@ -58,7 +58,7 @@ function mpb_get_asset_version($absolute_path) {
     $theme = wp_get_theme(get_template());
     $version = $theme->get('Version');
 
-    return $version ?: '0.1.0';
+    return $version ?: '1.0.0';
 }
 
 /**

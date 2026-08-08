@@ -4,7 +4,9 @@ All notable changes to Music Project Base will be documented in this file.
 
 This project follows the Keep a Changelog structure and intends to use Semantic Versioning for production releases.
 
-## \[Unreleased\]
+## [Unreleased]
+
+## [1.0.0] - 2026-08-08
 
 ### Added
 
@@ -16,18 +18,24 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 - Theme Style integration using frontend CSS variables and body classes.
 - Semantic typography roles for body text, headings, editorial headings, hero headings, navigation, buttons, accent text, and quotes.
 - Environmental texture presentation for supported site regions.
-- A representative screenshot.png at the theme root.
-- Translation support using the music-project-base text domain.
+- A representative `screenshot.png` at the theme root.
+- Translation support using the `music-project-base` text domain.
+- A skip link targeting the primary content region.
+- Defensive frontend fallbacks for installations where Music Project Core is temporarily inactive.
 
 ### Changed
 
 - Frontend presentation remains owned by Music Project Base while reusable content and site configuration remain owned by Music Project Core.
 - The theme uses built-in presentation defaults when Music Project Core is inactive.
-- The homepage uses a built-in default section order when the Core section registry is unavailable.
+- The homepage uses a curated built-in section allowlist and default section order when Core data is unavailable.
 - Standard pages, posts, archives, search results, header navigation, and mobile navigation remain available when Core is inactive.
 - Local stylesheet and script versions use file modification times when available for cache busting.
+- Parent-theme assets load correctly when Music Project Base is used with a child theme.
 - Theme Style settings are converted into curated CSS variables rather than arbitrary custom-CSS fields.
 - Homepage, header, footer, editorial, and responsive styling are consolidated in the theme presentation layer.
+- Blog / News “View All” links follow the WordPress Posts page when no custom destination is configured.
+- Single-post back links follow the assigned WordPress Posts page and fall back safely to the site homepage when no valid Posts page exists.
+- Non-paginated homepage queries avoid unnecessary row-count calculations.
 
 ### Accessibility
 
@@ -39,3 +47,4 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 - Added reduced-motion handling for transitions, smooth scrolling, and hero video.
 - Added screen-reader text for interactive controls.
 - Added native WordPress language attributes and translatable frontend strings.
+- Added responsive admin-bar handling and keyboard-visible skip-link behavior.
