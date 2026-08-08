@@ -25,8 +25,8 @@ jobs:
 
           git archive \
             --format=zip \
-            --prefix=music-project-core/ \
-            --output=music-project-core.zip \
+            --prefix=music-project-base/ \
+            --output=music-project-base.zip \
             HEAD
 
       - name: Verify release ZIP
@@ -34,20 +34,31 @@ jobs:
         run: |
           set -euo pipefail
 
-          unzip -t music-project-core.zip
+          unzip -t music-project-base.zip
 
           mapfile -t files < <(
-            unzip -Z1 music-project-core.zip
+            unzip -Z1 music-project-base.zip
           )
 
           printf '%s\n' "${files[@]}"
 
           required_files=(
-            "music-project-core/music-project-core.php"
-            "music-project-core/uninstall.php"
-            "music-project-core/README.md"
-            "music-project-core/CHANGELOG.md"
-            "music-project-core/LICENSE"
+            "music-project-base/style.css"
+            "music-project-base/functions.php"
+            "music-project-base/header.php"
+            "music-project-base/footer.php"
+            "music-project-base/front-page.php"
+            "music-project-base/home.php"
+            "music-project-base/index.php"
+            "music-project-base/page.php"
+            "music-project-base/single.php"
+            "music-project-base/archive.php"
+            "music-project-base/search.php"
+            "music-project-base/404.php"
+            "music-project-base/screenshot.png"
+            "music-project-base/README.md"
+            "music-project-base/CHANGELOG.md"
+            "music-project-base/LICENSE"
           )
 
           for path in "${required_files[@]}"; do
@@ -58,8 +69,9 @@ jobs:
           done
 
           required_prefixes=(
-            "music-project-core/assets/"
-            "music-project-core/includes/"
+            "music-project-base/assets/"
+            "music-project-base/inc/"
+            "music-project-base/template-parts/"
           )
 
           for prefix in "${required_prefixes[@]}"; do
@@ -70,8 +82,8 @@ jobs:
           done
 
           forbidden_files=(
-            "music-project-core/.gitattributes"
-            "music-project-core/.gitignore"
+            "music-project-base/.gitattributes"
+            "music-project-base/.gitignore"
           )
 
           for path in "${forbidden_files[@]}"; do
@@ -81,18 +93,18 @@ jobs:
             fi
           done
 
-          if printf '%s\n' "${files[@]}" | grep -Fq "music-project-core/.github/"; then
+          if printf '%s\n' "${files[@]}" | grep -Fq "music-project-base/.github/"; then
             echo "::error::.github directory found in release ZIP."
             exit 1
           fi
 
-          if printf '%s\n' "${files[@]}" | grep -Fq "music-project-core/music-project-core/"; then
-            echo "::error::Nested plugin directory found in release ZIP."
+          if printf '%s\n' "${files[@]}" | grep -Fq "music-project-base/music-project-base/"; then
+            echo "::error::Nested theme directory found in release ZIP."
             exit 1
           fi
 
-          if printf '%s\n' "${files[@]}" | grep -vE '^music-project-core(/|$)' | grep -q .; then
-            echo "::error::Release ZIP contains files outside the top-level music-project-core directory."
+          if printf '%s\n' "${files[@]}" | grep -vE '^music-project-base(/|$)' | grep -q .; then
+            echo "::error::Release ZIP contains files outside the top-level music-project-base directory."
             exit 1
           fi
 
@@ -101,7 +113,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          checksum="$(sha256sum music-project-core.zip)"
+          checksum="$(sha256sum music-project-base.zip)"
 
           echo "### Release ZIP" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
@@ -112,7 +124,7 @@ jobs:
       - name: Upload release ZIP
         uses: actions/upload-artifact@v7
         with:
-          path: music-project-core.zip
+          path: music-project-base.zip
           archive: false
           if-no-files-found: error
           retention-days: 14
