@@ -91,9 +91,63 @@ $view_all_text = trim(
 $view_all_url = trim(
     (string) mpc_get_homepage_setting(
         'blog_view_all_url',
-        '/blog'
+        ''
     )
 );
+
+/*
+ * An explicitly configured Homepage Blog URL remains authoritative.
+ * When it is blank, follow WordPress's canonical posts-index routing
+ * instead of assuming a literal /blog/ path.
+ */
+if ($view_all_url === '') {
+    $show_on_front = get_option(
+        'show_on_front',
+        'posts'
+    );
+
+    if ($show_on_front === 'page') {
+        $posts_page_id = absint(
+            get_option(
+                'page_for_posts',
+                0
+            )
+        );
+
+        $front_page_id = absint(
+            get_option(
+                'page_on_front',
+                0
+            )
+        );
+
+        $posts_page_is_valid = (
+            $posts_page_id > 0
+            && $posts_page_id !== $front_page_id
+            && get_post_type($posts_page_id) === 'page'
+            && get_post_status($posts_page_id) === 'publish'
+        );
+
+        if ($posts_page_is_valid) {
+            $posts_page_url =
+                get_permalink($posts_page_id);
+
+            if (
+                is_string($posts_page_url)
+                && $posts_page_url !== ''
+            ) {
+                $view_all_url =
+                    $posts_page_url;
+            }
+        }
+    } elseif ($show_on_front === 'posts') {
+        /*
+         * In WordPress's "latest posts" mode, the site front page is
+         * itself the canonical posts index.
+         */
+        $view_all_url = home_url('/');
+    }
+}
 
 if (!in_array($layout, ['grid', 'featured_first', 'compact'], true)) {
     $layout = 'grid';
