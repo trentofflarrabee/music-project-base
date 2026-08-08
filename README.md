@@ -556,7 +556,7 @@ Include:
 Version
 -------
 
-Current development version:
+Current version:
 
 ```text
 1.0.0
