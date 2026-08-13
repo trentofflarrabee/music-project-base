@@ -183,8 +183,10 @@ function mpb_get_theme_style_defaults() {
 'font_role_accent' => 'accent',
 'font_role_quote' => 'quote',
 
+// Editorial presentation.
+'blog_body_size' => 'standard',
 
-        'heading_text_transform' => 'none',
+'heading_text_transform' => 'none',        
         'heading_letter_spacing' => '-0.04em',
 
         'heading_alignment_scope' => 'none',
@@ -481,6 +483,19 @@ $font_quote = mpb_resolve_font_role(
     'quote'
 );
 
+$blog_body_size = sanitize_key(
+    $settings['blog_body_size'] ?? 'standard'
+);
+
+$blog_body_size_map = [
+    'compact' => 'clamp(1.0625rem, 1.03125rem + 0.2vw, 1.125rem)',
+    'standard' => 'clamp(1.125rem, 1.0625rem + 0.4vw, 1.25rem)',
+    'large' => 'clamp(1.125rem, 1rem + 0.8vw, 1.375rem)',
+];
+
+$blog_body_size_css = $blog_body_size_map[$blog_body_size]
+    ?? $blog_body_size_map['standard'];
+
     $heading_text_transform = sanitize_key($settings['heading_text_transform']);
     $heading_letter_spacing = esc_html($settings['heading_letter_spacing']);
 
@@ -648,7 +663,7 @@ $border_values = $border_strength_map[$border_strength]
             --mpb-font-button: {$font_button};
             --mpb-font-accent: {$font_accent};
             --mpb-font-quote: {$font_quote};
-
+            --mpb-font-blog-body-size: {$blog_body_size_css};
             --mpb-heading-text-transform: {$heading_text_transform};
             --mpb-heading-letter-spacing: {$heading_letter_spacing};
 

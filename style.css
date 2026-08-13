@@ -85,6 +85,9 @@ Domain Path: /languages
     --mpb-font-accent: var(--mpb-font-slot-accent);
     --mpb-font-quote: var(--mpb-font-slot-quote);
 
+    --mpb-font-blog-body-size:
+        clamp(1.125rem, 1.0625rem + 0.4vw, 1.25rem);
+
     /* Heading treatment */
     --mpb-heading-text-transform: none;
     --mpb-heading-letter-spacing: -0.04em;
@@ -2839,7 +2842,7 @@ body.mpb-heading-align-all .home-services__intro {
 
 .single-post__content {
     color: var(--mpb-color-text);
-    font-size: 1.1rem;
+    font-size: var(--mpb-font-blog-body-size);
     line-height: 1.7;
 }
 
