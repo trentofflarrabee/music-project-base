@@ -175,8 +175,10 @@ function mpb_get_theme_style_defaults() {
 'font_role_body' => 'body',
 'font_role_heading' => 'heading',
 'font_role_blog_heading' => 'heading',
+'font_role_blog_body' => 'body',
 'font_role_hero_heading' => 'heading',
 'font_role_nav' => 'accent',
+'font_role_brand' => 'accent',
 'font_role_button' => 'accent',
 'font_role_accent' => 'accent',
 'font_role_quote' => 'quote',
@@ -437,6 +439,12 @@ $font_blog_heading = mpb_resolve_font_role(
     'heading'
 );
 
+$font_blog_body = mpb_resolve_font_role(
+    $settings['font_role_blog_body'] ?? 'body',
+    $font_slot_references,
+    'body'
+);
+
 $font_hero_heading = mpb_resolve_font_role(
     $settings['font_role_hero_heading'] ?? 'heading',
     $font_slot_references,
@@ -445,6 +453,12 @@ $font_hero_heading = mpb_resolve_font_role(
 
 $font_nav = mpb_resolve_font_role(
     $settings['font_role_nav'] ?? 'accent',
+    $font_slot_references,
+    'accent'
+);
+
+$font_brand = mpb_resolve_font_role(
+    $settings['font_role_brand'] ?? 'accent',
     $font_slot_references,
     'accent'
 );
@@ -627,8 +641,10 @@ $border_values = $border_strength_map[$border_strength]
             --mpb-font-body: {$font_body};
             --mpb-font-heading: {$font_heading};
             --mpb-font-blog-heading: {$font_blog_heading};
+            --mpb-font-blog-body: {$font_blog_body};
             --mpb-font-hero-heading: {$font_hero_heading};
             --mpb-font-nav: {$font_nav};
+            --mpb-font-brand: {$font_brand};
             --mpb-font-button: {$font_button};
             --mpb-font-accent: {$font_accent};
             --mpb-font-quote: {$font_quote};

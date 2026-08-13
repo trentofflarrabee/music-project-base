@@ -77,8 +77,10 @@ Domain Path: /languages
     --mpb-font-body: var(--mpb-font-slot-body);
     --mpb-font-heading: var(--mpb-font-slot-display);
     --mpb-font-blog-heading: var(--mpb-font-slot-display);
+    --mpb-font-blog-body: var(--mpb-font-slot-body);
     --mpb-font-hero-heading: var(--mpb-font-slot-display);
     --mpb-font-nav: var(--mpb-font-slot-accent);
+    --mpb-font-brand: var(--mpb-font-slot-accent);
     --mpb-font-button: var(--mpb-font-slot-accent);
     --mpb-font-accent: var(--mpb-font-slot-accent);
     --mpb-font-quote: var(--mpb-font-slot-quote);
@@ -395,8 +397,17 @@ h6 {
     font-family: var(--mpb-font-hero-heading);
 }
 
-/* Blog and editorial headings */
+/* Blog and editorial typography */
 
+.home-blog,
+.blog-archive,
+.theme-archive,
+.single-entry {
+    font-family: var(--mpb-font-blog-body);
+}
+
+.home-blog .section-header h2,
+.home-blog-card h3,
 .blog-archive__header h1,
 .blog-archive__intro h1,
 .blog-archive__intro h2,
@@ -418,14 +429,19 @@ h6 {
     font-family: var(--mpb-font-blog-heading);
 }
 
-/* Navigation and site branding */
+/* Navigation */
 
-.site-branding__name,
-.site-footer__name,
 .site-nav,
 .site-footer__nav,
 .site-menu-toggle {
     font-family: var(--mpb-font-nav);
+}
+
+/* Textual site branding */
+
+.site-branding__name,
+.site-footer__name {
+    font-family: var(--mpb-font-brand);
 }
 
 /* Accent labels, metadata, and interface text */
