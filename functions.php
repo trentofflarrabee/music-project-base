@@ -203,7 +203,7 @@ function mpb_get_theme_style_defaults() {
 
     'texture_enabled'            => 0,
     'texture_image_id'           => 0,
-    'texture_opacity'            => '0.14',
+'texture_opacity'            => '0.72',
     'texture_size'               => '420px',
     'texture_repeat'             => 'repeat',
 
@@ -610,9 +610,9 @@ $border_values = $border_strength_map[$border_strength]
 
 
 
-    $texture_opacity = is_numeric($settings['texture_opacity'])
-        ? max(0, min(1, (float) $settings['texture_opacity']))
-        : 0.08;
+$texture_opacity = is_numeric($settings['texture_opacity'])
+    ? max(0, min(1, (float) $settings['texture_opacity']))
+    : 0.72;
 
     $texture_size = esc_html($settings['texture_size']);
     $texture_repeat = esc_html($settings['texture_repeat']);

@@ -93,11 +93,11 @@ Domain Path: /languages
     --mpb-heading-letter-spacing: -0.04em;
     --mpb-hero-heading-color-rgb: 255, 255, 255;
 
-    /* Texture */
-    --mpb-texture-image: none;
-    --mpb-texture-opacity: 0.14;
-    --mpb-texture-size: 420px;
-    --mpb-texture-repeat: repeat;
+/* Texture */
+--mpb-texture-image: none;
+--mpb-texture-opacity: 0.72;
+--mpb-texture-size: 420px;
+--mpb-texture-repeat: repeat;
 
     /* Layout widths and gutters */
     --mpb-width-site: 1200px;
