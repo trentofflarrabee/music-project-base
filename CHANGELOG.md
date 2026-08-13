@@ -6,6 +6,19 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-13
+
+### Added
+
+- Added frontend typography roles for Blog / Editorial Body and textual Site Branding.
+- Added responsive Compact, Standard, and Large body-size presentation for long-form single-post content.
+
+### Changed
+
+- Split Navigation typography from textual site-branding typography.
+- Applied the Blog / Editorial Body font family across editorial contexts while keeping the new body-size preset scoped to individual post content.
+- Recalibrated the defensive texture-opacity default to match Core's stronger Standard intensity.
+
 ## [1.0.0] - 2026-08-08
 
 ### Added
