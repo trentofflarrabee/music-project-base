@@ -6,6 +6,33 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-17
+
+### Added
+
+- Added Standard, Editorial Panel, and Minimal Overlay presentation styles for ordinary WordPress Pages.
+- Added responsive Editorial Panel presentation with desktop image overlap and mobile image/title stacking.
+- Added standalone Editorial Panel behavior for Pages without a Featured Image.
+- Added automatic Standard fallback when Minimal Overlay is selected without a Featured Image.
+- Added curated Compact, Standard, and Large responsive Page-title scales.
+- Added Theme Style panel-tone and strength presentation for Page titles.
+- Added automatic readable foreground selection for Accent-colored Page title treatments.
+
+### Changed
+
+- Page title treatments reuse existing Theme Style colors, typography, corners, borders, shadows, and environmental texture.
+- Editorial Panel sizing and overlap were refined for stronger image/title balance on desktop.
+- Minimal Overlay uses a restrained readability gradient while preserving more of the Featured Image.
+- Long Page titles use more forgiving responsive wrapping and line-height behavior.
+- Homepage Blog section headings now use the normal homepage/general heading role rather than Blog / Editorial heading typography.
+
+### Accessibility
+
+- Page Title Presentation preserves a single semantic Page `<h1>`.
+- Long Page titles wrap without requiring reduced font sizes or horizontal scrolling.
+- Presentation remains functional without JavaScript.
+- Special WordPress Pages retain their existing template-specific presentation behavior.
+
 ## [1.2.0] - 2026-08-17
 
 ### Added
