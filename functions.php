@@ -126,17 +126,26 @@ function mpb_enqueue_assets() {
         }
     }
 
-    wp_enqueue_script(
-        'mpb-navigation',
-        get_template_directory_uri()
-            . '/assets/js/navigation.js',
-        [],
-        mpb_get_asset_version(
-            get_template_directory()
-                . '/assets/js/navigation.js'
-        ),
-        true
-    );
+    /*
+     * Link Hub intentionally has no primary site navigation, so do not load
+     * navigation behavior on that lightweight microsite request.
+     */
+    if (
+        !function_exists('mpb_is_link_hub_request')
+        || !mpb_is_link_hub_request()
+    ) {
+        wp_enqueue_script(
+            'mpb-navigation',
+            get_template_directory_uri()
+                . '/assets/js/navigation.js',
+            [],
+            mpb_get_asset_version(
+                get_template_directory()
+                    . '/assets/js/navigation.js'
+            ),
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'mpb_enqueue_assets');
 
