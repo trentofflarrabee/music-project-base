@@ -195,7 +195,13 @@ function mpb_get_theme_style_defaults() {
 // Editorial presentation.
 'blog_body_size' => 'standard',
 
-'heading_text_transform' => 'none',        
+// Page title presentation.
+'page_title_style'          => 'standard',
+'page_title_panel_tone'     => 'surface',
+'page_title_panel_strength' => 'strong',
+'page_title_size'           => 'standard',
+
+'heading_text_transform' => 'none',
         'heading_letter_spacing' => '-0.04em',
 
         'heading_alignment_scope' => 'none',
@@ -295,6 +301,61 @@ function mpb_hex_to_rgb_channels($hex) {
         hexdec(substr($hex, 4, 2));
 }
 
+/**
+ * Choose a readable light or dark foreground for a background color.
+ *
+ * Used when Theme Style supplies a standalone accent color without a
+ * separately configured accent-text color.
+ *
+ * @param string $hex Background color.
+ * @return string
+ */
+function mpb_get_contrast_text_color($hex)
+{
+    $hex = sanitize_hex_color($hex);
+
+    if (!$hex) {
+        return '#ffffff';
+    }
+
+    $hex = ltrim($hex, '#');
+
+    if (strlen($hex) === 3) {
+        $hex =
+            $hex[0] . $hex[0]
+            . $hex[1] . $hex[1]
+            . $hex[2] . $hex[2];
+    }
+
+    if (strlen($hex) !== 6) {
+        return '#ffffff';
+    }
+
+    $channels = [
+        hexdec(substr($hex, 0, 2)) / 255,
+        hexdec(substr($hex, 2, 2)) / 255,
+        hexdec(substr($hex, 4, 2)) / 255,
+    ];
+
+    foreach ($channels as $index => $channel) {
+        $channels[$index] = $channel <= 0.04045
+            ? $channel / 12.92
+            : pow(
+                ($channel + 0.055) / 1.055,
+                2.4
+            );
+    }
+
+    $luminance =
+        (0.2126 * $channels[0])
+        + (0.7152 * $channels[1])
+        + (0.0722 * $channels[2]);
+
+    return $luminance > 0.179
+        ? '#111111'
+        : '#ffffff';
+}
+
 function mpb_get_theme_style_inline_css() {
     $settings = mpb_get_theme_style_settings();
 
@@ -327,6 +388,10 @@ $color_muted = sanitize_hex_color(
 $color_accent = sanitize_hex_color(
     $settings['color_accent']
 ) ?: '#ffffff';
+
+$color_accent_text = mpb_get_contrast_text_color(
+    $color_accent
+);
 
 $color_button_background = sanitize_hex_color(
     $settings['color_button_background']
@@ -634,7 +699,7 @@ $texture_opacity = is_numeric($settings['texture_opacity'])
             --mpb-color-text-rgb: {$color_text_rgb};
             --mpb-color-muted: {$color_muted};
             --mpb-color-accent: {$color_accent};
-
+            --mpb-color-accent-text: {$color_accent_text};
             --mpb-color-button-bg: {$color_button_background};
             --mpb-color-button-text: {$color_button_text};
             --mpb-color-button-text-rgb: {$color_button_text_rgb};

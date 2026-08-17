@@ -3974,6 +3974,375 @@ body.mpb-texture-editorial .single-entry {
 }
 
 /* =========================================================
+   PAGE TITLE PRESENTATION
+   ========================================================= */
+
+/*
+ * Standard remains the existing Page layout.
+ *
+ * Editorial Panel and Minimal Overlay use a wider hero while
+ * retaining the normal reading width for Page content.
+ */
+.theme-page--title-editorial-panel,
+.theme-page--title-minimal-overlay {
+    width: min(100%, var(--mpb-width-site));
+}
+
+/* ---------------------------------------------------------
+   Shared Page-title variables
+   --------------------------------------------------------- */
+
+.theme-page {
+    --mpb-page-title-panel-color:
+        var(--mpb-color-surface);
+
+    --mpb-page-title-panel-text:
+        var(--mpb-color-text);
+
+    --mpb-page-title-panel-opacity: 88%;
+
+    --mpb-page-title-standard-size:
+        clamp(3.5rem, 10vw, 8rem);
+
+    --mpb-page-title-display-size:
+        clamp(3rem, 6vw, 6rem);
+}
+
+/* Tone */
+
+.theme-page--panel-tone-background {
+    --mpb-page-title-panel-color:
+        var(--mpb-color-bg);
+
+    --mpb-page-title-panel-text:
+        var(--mpb-color-text);
+}
+
+.theme-page--panel-tone-surface {
+    --mpb-page-title-panel-color:
+        var(--mpb-color-surface);
+
+    --mpb-page-title-panel-text:
+        var(--mpb-color-text);
+}
+
+.theme-page--panel-tone-accent {
+    --mpb-page-title-panel-color:
+        var(--mpb-color-accent);
+
+    --mpb-page-title-panel-text:
+        var(--mpb-color-accent-text);
+}
+
+.theme-page--panel-tone-button {
+    --mpb-page-title-panel-color:
+        var(--mpb-color-button-bg);
+
+    --mpb-page-title-panel-text:
+        var(--mpb-color-button-text);
+}
+
+/* Strength */
+
+.theme-page--panel-strength-soft {
+    --mpb-page-title-panel-opacity: 74%;
+}
+
+.theme-page--panel-strength-strong {
+    --mpb-page-title-panel-opacity: 88%;
+}
+
+.theme-page--panel-strength-solid {
+    --mpb-page-title-panel-opacity: 100%;
+}
+
+/* Title sizes */
+
+.theme-page--title-size-compact {
+    --mpb-page-title-standard-size:
+        clamp(2.75rem, 7vw, 6rem);
+
+    --mpb-page-title-display-size:
+        clamp(2.25rem, 4.5vw, 4rem);
+}
+
+.theme-page--title-size-standard {
+    --mpb-page-title-standard-size:
+        clamp(3.5rem, 10vw, 8rem);
+
+    --mpb-page-title-display-size:
+        clamp(3rem, 6vw, 6rem);
+}
+
+.theme-page--title-size-large {
+    --mpb-page-title-standard-size:
+        clamp(4rem, 12vw, 10rem);
+
+    --mpb-page-title-display-size:
+        clamp(3.5rem, 7.5vw, 7.5rem);
+}
+
+/* Standard Page title sizing */
+
+.theme-page__header h1 {
+    font-size:
+        var(--mpb-page-title-standard-size);
+}
+
+/* ---------------------------------------------------------
+   Shared hero
+   --------------------------------------------------------- */
+
+.theme-page__hero {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    margin-bottom:
+        clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.theme-page__hero .theme-page__featured-image {
+    width: 100%;
+    margin: 0;
+}
+
+.theme-page__hero .theme-page__image {
+    width: 100%;
+}
+
+/* ---------------------------------------------------------
+   Editorial Panel
+   --------------------------------------------------------- */
+
+.theme-page__title-panel {
+    position: relative;
+    overflow: hidden;
+    padding:
+        clamp(1.75rem, 4vw, 3.5rem);
+
+    border:
+        1px solid
+        var(--mpb-border-subtle);
+
+    border-radius:
+        var(--mpb-radius-card);
+
+    /*
+     * First declaration is the fallback for browsers without
+     * color-mix().
+     */
+    background:
+        var(--mpb-page-title-panel-color);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--mpb-page-title-panel-color)
+                var(--mpb-page-title-panel-opacity),
+            transparent
+        );
+
+    color:
+        var(--mpb-page-title-panel-text);
+
+    box-shadow:
+        var(--mpb-shadow-card);
+
+    backdrop-filter:
+        blur(10px);
+}
+
+.theme-page__title-panel h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+
+    color:
+        var(--mpb-page-title-panel-text);
+
+    font-size:
+        var(--mpb-page-title-display-size);
+
+    line-height: 0.92;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+.theme-page__hero--editorial
+.theme-page__title-panel {
+    position: absolute;
+    z-index: 2;
+
+    left:
+        clamp(1.5rem, 4vw, 3.25rem);
+
+    bottom:
+        clamp(1.5rem, 4vw, 3.25rem);
+
+    width:
+        min(48%, 520px);
+}
+
+/*
+ * Reuse the configured Editorial texture inside the panel.
+ */
+body.mpb-texture-editorial
+.theme-page__title-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    background-image:
+        var(--mpb-texture-image);
+
+    background-position:
+        center;
+
+    background-size:
+        var(--mpb-texture-size);
+
+    background-repeat:
+        var(--mpb-texture-repeat);
+
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+/* Editorial Panel without a featured image */
+
+.theme-page__title-panel--standalone {
+    width:
+        min(
+            100%,
+            var(--mpb-width-reading)
+        );
+
+    margin-inline: auto;
+
+    margin-bottom:
+        clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* ---------------------------------------------------------
+   Minimal Overlay
+   --------------------------------------------------------- */
+
+.theme-page__hero--minimal-overlay {
+    overflow: hidden;
+    border-radius:
+        var(--mpb-radius-media);
+}
+
+.theme-page__hero--minimal-overlay
+.theme-page__image {
+    border-radius: inherit;
+}
+
+.theme-page__title-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding:
+        clamp(1.5rem, 5vw, 4rem);
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            to top,
+            color-mix(
+                in srgb,
+                var(--mpb-page-title-panel-color)
+                    var(--mpb-page-title-panel-opacity),
+                transparent
+            )
+                0%,
+            color-mix(
+                in srgb,
+                var(--mpb-page-title-panel-color)
+                    28%,
+                transparent
+            )
+                42%,
+            transparent
+                72%
+        );
+}
+
+.theme-page__title-overlay h1 {
+    max-width: 820px;
+    margin: 0;
+
+    color:
+        var(--mpb-page-title-panel-text);
+
+    font-size:
+        var(--mpb-page-title-display-size);
+
+    line-height: 0.92;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+/* ---------------------------------------------------------
+   Mobile Editorial Panel
+   --------------------------------------------------------- */
+
+@media (max-width: 720px) {
+
+    /*
+     * On phones the Editorial Panel intentionally stops
+     * overlapping and becomes a stacked image/title unit.
+     */
+    .theme-page__hero--editorial
+    .theme-page__title-panel {
+        position: relative;
+        left: auto;
+        bottom: auto;
+
+        width: 100%;
+
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        box-shadow: none;
+    }
+
+    .theme-page__hero--editorial
+    .theme-page__image {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .theme-page__hero--editorial {
+        overflow: hidden;
+
+        border-radius:
+            var(--mpb-radius-media);
+    }
+
+    .theme-page__hero--editorial
+    .theme-page__featured-image {
+        border-radius: 0;
+    }
+
+    .theme-page__hero--editorial
+    .theme-page__title-panel h1 {
+        line-height: 0.92;
+    }
+
+    .theme-page__title-overlay {
+        padding:
+            clamp(1.25rem, 6vw, 2rem);
+    }
+}
+
+/* =========================================================
    SCROLL TO TOP BUTTON
    ========================================================= */
 
