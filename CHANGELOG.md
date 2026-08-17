@@ -6,6 +6,37 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-08-17
+
+### Added
+
+- Added specialized frontend presentation for Music Project Core's Link Hub / Link in Bio feature.
+- Added assigned-Page-ID-based Link Hub template routing.
+- Added a distraction-free Link Hub document shell while preserving `wp_head()`, `wp_body_open()`, `wp_footer()`, language attributes, and the WordPress admin bar.
+- Added Link Hub identity presentation with Custom Logo, custom profile image, display name, and tagline support.
+- Added curated theme-owned SVG icons for Link Hub destinations.
+- Added featured and standard Link Hub link-card presentation.
+- Added section-heading presentation and public empty-state handling.
+- Added reuse of existing Music Project Social Links.
+- Added optional minimal site-domain footer branding.
+- Added Spotlight, Stack, and Poster Link Hub layouts.
+- Added mobile-first Link Hub styling, safe-area handling, landscape behavior, visible focus states, and reduced-motion support.
+
+### Changed
+
+- Link Hub inherits the existing Theme Style colors, typography, corner styles, borders, shadows, and environmental texture rather than introducing a separate styling system.
+- Navigation JavaScript is not loaded on the distraction-free Link Hub template.
+- The assigned Link Hub Page falls back to ordinary WordPress Page presentation when Music Project Core is inactive, Link Hub is disabled, or the assignment is invalid.
+- Link Hub routing remains valid when the assigned Page slug changes.
+
+### Accessibility
+
+- Added semantic Link Hub main content and heading structure.
+- Added visible keyboard focus treatment for Link Hub cards and Social Links.
+- Added decorative-icon hiding and accessible Social Link labels.
+- Added touch-friendly interactive targets and responsive zoom-safe layouts.
+- Added `prefers-reduced-motion` handling for Link Hub transitions.
+
 ## [1.1.0] - 2026-08-13
 
 ### Added

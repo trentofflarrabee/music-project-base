@@ -1,20 +1,17 @@
-Music Project Base
-==================
+# Music Project Base
 
 Music Project Base is a reusable WordPress theme for bands, artists, and music projects.
 
-It is designed to pair with the [Music Project Core](https://github.com/trentofflarrabee/music-project-core) plugin.
+It is designed to pair with the **Music Project Core** plugin.
 
-Requirements
-------------
+## Requirements
 
 - WordPress 6.8 or newer
 - PHP 7.4 or newer
 - Administrator access for theme setup
-- Music Project Core for the complete homepage and configuration experience
+- Music Project Core for the complete homepage, Link Hub, and configuration experience
 
-Architecture
-------------
+## Architecture
 
 Music Project Base owns frontend presentation.
 
@@ -24,10 +21,15 @@ This includes:
 - Homepage section templates
 - Header and navigation markup
 - Footer markup
+- Link Hub templates
+- Link Hub layouts
+- Link Hub icon markup
 - Blog and editorial layouts
 - Responsive behavior
 - Frontend JavaScript
 - Frontend CSS
+- Accessibility presentation
+- Presentation defaults
 
 The companion Music Project Core plugin owns reusable content and site configuration.
 
@@ -37,17 +39,24 @@ This includes:
 - Homepage section visibility and order
 - Theme Style settings
 - Footer settings
-- Social links
+- Social Links
 - Integrations
 - Site Status
 - Quotes / Testimonials
+- Link Hub configuration
+- Link Hub routing state
+- Link Hub normalized data
+- Link Hub schema and sanitization
 
 Keeping content and presentation separate allows important configuration and editorial content to remain available when the active theme changes.
 
-Features
---------
+Base should not write directly to Core option arrays.
 
-### Dynamic Homepage
+When Core may be inactive, Base should access Core functionality through guarded public APIs.
+
+# Features
+
+## Dynamic Homepage
 
 The front page renders a configurable sequence of homepage sections:
 
@@ -63,7 +72,159 @@ Music Project Core controls section visibility and order.
 
 When Core is inactive, the theme uses its built-in default section order and avoids calling unavailable plugin functions.
 
-### Responsive Header
+## Link Hub / Link in Bio
+
+Music Project Base provides the specialized frontend presentation layer for Music Project Core's first-party Link Hub.
+
+When Core has Link Hub enabled and a valid WordPress Page assigned, Base renders that Page as a distraction-free artist microsite.
+
+### Link Hub presentation includes
+
+- Minimal dedicated document shell
+- Profile image
+- Custom Logo fallback
+- Display name
+- WordPress Site Title fallback
+- Optional tagline
+- Featured destination
+- Standard destination cards
+- Section headings
+- Curated theme-owned SVG icons
+- External-link indicators
+- Existing Music Project Social Links
+- Optional minimal domain/footer branding
+- Spotlight layout
+- Stack layout
+- Poster layout
+
+### Link Hub routing
+
+Base recognizes the Link Hub using the assigned WordPress Page ID returned by Music Project Core.
+
+It does not depend on:
+
+```text
+/links/
+```
+
+or any other hard-coded Page slug.
+
+Changing the assigned Page permalink or slug does not break specialized Link Hub presentation.
+
+Base special-renders the Link Hub only when:
+
+- Music Project Core is available
+- Link Hub is enabled
+- Core reports a valid assigned Page
+- The current request is for that assigned Page
+
+If any of these conditions fail, WordPress uses normal Page rendering.
+
+### Core-inactive behavior
+
+If Music Project Core becomes inactive:
+
+- No fatal error should occur
+- The assigned WordPress Page falls back to ordinary Page presentation
+- Base does not attempt to read undefined Core functions
+- Base does not duplicate or cache authoritative Link Hub configuration
+
+Reactivating Core restores specialized Link Hub rendering when its configuration remains valid.
+
+### Link Hub layouts
+
+#### Spotlight
+
+The default Link Hub layout.
+
+Characteristics include:
+
+- Centered identity
+- Larger profile treatment
+- Strong Featured-link hierarchy
+- Designed card depth
+- Centered Social Links
+- Balanced mobile-first spacing
+
+#### Stack
+
+A tighter, more restrained Link Hub layout.
+
+Characteristics include:
+
+- Left-aligned identity
+- Smaller profile treatment
+- Narrower content column
+- Compact link cards
+- Reduced card depth
+- Left-aligned Social Links and footer branding
+
+#### Poster
+
+A more expressive editorial layout.
+
+Characteristics include:
+
+- Large artist typography
+- Wider composition
+- Stronger Featured-link treatment
+- Flatter standard cards
+- Section separators
+- Tour-poster/editorial character
+
+All layouts consume the same Core data.
+
+Changing layout does not mutate or duplicate Link Hub content.
+
+### Theme Style inheritance
+
+Link Hub reuses the existing Music Project Theme Style system.
+
+It inherits shared values for:
+
+- Background
+- Surface
+- Text
+- Muted text
+- Accent
+- Button background
+- Button text
+- Typography roles
+- Corner styles
+- Border strength
+- Card shadows
+- Environmental texture where applicable
+
+Link Hub does not provide a second complete theme-customization system.
+
+### Link Hub accessibility
+
+Link Hub presentation includes:
+
+- Semantic `<main>`
+- One logical primary heading
+- Ordered section headings
+- Keyboard-accessible links
+- Visible focus treatment
+- Decorative icons hidden from assistive technology
+- Accessible Social Link labels
+- Responsive touch targets
+- Reduced-motion support
+- No hover-required interaction
+- No essential animation
+- No autoplaying media
+
+### Link Hub performance
+
+The specialized Link Hub presentation is intentionally lightweight.
+
+It does not require frontend JavaScript for primary Link Hub functionality.
+
+The normal responsive-navigation script is not loaded on the distraction-free Link Hub template.
+
+Link Hub itself does not require a third-party frontend JavaScript dependency.
+
+## Responsive Header
 
 The theme includes:
 
@@ -74,26 +235,35 @@ The theme includes:
 - Keyboard-accessible menu controls
 - No-JavaScript navigation fallback
 - WordPress admin-bar offsets
-- Standard, Sticky, Transparent, and Transparent on Scroll behaviors
+- Standard header behavior
+- Sticky header behavior
+- Transparent header behavior
+- Transparent-on-scroll behavior
 
 Transparent header modes are intended primarily for the front page.
 
-### Footer
+The specialized Link Hub intentionally omits the normal large site header and primary navigation.
 
-The footer supports:
+## Footer
+
+The normal site footer supports:
 
 - Custom logo or site-name branding
 - Footer tagline
 - Footer navigation
-- Social links
+- Social Links
 - Copyright text
-- Simple, Stacked, and Split layouts
+- Simple layout
+- Stacked layout
+- Split layout
 
 Footer content is configured through Music Project Core.
 
 When Core is inactive, the theme uses safe presentation defaults.
 
-### Blog and Editorial Templates
+The specialized Link Hub does not use the full site footer. It may instead display optional minimal footer branding controlled by Core.
+
+## Blog and Editorial Templates
 
 The theme includes templates for:
 
@@ -117,7 +287,7 @@ Editorial styling includes:
 - WordPress block content support
 - Scroll-to-top behavior on internal views
 
-### Theme Style Integration
+## Theme Style Integration
 
 Music Project Base converts Music Project Core Theme Style settings into frontend CSS variables and body classes.
 
@@ -143,7 +313,7 @@ Supported presentation controls include:
 
 The theme contains built-in style defaults so normal templates remain usable when Core is inactive.
 
-### Typography Roles
+## Typography Roles
 
 Configured font families can be assigned to semantic roles such as:
 
@@ -158,7 +328,9 @@ Configured font families can be assigned to semantic roles such as:
 
 This keeps typography consistent across components without requiring a separate font control for every element.
 
-### Environmental Texture
+Link Hub consumes these same semantic roles.
+
+## Environmental Texture
 
 A configured texture may be applied to selected visual zones:
 
@@ -167,10 +339,11 @@ A configured texture may be applied to selected visual zones:
 - Footer
 - Homepage sections
 - Pages and posts
+- Compatible editorial surfaces such as Link Hub
 
 Texture rendering uses shared CSS variables for image, opacity, size, and repetition.
 
-### Accessibility
+## Accessibility
 
 The theme includes support for:
 
@@ -183,9 +356,11 @@ The theme includes support for:
 - No-JavaScript navigation behavior
 - Native WordPress language attributes
 - Translatable frontend strings
+- Accessible Link Hub link cards
+- Accessible Link Hub Social Links
+- Mobile-friendly touch targets
 
-Installation
-------------
+# Installation
 
 1. Download or clone this repository.
 2. Place the theme directory at:
@@ -204,27 +379,26 @@ Installation
 5. Install and activate the companion Music Project Core plugin.
 6. Configure the site through the **Music Project** administration menu.
 
-Suggested Setup Order
----------------------
+# Suggested Setup Order
 
 1. Set the site title under WordPress Settings.
-2. Add a custom logo.
+2. Add a Custom Logo.
 3. Create and assign the Primary Menu.
 4. Create and assign the Footer Menu.
 5. Configure homepage sections through Music Project Core.
 6. Configure Theme Style.
 7. Configure Social Links.
 8. Configure the Footer.
-9. Review the homepage, blog, pages, search results, and mobile navigation.
+9. Configure Link in Bio if required.
+10. Review the homepage, blog, Pages, Link Hub, search results, and mobile navigation.
 
-Menu Locations
---------------
+# Menu Locations
 
 The theme registers two WordPress navigation locations.
 
-### Primary Menu
+## Primary Menu
 
-Used in the site header and responsive mobile navigation.
+Used in the normal site header and responsive mobile navigation.
 
 Assign it under:
 
@@ -232,9 +406,11 @@ Assign it under:
 Appearance → Menus → Manage Locations → Primary Menu
 ```
 
-### Footer Menu
+The specialized Link Hub does not render this navigation.
 
-Used in the site footer when footer-menu display is enabled.
+## Footer Menu
+
+Used in the normal site footer when footer-menu display is enabled.
 
 Assign it under:
 
@@ -242,29 +418,31 @@ Assign it under:
 Appearance → Menus → Manage Locations → Footer Menu
 ```
 
-Both menu locations use a single navigation level.
+The specialized Link Hub does not render the full Footer Menu.
 
-Custom Logo
------------
+Both normal menu locations use a single navigation level.
+
+# Custom Logo
 
 The theme supports the native WordPress Custom Logo feature.
 
-Configure it under the site branding controls available in the current WordPress administration interface.
+Configure it through the site branding controls available in the current WordPress administration interface.
 
-Music Project Core Theme Style settings determine whether the header displays:
+Music Project Core Theme Style settings determine whether the normal header displays:
 
 - Logo and site name
 - Logo only
 - Site name only
 - Neither
 
-Homepage Setup
---------------
+Link Hub's `Auto` profile-image mode also uses the site's Custom Logo when one is available.
+
+# Homepage Setup
 
 For the intended homepage experience:
 
-1. Create a WordPress page for the homepage.
-2. Create a separate page for blog posts.
+1. Create a WordPress Page for the homepage.
+2. Create a separate Page for blog posts.
 3. Open:
 
    ```text
@@ -272,31 +450,52 @@ For the intended homepage experience:
    ```
 
 4. Select **A static page**.
-5. Assign the homepage and posts page.
+5. Assign the homepage and Posts page.
 6. Configure homepage content through Music Project Core.
 
 The theme's `front-page.php` renders the homepage section registry rather than ordinary page-editor content.
 
-Core Dependency Behavior
-------------------------
+# Link Hub Setup
+
+For the specialized Link Hub experience:
+
+1. Activate Music Project Core.
+2. Open:
+
+   ```text
+   Music Project → Link in Bio
+   ```
+
+3. Configure or assign a Link Hub Page.
+4. Enable Link Hub.
+5. Configure identity and presentation.
+6. Add Links and Section headings.
+7. Select Spotlight, Stack, or Poster.
+8. Visit the assigned Page.
+
+The Link Hub Page must not be the WordPress static Homepage or Posts page.
+
+The Page's slug is not part of the routing contract.
+
+# Core Dependency Behavior
 
 Music Project Base is defensive when Music Project Core is unavailable.
 
 With Core inactive:
 
-- Standard pages and posts continue to render.
-- Archives and search views continue to render.
-- Header navigation continues to work.
-- Mobile navigation continues to work.
-- Built-in Theme Style defaults are used.
-- The built-in homepage section order is used.
-- Core-managed content and settings are unavailable until the plugin is reactivated.
-- Saved Core data is not deleted by changing or deactivating the theme.
+- Standard Pages and posts continue to render
+- Archives and search views continue to render
+- Header navigation continues to work
+- Mobile navigation continues to work
+- Built-in Theme Style defaults are used
+- The built-in homepage section order is used
+- The assigned Link Hub Page uses ordinary Page presentation
+- Core-managed content and settings are unavailable until the plugin is reactivated
+- Saved Core data is not deleted by changing or deactivating the theme
 
 For the complete product experience, keep Music Project Core active.
 
-Theme Supports
---------------
+# Theme Supports
 
 The theme registers support for:
 
@@ -311,40 +510,47 @@ The theme registers support for:
 - HTML5 style output
 - HTML5 script output
 
-Customization Boundaries
-------------------------
+# Customization Boundaries
 
-### Use Music Project Core for
+## Use Music Project Core for
 
 - Homepage content
 - Homepage section order
 - Section visibility
 - Quotes / Testimonials
-- Social links
+- Social Links
 - Integrations
 - Theme Style
 - Footer configuration
 - Site Status
+- Link Hub configuration
+- Link Hub Page assignment
+- Link Hub links and sections
+- Link Hub identity
+- Link Hub layout selection
 
-### Use WordPress for
+## Use WordPress for
 
 - Site title
-- Tagline
-- Custom logo
+- Site tagline
+- Custom Logo
 - Posts
 - Pages
 - Featured images
 - Navigation menus
 - Reading settings
+- Media Library assets
 
-### Use Music Project Base for
+## Use Music Project Base for
 
 - Template markup
+- Link Hub markup
 - Responsive layouts
 - Component styling
 - Frontend JavaScript
 - Accessibility behavior
 - Theme presentation defaults
+- Curated icon markup
 
 Avoid storing reusable editorial content directly in theme files.
 
@@ -352,8 +558,7 @@ Avoid adding site-specific settings to the theme when they belong in Music Proje
 
 For project-specific PHP or template overrides, use a child theme rather than editing a released copy of Music Project Base directly.
 
-Template Structure
-------------------
+# Template Structure
 
 Important theme files include:
 
@@ -366,6 +571,7 @@ front-page.php
 home.php
 single.php
 page.php
+link-hub.php
 archive.php
 search.php
 404.php
@@ -376,6 +582,12 @@ Reusable theme helpers are stored in:
 
 ```text
 inc/
+```
+
+Link Hub routing and presentation helpers are stored in:
+
+```text
+inc/link-hub.php
 ```
 
 Reusable frontend components are stored in:
@@ -396,22 +608,47 @@ Frontend scripts are stored in:
 assets/js/
 ```
 
-Asset Loading
--------------
+# Link Hub Template Behavior
+
+`link-hub.php` is a theme-owned specialized template selected through guarded Link Hub routing.
+
+It retains normal WordPress document fundamentals, including:
+
+```text
+language_attributes()
+wp_head()
+wp_body_open()
+body_class()
+wp_footer()
+```
+
+It intentionally does not call the normal full site:
+
+```text
+get_header()
+get_footer()
+```
+
+because Link Hub is designed as a distraction-free microsite.
+
+If the guarded Link Hub conditions are not satisfied, normal Page rendering remains authoritative.
+
+# Asset Loading
 
 The theme loads:
 
 - The main `style.css` stylesheet
 - Theme Style inline CSS variables
-- The responsive-navigation script
+- The responsive-navigation script on normal navigation-bearing templates
 - An optional configured Google Fonts stylesheet
+
+The navigation script is intentionally skipped on the specialized Link Hub request because Link Hub does not render the normal site navigation.
 
 Local asset versions use file modification times when available for automatic cache busting.
 
 The theme version is used as a fallback asset version.
 
-Translation
------------
+# Translation
 
 The theme uses the text domain:
 
@@ -425,8 +662,7 @@ Local translation files may be placed in:
 languages/
 ```
 
-Screenshot
-----------
+# Screenshot
 
 The theme screenshot is stored at the root of the theme:
 
@@ -440,10 +676,9 @@ Project target dimensions:
 1200 × 900 pixels
 ```
 
-The screenshot should show a representative homepage view and should not include browser chrome, administration controls, private information, or third-party trademarks that are not part of the site.
+The screenshot should show a representative homepage view and should not include browser chrome, administration controls, private information, or unrelated third-party trademarks.
 
-Packaging
----------
+# Packaging
 
 Create a release ZIP from a clean, committed checkout of the intended release branch:
 
@@ -479,6 +714,7 @@ music-project-base/
 ├── header.php
 ├── home.php
 ├── index.php
+├── link-hub.php
 ├── page.php
 ├── screenshot.png
 ├── search.php
@@ -486,26 +722,9 @@ music-project-base/
 └── style.css
 ```
 
-The repository's `.gitattributes` rules exclude `.gitattributes`, `.gitignore`, and `.github` from archives created with `git archive`.
-
-Do not include development-only or local files such as:
-
-```text
-.git/
-.DS_Store
-Thumbs.db
-node_modules/
-vendor/
-IDE project files
-local database exports
-environment files
-temporary or test ZIP files
-```
-
 Install and test the generated ZIP on a clean WordPress site before publishing it.
 
-Development
------------
+# Development
 
 The theme uses WordPress-native APIs and conventions, including:
 
@@ -513,19 +732,91 @@ The theme uses WordPress-native APIs and conventions, including:
 - Navigation menu locations
 - Template hierarchy
 - Template parts
+- Template filters
 - Translation functions
 - Body classes
-- Custom logo functions
+- Custom Logo functions
 - Asset enqueue functions
 - Inline CSS variables
 - Featured-image functions
+- Responsive image APIs
+- `wp_head()`
+- `wp_body_open()`
+- `wp_footer()`
 
 The theme does not provide a page builder or arbitrary custom-CSS settings layer.
 
 Presentation controls are intentionally curated through Music Project Core.
 
-Companion Plugin
-----------------
+# Link Hub Development Boundary
+
+Music Project Base should consume Link Hub data only through Core's documented public API.
+
+Relevant Core functions include:
+
+```php
+mpc_get_link_hub_settings()
+mpc_get_link_hub_setting()
+mpc_get_link_hub_items()
+mpc_get_link_hub_url()
+mpc_is_link_hub_enabled()
+mpc_get_link_hub_page_id()
+```
+
+Calls must be guarded with `function_exists()` where Core may be unavailable.
+
+Base must not write directly to:
+
+```text
+mpc_link_hub_settings
+```
+
+Base owns actual icon SVG markup.
+
+Core owns the curated icon keys.
+
+Base should treat Core-provided Link Hub data as rendering-neutral content and continue escaping values at output time.
+
+# Responsive Link Hub QA
+
+Primary Link Hub QA widths include:
+
+```text
+320px
+375px
+390px
+430px
+768px
+desktop
+```
+
+Frontend checks should include:
+
+- No horizontal overflow
+- Long artist names
+- Long link labels
+- Long subtitles
+- Featured cards
+- Section headings
+- Social-link wrapping
+- Safe-area spacing
+- Logged-in WordPress admin bar
+- Landscape phone orientation
+- Browser zoom
+- Keyboard-only navigation
+- Reduced-motion preference
+
+# Privacy
+
+Music Project Base does not add product analytics or telemetry.
+
+The Link Hub template does not require third-party JavaScript.
+
+External destinations and Social Links do not load third-party content merely because the Link Hub page is viewed.
+
+Normal visitor navigation to an external URL may naturally contact that external service.
+
+# Companion Plugin
 
 Music Project Core:
 
@@ -533,40 +824,32 @@ Music Project Core:
 https://github.com/trentofflarrabee/music-project-core
 ```
 
-Support and Issues
-------------------
+# Support and Issues
 
-Report reproducible theme problems through the repository issue tracker:
+Report reproducible theme problems through:
 
 ```text
 https://github.com/trentofflarrabee/music-project-base/issues
 ```
 
-Include:
+Include WordPress version, PHP version, Music Project Core version, reproduction steps, affected template/Page, relevant PHP/browser errors, browser/viewport details for responsive issues, and Link Hub layout where applicable.
 
-- WordPress version
-- PHP version
-- Music Project Core version
-- Steps to reproduce
-- Template or page affected
-- Relevant PHP errors
-- Relevant browser-console errors
-- Browser and viewport information for responsive issues
-
-Version
--------
+# Version
 
 Current version:
 
 ```text
-1.1.0
+1.2.0
 ```
 
-License
--------
+# License
 
 Music Project Base is licensed under the GNU General Public License, version 2 or any later version.
 
-SPDX license identifier: `GPL-2.0-or-later`.
+SPDX license identifier:
 
-See [LICENSE](LICENSE) for the complete license terms.
+```text
+GPL-2.0-or-later
+```
+
+See `LICENSE` for the complete license terms.
