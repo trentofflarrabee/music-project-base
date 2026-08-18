@@ -6,6 +6,27 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-18
+
+### Added
+
+- Added independent Compact, Standard, and Large heading presentation for Featured Content, Services, Quotes / Testimonials, Shows, Blog / News, and Newsletter homepage sections.
+- Added independent responsive quote-size presentation for Featured Content and Quotes / Testimonials.
+- Added optional custom homepage quote-text color presentation.
+- Added semantic Heading, Link, and Text Selection color variables for Theme Style Color System v2.
+- Added automatic readable foreground treatment for browser text selection.
+
+### Changed
+
+- Homepage section heading emphasis now remains isolated from card titles, service titles, Blog preview titles, and Hero typography.
+- Featured Content quotes and Quotes / Testimonials can be emphasized independently.
+- Heading Color now controls ordinary site headings separately from body Text Color.
+- Link Color is limited to ordinary editorial and text-style links rather than every HTML anchor.
+- Accent / Highlight Color remains dedicated to branded details such as focus states, icons, decorative accents, and editorial highlight treatments.
+- Standard text-link hover behavior uses a restrained opacity treatment rather than a separate hover-color setting.
+- Purpose-built navigation, buttons, linked cards, Social Links, Footer branding, and Link Hub cards retain their contextual foreground colors.
+- Fixed Shows homepage markup so heading-size presentation does not interfere with event-card formatting.
+
 ## [1.3.0] - 2026-08-17
 
 ### Added

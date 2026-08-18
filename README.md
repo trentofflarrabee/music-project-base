@@ -839,7 +839,7 @@ Include WordPress version, PHP version, Music Project Core version, reproduction
 Current version:
 
 ```text
-1.2.0
+1.4.0
 ```
 
 # License
