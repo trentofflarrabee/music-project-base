@@ -195,10 +195,13 @@ function mpb_get_theme_style_defaults() {
         'color_background' => '#111111',
         'color_surface' => '#101010',
         'color_text' => '#f5f5f5',
+        'color_heading' => '#f5f5f5',
         'color_muted' => '#b8b8b8',
         'color_accent' => '#ffffff',
+        'color_link' => '#ffffff',
         'color_button_background' => '#f5f5f5',
         'color_button_text' => '#111111',
+        'color_selection' => '#ffffff',
 
         // Site chrome.
         'header_background_color' => '#000000',
@@ -422,6 +425,10 @@ $color_text = sanitize_hex_color(
     $settings['color_text']
 ) ?: '#f5f5f5';
 
+$color_heading = sanitize_hex_color(
+    $settings['color_heading']
+) ?: '#f5f5f5';
+
 $color_muted = sanitize_hex_color(
     $settings['color_muted']
 ) ?: '#b8b8b8';
@@ -429,6 +436,19 @@ $color_muted = sanitize_hex_color(
 $color_accent = sanitize_hex_color(
     $settings['color_accent']
 ) ?: '#ffffff';
+
+$color_link = sanitize_hex_color(
+    $settings['color_link']
+) ?: '#ffffff';
+
+$color_selection = sanitize_hex_color(
+    $settings['color_selection']
+) ?: '#ffffff';
+
+$color_selection_text =
+    mpb_get_contrast_text_color(
+        $color_selection
+    );
 
 $color_accent_text = mpb_get_contrast_text_color(
     $color_accent
@@ -738,9 +758,13 @@ $texture_opacity = is_numeric($settings['texture_opacity'])
             --mpb-color-surface: {$color_surface};
             --mpb-color-text: {$color_text};
             --mpb-color-text-rgb: {$color_text_rgb};
+            --mpb-color-heading: {$color_heading};
             --mpb-color-muted: {$color_muted};
             --mpb-color-accent: {$color_accent};
             --mpb-color-accent-text: {$color_accent_text};
+            --mpb-color-link: {$color_link};
+            --mpb-color-selection: {$color_selection};
+            --mpb-color-selection-text: {$color_selection_text};
             --mpb-color-button-bg: {$color_button_background};
             --mpb-color-button-text: {$color_button_text};
             --mpb-color-button-text-rgb: {$color_button_text_rgb};
