@@ -78,15 +78,19 @@ if (
     id="shows"
     class="home-section home-shows"
 >
-    <?php if ($heading) : ?>
-       <header
-    class="section-header section-header--size-<?php echo esc_attr(
-        $heading_size
-    ); ?>"
->
-    <?php endif; ?>
+<?php if ($heading) : ?>
+    <header
+        class="section-header section-header--size-<?php echo esc_attr(
+            $heading_size
+        ); ?>"
+    >
+        <h2>
+            <?php echo esc_html($heading); ?>
+        </h2>
+    </header>
+<?php endif; ?>
 
-    <div class="shows-embed">
+<div class="shows-embed">
         <?php if ($rendered_embed !== '') : ?>
             <?php
             /*
