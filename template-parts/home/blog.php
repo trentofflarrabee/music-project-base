@@ -31,6 +31,11 @@ $heading_size = mpb_normalize_homepage_size(
     )
 );
 
+$heading_font_role =
+    mpb_get_homepage_section_heading_font_role(
+        'blog'
+    );
+
 $layout = sanitize_key(
     (string) mpc_get_homepage_setting(
         'blog_layout',
@@ -248,7 +253,14 @@ $render_post_card = static function ($post_id, $args = []) use ($show_images, $s
 $section_classes = [
     'home-section',
     'home-blog',
-    'home-blog--layout-' . str_replace('_', '-', $layout),
+    'home-section--heading-font-'
+        . $heading_font_role,
+    'home-blog--layout-'
+        . str_replace(
+            '_',
+            '-',
+            $layout
+        ),
 ];
 
 $featured_post = null;

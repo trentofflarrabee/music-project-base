@@ -12,6 +12,18 @@ $heading_size = mpb_normalize_homepage_size(
     $settings['services_heading_size']
         ?? 'standard'
 );
+$heading_font_role =
+    mpb_get_homepage_section_heading_font_role(
+        'services'
+    );
+
+$card_heading_font_role =
+    mpb_resolve_homepage_font_role(
+        $settings[
+            'services_card_heading_font_role'
+        ] ?? 'default',
+        $heading_font_role
+    );
 $intro = $settings['services_intro'] ?? '';
 $layout = $settings['services_layout'] ?? 'grid';
 $columns = $settings['services_columns'] ?? '3';
@@ -41,7 +53,26 @@ if (!$items && !current_user_can('manage_options')) {
 
 <section
     id="services"
-    class="home-section home-services home-services--layout-<?php echo esc_attr($layout); ?> home-services--columns-<?php echo esc_attr($columns); ?>"
+    class="
+        home-section
+        home-services
+        home-section--heading-font-<?php
+            echo esc_attr(
+                $heading_font_role
+            );
+        ?>
+        home-services--card-heading-font-<?php
+            echo esc_attr(
+                $card_heading_font_role
+            );
+        ?>
+        home-services--layout-<?php
+            echo esc_attr($layout);
+        ?>
+        home-services--columns-<?php
+            echo esc_attr($columns);
+        ?>
+    "
     style="--mpb-services-columns: <?php echo esc_attr($columns); ?>;"
 >
     <?php if ($heading || $intro) : ?>

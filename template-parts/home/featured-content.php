@@ -27,6 +27,11 @@ $heading_size = mpb_normalize_homepage_size(
     )
 );
 
+$heading_font_role =
+    mpb_get_homepage_section_heading_font_role(
+        'featured'
+    );
+
 $quote_size = mpb_normalize_homepage_size(
     mpc_get_homepage_setting(
         'featured_quote_size',
@@ -123,8 +128,16 @@ $has_media = ($media_type === 'video' && $embed_html) || $image_html;
 $section_classes = [
     'home-section',
     'home-featured-content',
-    'home-featured-content--layout-' . str_replace('_', '-', $layout),
-    'home-featured-content--quote-' . str_replace('_', '-', $quote_position),
+    'home-section--heading-font-'
+        . $heading_font_role,
+    'home-featured-content--layout-'
+        . str_replace('_', '-', $layout),
+    'home-featured-content--quote-'
+        . str_replace(
+            '_',
+            '-',
+            $quote_position
+        ),
 ];
 
 $card_classes = [

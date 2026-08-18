@@ -20,6 +20,11 @@ $heading_size = mpb_normalize_homepage_size(
         ?? 'standard'
 );
 
+$heading_font_role =
+    mpb_get_homepage_section_heading_font_role(
+        'quotes'
+    );
+
 $quote_size = mpb_normalize_homepage_size(
     $settings['quotes_text_size']
         ?? 'standard'
@@ -280,9 +285,14 @@ $layout_class = str_replace('_', '-', $layout);
 $classes = [
     'home-section',
     'home-quotes',
-    'home-quotes--layout-' . $layout_class,
-    'home-quotes--tone-' . $tone,
-    'home-quotes--quote-size-' . $quote_size,
+    'home-section--heading-font-'
+        . $heading_font_role,
+    'home-quotes--layout-'
+        . $layout_class,
+    'home-quotes--tone-'
+        . $tone,
+    'home-quotes--quote-size-'
+        . $quote_size,
 ];
 
 $section_style = $quote_color

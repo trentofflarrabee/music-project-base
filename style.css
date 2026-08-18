@@ -20,6 +20,7 @@ Domain Path: /languages
 :root {
     /* Core palette */
     --mpb-color-bg: #111111;
+    --mpb-color-alt-bg: #1a1a1a;
     --mpb-color-surface: #101010;
     --mpb-color-text: #f5f5f5;
     --mpb-color-text-rgb: 245, 245, 245;
@@ -739,6 +740,42 @@ body.mpb-heading-align-all .home-blog__view-all {
     margin: 0;
     font-size: clamp(2.5rem, 7vw, 6rem);
     line-height: 0.9;
+}
+
+/*
+ * Homepage section-heading typography roles.
+ *
+ * Core stores semantic role names. Base maps those roles
+ * onto Theme Style's existing assigned typography variables.
+ */
+
+.home-section--heading-font-heading {
+    --mpb-home-section-heading-font:
+        var(--mpb-font-heading);
+}
+
+.home-section--heading-font-accent {
+    --mpb-home-section-heading-font:
+        var(--mpb-font-accent);
+}
+
+.home-section--heading-font-editorial {
+    --mpb-home-section-heading-font:
+        var(--mpb-font-blog-heading);
+}
+
+.home-section--heading-font-body {
+    --mpb-home-section-heading-font:
+        var(--mpb-font-body);
+}
+
+.home-section:not(.home-hero)
+    .section-header h2 {
+    font-family:
+        var(
+            --mpb-home-section-heading-font,
+            var(--mpb-font-heading)
+        );
 }
 
 /*
@@ -2110,9 +2147,41 @@ body.mpb-heading-align-all .home-services__intro {
     box-shadow: var(--mpb-shadow-card-hover);
 }
 
+.home-services--card-heading-font-heading {
+    --mpb-home-service-card-heading-font:
+        var(--mpb-font-heading);
+}
+
+.home-services--card-heading-font-accent {
+    --mpb-home-service-card-heading-font:
+        var(--mpb-font-accent);
+}
+
+.home-services--card-heading-font-editorial {
+    --mpb-home-service-card-heading-font:
+        var(--mpb-font-blog-heading);
+}
+
+.home-services--card-heading-font-body {
+    --mpb-home-service-card-heading-font:
+        var(--mpb-font-body);
+}
+
 .home-service-card h3 {
     margin: 0 0 0.85rem;
-    font-size: clamp(1.6rem, 3vw, 2.5rem);
+
+    font-family:
+        var(
+            --mpb-home-service-card-heading-font,
+            var(
+                --mpb-home-section-heading-font,
+                var(--mpb-font-heading)
+            )
+        );
+
+    font-size:
+        clamp(1.6rem, 3vw, 2.5rem);
+
     line-height: 1;
 }
 

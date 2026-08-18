@@ -103,6 +103,147 @@ function mpb_normalize_homepage_size(
 }
 
 /**
+ * Normalize a semantic Homepage font role.
+ *
+ * Base keeps its own defensive allowlist so frontend rendering
+ * remains safe if Core is unavailable or returns unexpected data.
+ *
+ * @param mixed  $value         Stored role.
+ * @param string $default       Fallback role.
+ * @param bool   $allow_default Whether inheritance is permitted.
+ * @return string
+ */
+function mpb_normalize_homepage_font_role(
+    $value,
+    $default = 'heading',
+    $allow_default = false
+) {
+    $allowed = [
+        'heading',
+        'accent',
+        'editorial',
+        'body',
+    ];
+
+    if ($allow_default) {
+        array_unshift(
+            $allowed,
+            'default'
+        );
+    }
+
+    $fallback = $allow_default
+        ? 'default'
+        : 'heading';
+
+    $default = sanitize_key(
+        (string) $default
+    );
+
+    if (!in_array($default, $allowed, true)) {
+        $default = $fallback;
+    }
+
+    if (!is_scalar($value)) {
+        return $default;
+    }
+
+    $value = sanitize_key(
+        (string) $value
+    );
+
+    return in_array($value, $allowed, true)
+        ? $value
+        : $default;
+}
+
+/**
+ * Resolve an inheritable Homepage font role.
+ *
+ * @param mixed  $value     Requested role or "default".
+ * @param string $inherited Effective parent role.
+ * @return string
+ */
+function mpb_resolve_homepage_font_role(
+    $value,
+    $inherited = 'heading'
+) {
+    $inherited =
+        mpb_normalize_homepage_font_role(
+            $inherited,
+            'heading',
+            false
+        );
+
+    $value =
+        mpb_normalize_homepage_font_role(
+            $value,
+            'default',
+            true
+        );
+
+    return $value === 'default'
+        ? $inherited
+        : $value;
+}
+
+/**
+ * Resolve the effective primary heading font for a Homepage section.
+ *
+ * @param string $section Homepage section setting prefix.
+ * @return string
+ */
+function mpb_get_homepage_section_heading_font_role(
+    $section = ''
+) {
+    $homepage_role = 'heading';
+
+    if (
+        function_exists(
+            'mpc_get_homepage_setting'
+        )
+    ) {
+        $homepage_role =
+            mpc_get_homepage_setting(
+                'homepage_heading_font_role',
+                'heading'
+            );
+    }
+
+    $homepage_role =
+        mpb_normalize_homepage_font_role(
+            $homepage_role,
+            'heading',
+            false
+        );
+
+    $section = sanitize_key(
+        (string) $section
+    );
+
+    if (
+        $section === ''
+        || !function_exists(
+            'mpc_get_homepage_setting'
+        )
+    ) {
+        return $homepage_role;
+    }
+
+    $section_role =
+        mpc_get_homepage_setting(
+            $section
+                . '_heading_font_role',
+            'default'
+        );
+
+    return mpb_resolve_homepage_font_role(
+        $section_role,
+        $homepage_role
+    );
+}
+
+/**
  * Enqueue frontend styles and scripts.
  *
  * The Base stylesheet always loads from the parent theme. When a child theme
@@ -193,6 +334,7 @@ add_action('wp_enqueue_scripts', 'mpb_enqueue_assets');
 function mpb_get_theme_style_defaults() {
     return [
         'color_background' => '#111111',
+        'color_alt_background' => '#1a1a1a',
         'color_surface' => '#101010',
         'color_text' => '#f5f5f5',
         'color_heading' => '#f5f5f5',
@@ -416,6 +558,10 @@ function mpb_get_theme_style_inline_css() {
 $color_background = sanitize_hex_color(
     $settings['color_background']
 ) ?: '#111111';
+
+$color_alt_background = sanitize_hex_color(
+    $settings['color_alt_background']
+) ?: '#1a1a1a';
 
 $color_surface = sanitize_hex_color(
     $settings['color_surface']
@@ -755,6 +901,7 @@ $texture_opacity = is_numeric($settings['texture_opacity'])
     return "
         :root {
             --mpb-color-bg: {$color_background};
+            --mpb-color-alt-bg: {$color_alt_background};
             --mpb-color-surface: {$color_surface};
             --mpb-color-text: {$color_text};
             --mpb-color-text-rgb: {$color_text_rgb};
