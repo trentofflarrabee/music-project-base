@@ -8,6 +8,10 @@ $settings = function_exists('mpc_get_homepage_settings')
     : [];
 
 $heading = $settings['services_heading'] ?? __('Services', 'music-project-base');
+$heading_size = mpb_normalize_homepage_size(
+    $settings['services_heading_size']
+        ?? 'standard'
+);
 $intro = $settings['services_intro'] ?? '';
 $layout = $settings['services_layout'] ?? 'grid';
 $columns = $settings['services_columns'] ?? '3';
@@ -41,8 +45,11 @@ if (!$items && !current_user_can('manage_options')) {
     style="--mpb-services-columns: <?php echo esc_attr($columns); ?>;"
 >
     <?php if ($heading || $intro) : ?>
-        <header class="section-header home-services__header">
-            <?php if ($heading) : ?>
+<header
+    class="section-header home-services__header section-header--size-<?php echo esc_attr(
+        $heading_size
+    ); ?>"
+>            <?php if ($heading) : ?>
                 <h2><?php echo esc_html($heading); ?></h2>
             <?php endif; ?>
 

@@ -20,7 +20,30 @@ if (!$enabled) {
 $heading = trim((string) mpc_get_homepage_setting('featured_heading'));
 $layout = sanitize_key((string) mpc_get_homepage_setting('featured_layout', 'split_card'));
 $quote_position = sanitize_key((string) mpc_get_homepage_setting('featured_quote_position', 'beside'));
+$heading_size = mpb_normalize_homepage_size(
+    mpc_get_homepage_setting(
+        'featured_heading_size',
+        'standard'
+    )
+);
 
+$quote_size = mpb_normalize_homepage_size(
+    mpc_get_homepage_setting(
+        'featured_quote_size',
+        'standard'
+    )
+);
+
+$quote_color = sanitize_hex_color(
+    (string) mpc_get_homepage_setting(
+        'featured_quote_color',
+        ''
+    )
+);
+
+if (!$quote_color) {
+    $quote_color = '';
+}
 $label = trim((string) mpc_get_homepage_setting('featured_label'));
 $title = trim((string) mpc_get_homepage_setting('featured_title'));
 $text = trim((string) mpc_get_homepage_setting('featured_text'));
@@ -109,11 +132,32 @@ $card_classes = [
     'featured-content-card--media-' . $media_type,
 ];
 
-$render_quote_card = static function ($quote_text, $quote_source_name, $quote_source_url) {
+$render_quote_card = static function (
+    $quote_text,
+    $quote_source_name,
+    $quote_source_url
+) use (
+    $quote_size,
+    $quote_color
+) {
+        $quote_classes = [
+        'press-quote',
+        'press-quote--size-' . $quote_size,
+    ];
+
+    $quote_style = $quote_color
+        ? '--mpb-home-quote-color:' . $quote_color . ';'
+        : '';
     ?>
     <aside class="featured-quote-card">
-        <blockquote class="press-quote">
-            <p>“<?php echo esc_html($quote_text); ?>”</p>
+<blockquote
+    class="<?php echo esc_attr(
+        implode(' ', $quote_classes)
+    ); ?>"
+    <?php if ($quote_style) : ?>
+        style="<?php echo esc_attr($quote_style); ?>"
+    <?php endif; ?>
+>            <p>“<?php echo esc_html($quote_text); ?>”</p>
 
             <?php if ($quote_source_url && $quote_source_name) : ?>
                 <cite>
@@ -132,8 +176,11 @@ $render_quote_card = static function ($quote_text, $quote_source_name, $quote_so
 
 <section id="featured" class="<?php echo esc_attr(implode(' ', $section_classes)); ?>">
     <?php if ($heading) : ?>
-        <header class="section-header">
-            <h2><?php echo esc_html($heading); ?></h2>
+<header
+    class="section-header section-header--size-<?php echo esc_attr(
+        $heading_size
+    ); ?>"
+>            <h2><?php echo esc_html($heading); ?></h2>
         </header>
     <?php endif; ?>
 

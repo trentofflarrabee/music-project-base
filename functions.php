@@ -62,6 +62,47 @@ function mpb_get_asset_version($absolute_path) {
 }
 
 /**
+ * Normalize a curated homepage typography size.
+ *
+ * Base keeps its own defensive normalization so presentation
+ * remains safe if Core is unavailable or returns an unexpected value.
+ *
+ * @param mixed  $value   Submitted/stored value.
+ * @param string $default Fallback value.
+ * @return string
+ */
+function mpb_normalize_homepage_size(
+    $value,
+    $default = 'standard'
+) {
+    $allowed = [
+        'compact',
+        'standard',
+        'large',
+    ];
+
+    $default = sanitize_key(
+        (string) $default
+    );
+
+    if (!in_array($default, $allowed, true)) {
+        $default = 'standard';
+    }
+
+    if (!is_scalar($value)) {
+        return $default;
+    }
+
+    $value = sanitize_key(
+        (string) $value
+    );
+
+    return in_array($value, $allowed, true)
+        ? $value
+        : $default;
+}
+
+/**
  * Enqueue frontend styles and scripts.
  *
  * The Base stylesheet always loads from the parent theme. When a child theme

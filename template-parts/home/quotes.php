@@ -15,6 +15,27 @@ $heading = trim(
     (string) ($settings['quotes_heading'] ?? __('Kind Words', 'music-project-base'))
 );
 
+$heading_size = mpb_normalize_homepage_size(
+    $settings['quotes_heading_size']
+        ?? 'standard'
+);
+
+$quote_size = mpb_normalize_homepage_size(
+    $settings['quotes_text_size']
+        ?? 'standard'
+);
+
+$quote_color = sanitize_hex_color(
+    (string) (
+        $settings['quotes_text_color']
+        ?? ''
+    )
+);
+
+if (!$quote_color) {
+    $quote_color = '';
+}
+
 $intro = trim((string) ($settings['quotes_intro'] ?? ''));
 $layout = sanitize_key((string) ($settings['quotes_layout'] ?? 'grid'));
 $count = absint($settings['quotes_count'] ?? 3);
@@ -261,7 +282,12 @@ $classes = [
     'home-quotes',
     'home-quotes--layout-' . $layout_class,
     'home-quotes--tone-' . $tone,
+    'home-quotes--quote-size-' . $quote_size,
 ];
+
+$section_style = $quote_color
+    ? '--mpb-home-quote-color:' . $quote_color . ';'
+    : '';
 
 if ($featured_only) {
     $classes[] = 'home-quotes--featured-only';
@@ -271,10 +297,17 @@ if ($featured_only) {
 <section
     id="quotes"
     class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+    <?php if ($section_style) : ?>
+        style="<?php echo esc_attr($section_style); ?>"
+    <?php endif; ?>
 >
     <div class="home-quotes__inner">
         <?php if ($heading || $intro) : ?>
-            <header class="section-header home-quotes__header">
+            <header
+    class="section-header home-quotes__header section-header--size-<?php echo esc_attr(
+        $heading_size
+    ); ?>"
+>
                 <?php if ($heading) : ?>
                     <h2><?php echo esc_html($heading); ?></h2>
                 <?php endif; ?>

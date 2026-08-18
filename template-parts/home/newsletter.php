@@ -31,6 +31,15 @@ $heading = $plugin_active
     )
     : __('Newsletter', 'music-project-base');
 
+    $heading_size = $plugin_active
+    ? mpb_normalize_homepage_size(
+        mpc_get_integration_setting(
+            'newsletter_heading_size',
+            'standard'
+        )
+    )
+    : 'standard';
+
 $text = $plugin_active
     ? trim(
 (string) mpc_get_integration_setting(
@@ -86,7 +95,11 @@ if (
 >
     <div class="home-newsletter__inner">
         <?php if ($heading || $text) : ?>
-            <header class="section-header">
+            <header
+    class="section-header section-header--size-<?php echo esc_attr(
+        $heading_size
+    ); ?>"
+>
                 <?php if ($heading) : ?>
                     <h2>
                         <?php echo esc_html($heading); ?>

@@ -688,6 +688,27 @@ body.mpb-heading-align-all .home-blog__view-all {
     line-height: 0.9;
 }
 
+/*
+ * Homepage section-heading emphasis.
+ *
+ * Standard intentionally inherits the existing section-heading
+ * scale. Only Compact and Large need to override it.
+ */
+.section-header--size-compact h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.section-header--size-large h2 {
+    font-size: clamp(3.25rem, 9vw, 8rem);
+}
+
+.section-header--size-compact h2,
+.section-header--size-standard h2,
+.section-header--size-large h2 {
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
 .section-header p {
     max-width: 640px;
     color: var(--mpb-color-muted);
@@ -1825,6 +1846,28 @@ body.mpb-brand-hidden .site-header__inner {
     text-wrap: balance;
 }
 
+.press-quote p {
+    color: var(
+        --mpb-home-quote-color,
+        inherit
+    );
+}
+
+.press-quote--size-compact p {
+    font-size:
+        clamp(1.2rem, 3vw, 2.1rem);
+}
+
+.press-quote--size-standard p {
+    font-size:
+        clamp(1.5rem, 4vw, 3rem);
+}
+
+.press-quote--size-large p {
+    font-size:
+        clamp(1.9rem, 5.5vw, 4.25rem);
+}
+
 .press-quote cite {
     display: block;
     margin-top: 1rem;
@@ -2311,6 +2354,75 @@ body.mpb-heading-align-all .home-services__intro {
     .home-quote-card--featured .home-quote-card__quote {
         font-size: clamp(1.3rem, 7vw, 2rem);
     }
+}
+
+/*
+ * Quotes / Testimonials emphasis.
+ *
+ * Featured First keeps a larger featured quote at every
+ * selected scale.
+ */
+
+/* Custom color, when supplied. */
+
+.home-quotes .home-quote-card__quote {
+    color: var(
+        --mpb-home-quote-color,
+        var(--mpb-color-text)
+    );
+}
+
+.home-quotes--tone-contrast
+.home-quote-card__quote {
+    color: var(
+        --mpb-home-quote-color,
+        inherit
+    );
+}
+
+/* Compact */
+
+.home-quotes--quote-size-compact
+.home-quote-card__quote {
+    font-size:
+        clamp(1.15rem, 2.4vw, 1.8rem);
+}
+
+.home-quotes--quote-size-compact
+.home-quote-card--featured
+.home-quote-card__quote {
+    font-size:
+        clamp(1.45rem, 3.3vw, 2.6rem);
+}
+
+/* Standard — current visual scale. */
+
+.home-quotes--quote-size-standard
+.home-quote-card__quote {
+    font-size:
+        clamp(1.35rem, 3vw, 2.25rem);
+}
+
+.home-quotes--quote-size-standard
+.home-quote-card--featured
+.home-quote-card__quote {
+    font-size:
+        clamp(1.75rem, 4vw, 3.35rem);
+}
+
+/* Large */
+
+.home-quotes--quote-size-large
+.home-quote-card__quote {
+    font-size:
+        clamp(1.6rem, 3.6vw, 2.75rem);
+}
+
+.home-quotes--quote-size-large
+.home-quote-card--featured
+.home-quote-card__quote {
+    font-size:
+        clamp(2.1rem, 5vw, 4.2rem);
 }
 
 /* =========================================================

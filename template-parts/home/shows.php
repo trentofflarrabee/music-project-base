@@ -31,6 +31,15 @@ $heading = $plugin_active
     )
     : __('Shows', 'music-project-base');
 
+    $heading_size = $plugin_active
+    ? mpb_normalize_homepage_size(
+        mpc_get_integration_setting(
+            'shows_heading_size',
+            'standard'
+        )
+    )
+    : 'standard';
+
 $embed = $plugin_active
     ? trim(
         (string) mpc_get_integration_setting(
@@ -70,11 +79,11 @@ if (
     class="home-section home-shows"
 >
     <?php if ($heading) : ?>
-        <header class="section-header">
-            <h2>
-                <?php echo esc_html($heading); ?>
-            </h2>
-        </header>
+       <header
+    class="section-header section-header--size-<?php echo esc_attr(
+        $heading_size
+    ); ?>"
+>
     <?php endif; ?>
 
     <div class="shows-embed">

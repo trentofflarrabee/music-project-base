@@ -24,6 +24,13 @@ $heading = trim(
     )
 );
 
+$heading_size = mpb_normalize_homepage_size(
+    mpc_get_homepage_setting(
+        'blog_heading_size',
+        'standard'
+    )
+);
+
 $layout = sanitize_key(
     (string) mpc_get_homepage_setting(
         'blog_layout',
@@ -335,7 +342,11 @@ if ($layout !== 'featured_first' && empty($secondary_posts)) {
 <section id="blog" class="<?php echo esc_attr(implode(' ', $section_classes)); ?>">
     <div class="home-blog__header">
         <?php if ($heading) : ?>
-            <header class="section-header">
+            <header
+                class="section-header section-header--size-<?php echo esc_attr(
+                    $heading_size
+                ); ?>"
+            >
                 <h2><?php echo esc_html($heading); ?></h2>
             </header>
         <?php endif; ?>
