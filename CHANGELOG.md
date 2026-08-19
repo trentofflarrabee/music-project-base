@@ -6,6 +6,34 @@ This project follows the Keep a Changelog structure and intends to use Semantic 
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-08-19
+
+### Added
+
+- Added semantic Homepage section-heading font inheritance.
+- Added per-section heading-font rendering for Featured Content, Services, Quotes / Testimonials, Shows, Blog / News, and Newsletter.
+- Added an independent Service Card Heading Font presentation role.
+- Added shared Default, Alternate, and Surface Homepage section-background rendering.
+- Added the `--mpb-color-alt-bg` Theme Style variable and safe Core-inactive fallback.
+
+### Changed
+
+- Homepage section headings can inherit a shared Homepage typography role while retaining independent section overrides.
+- Service card headings can inherit Services heading typography or use General Heading, Accent, Blog / Editorial, or Body typography independently.
+- Blog preview titles retain their dedicated Blog / Editorial typography when the Blog section heading uses another role.
+- Quote text retains its dedicated quote typography when the Quotes section heading uses another role.
+- Featured Content card headings remain independent from the primary Featured section heading.
+- Quotes / Testimonials now uses the same shared section-background system as other Homepage sections.
+- Shows and Newsletter now read Homepage presentation settings directly while keeping their external source/embed Integration-owned.
+- Newsletter's decorative gradient now layers over the selected shared section background rather than replacing it.
+- Alternate Background provides a dedicated full-width alternating section treatment without repurposing Accent / Highlight Color.
+- Hero remains outside the shared Homepage heading-font and section-background systems.
+
+### Fixed
+
+- Removed legacy Quotes background-tone rendering dependencies after migration to the shared section-background contract.
+- Removed stale Quotes tone-variable references that could trigger PHP warnings during the background migration.
+
 ## [1.4.0] - 2026-08-18
 
 ### Added

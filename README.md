@@ -9,7 +9,7 @@ It is designed to pair with the **Music Project Core** plugin.
 - WordPress 6.8 or newer
 - PHP 7.4 or newer
 - Administrator access for theme setup
-- Music Project Core for the complete homepage, Link Hub, and configuration experience
+- Music Project Core for the complete Homepage, Link Hub, and configuration experience
 
 ## Architecture
 
@@ -25,6 +25,7 @@ This includes:
 - Link Hub layouts
 - Link Hub icon markup
 - Blog and editorial layouts
+- Page Title Presentation markup
 - Responsive behavior
 - Frontend JavaScript
 - Frontend CSS
@@ -37,12 +38,14 @@ This includes:
 
 - Homepage settings
 - Homepage section visibility and order
+- Homepage section presentation settings
 - Theme Style settings
 - Footer settings
 - Social Links
 - Integrations
 - Site Status
 - Quotes / Testimonials
+- Page Title Presentation settings
 - Link Hub configuration
 - Link Hub routing state
 - Link Hub normalized data
@@ -71,6 +74,82 @@ The front page renders a configurable sequence of homepage sections:
 Music Project Core controls section visibility and order.
 
 When Core is inactive, the theme uses its built-in default section order and avoids calling unavailable plugin functions.
+
+### Homepage section presentation
+
+Music Project Core's Homepage administration provides shared presentation controls for ordinary Homepage sections.
+
+Supported sections are:
+
+- Featured Content
+- Services
+- Quotes / Testimonials
+- Shows
+- Blog / News
+- Newsletter
+
+Available shared controls include:
+
+- Heading size
+- Semantic heading-font role
+- Section background
+
+A shared Homepage heading-font role acts as the default for individual sections.
+
+Supported semantic heading roles are:
+
+- General Heading
+- Accent
+- Blog / Editorial
+- Body
+
+Supported section backgrounds are:
+
+- Default
+- Alternate
+- Surface
+
+Hero retains its dedicated presentation system.
+
+### Services card typography
+
+Services also supports an independent Service Card Heading Font role.
+
+Service-card titles may inherit the Services section heading font or select another semantic Theme Style typography role.
+
+Descriptions, links, and buttons remain independent.
+
+### Homepage background contract
+
+Base renders shared Homepage background modifiers using Theme Style variables:
+
+```css
+--mpb-color-bg
+--mpb-color-alt-bg
+--mpb-color-surface
+```
+
+Alternate Background changes only the section background.
+
+Normal Heading, Text, Muted Text, and Link colors continue to use the site's semantic palette.
+
+### Shows and Newsletter
+
+Shows and Newsletter presentation comes from Homepage settings.
+
+Their external content sources remain Integration-owned.
+
+Base therefore separates:
+
+```text
+Homepage
+→ heading, typography, background, supporting section content
+
+Integrations
+→ external show source or newsletter signup source
+```
+
+This prepares Shows for future first-party content sources without coupling Homepage presentation to a particular provider.
 
 ## Link Hub / Link in Bio
 
@@ -185,6 +264,7 @@ It inherits shared values for:
 - Background
 - Surface
 - Text
+- Heading
 - Muted text
 - Accent
 - Button background
@@ -194,6 +274,8 @@ It inherits shared values for:
 - Border strength
 - Card shadows
 - Environmental texture where applicable
+
+Purpose-built Link Hub cards retain their contextual foreground presentation rather than inheriting the global editorial Link Color.
 
 Link Hub does not provide a second complete theme-customization system.
 
@@ -287,16 +369,58 @@ Editorial styling includes:
 - WordPress block content support
 - Scroll-to-top behavior on internal views
 
+Homepage Blog section headings use the shared Homepage presentation role.
+
+Homepage Blog post-preview titles retain the dedicated Blog / Editorial heading role.
+
+## Page Title Presentation
+
+Base renders Music Project Core's Page Title Presentation settings for ordinary Pages.
+
+Supported styles are:
+
+- Standard
+- Editorial Panel
+- Minimal Overlay
+
+### Standard
+
+Uses the normal Page title presentation.
+
+### Editorial Panel
+
+Creates a designed title panel that may overlap the featured image on larger screens.
+
+On smaller screens the panel stacks beneath the image for readability.
+
+If no featured image exists, the title remains a standalone panel.
+
+### Minimal Overlay
+
+Places the title over the featured image using a restrained gradient treatment.
+
+If no featured image exists, the presentation falls back to Standard.
+
+Page Title Presentation excludes:
+
+- Static Homepage
+- Posts page
+- Link Hub assigned Page
+- Posts
+- Archives
+
 ## Theme Style Integration
 
 Music Project Base converts Music Project Core Theme Style settings into frontend CSS variables and body classes.
 
 Supported presentation controls include:
 
-- Background and surface colors
-- Text and muted-text colors
-- Accent colors
+- Background, Alternate Background, and Surface / Card colors
+- Text, Heading, and Muted Text colors
+- Accent / Highlight color
+- Editorial Link color
 - Button colors
+- Browser text-selection color
 - Header colors
 - Mobile-navigation colors
 - Footer colors
@@ -306,12 +430,46 @@ Supported presentation controls include:
 - Semantic typography roles
 - Heading alignment
 - Hero text styling
+- Page Title Presentation
 - Corner styles
 - Card shadows
 - Border strength
 - Environmental texture
 
 The theme contains built-in style defaults so normal templates remain usable when Core is inactive.
+
+### Semantic color roles
+
+Base exposes Theme Style values as CSS custom properties, including:
+
+```css
+--mpb-color-bg
+--mpb-color-alt-bg
+--mpb-color-surface
+--mpb-color-text
+--mpb-color-heading
+--mpb-color-muted
+--mpb-color-accent
+--mpb-color-link
+--mpb-color-button-bg
+--mpb-color-button-text
+--mpb-color-selection
+--mpb-color-selection-text
+```
+
+The semantic intent is:
+
+- Text Color → ordinary body copy
+- Heading Color → ordinary headings
+- Muted Text Color → metadata and supporting copy
+- Accent / Highlight → decorative emphasis, focus, icons, and editorial details
+- Link Color → ordinary editorial and text-style links
+- Button colors → purpose-built buttons
+- Selection Color → browser text selection
+
+Link Color is intentionally **not** applied to every HTML anchor.
+
+Navigation, Social Links, site branding, linked cards, buttons, Link Hub cards, and other purpose-built components retain their contextual presentation.
 
 ## Typography Roles
 
@@ -325,6 +483,8 @@ Configured font families can be assigned to semantic roles such as:
 - Buttons and calls to action
 - Accent labels and metadata
 - Quotes and blockquotes
+
+Homepage section headings can select among existing semantic roles without storing arbitrary font-family values per section.
 
 This keeps typography consistent across components without requiring a separate font control for every element.
 
@@ -359,6 +519,7 @@ The theme includes support for:
 - Accessible Link Hub link cards
 - Accessible Link Hub Social Links
 - Mobile-friendly touch targets
+- Readable browser text selection foreground derived from the configured selection background
 
 # Installation
 
@@ -385,12 +546,13 @@ The theme includes support for:
 2. Add a Custom Logo.
 3. Create and assign the Primary Menu.
 4. Create and assign the Footer Menu.
-5. Configure homepage sections through Music Project Core.
+5. Configure Homepage sections and presentation through Music Project Core.
 6. Configure Theme Style.
-7. Configure Social Links.
-8. Configure the Footer.
-9. Configure Link in Bio if required.
-10. Review the homepage, blog, Pages, Link Hub, search results, and mobile navigation.
+7. Configure Shows and Newsletter external sources under Integrations when used.
+8. Configure Social Links.
+9. Configure the Footer.
+10. Configure Link in Bio if required.
+11. Review the Homepage, blog, Pages, Link Hub, search results, and mobile navigation.
 
 # Menu Locations
 
@@ -439,9 +601,9 @@ Link Hub's `Auto` profile-image mode also uses the site's Custom Logo when one i
 
 # Homepage Setup
 
-For the intended homepage experience:
+For the intended Homepage experience:
 
-1. Create a WordPress Page for the homepage.
+1. Create a WordPress Page for the Homepage.
 2. Create a separate Page for blog posts.
 3. Open:
 
@@ -450,10 +612,10 @@ For the intended homepage experience:
    ```
 
 4. Select **A static page**.
-5. Assign the homepage and Posts page.
-6. Configure homepage content through Music Project Core.
+5. Assign the Homepage and Posts page.
+6. Configure Homepage content and presentation through Music Project Core.
 
-The theme's `front-page.php` renders the homepage section registry rather than ordinary page-editor content.
+The theme's `front-page.php` renders the Homepage section registry rather than ordinary page-editor content.
 
 # Link Hub Setup
 
@@ -488,7 +650,7 @@ With Core inactive:
 - Header navigation continues to work
 - Mobile navigation continues to work
 - Built-in Theme Style defaults are used
-- The built-in homepage section order is used
+- The built-in Homepage section order is used
 - The assigned Link Hub Page uses ordinary Page presentation
 - Core-managed content and settings are unavailable until the plugin is reactivated
 - Saved Core data is not deleted by changing or deactivating the theme
@@ -516,6 +678,7 @@ The theme registers support for:
 
 - Homepage content
 - Homepage section order
+- Homepage presentation settings
 - Section visibility
 - Quotes / Testimonials
 - Social Links
@@ -523,6 +686,7 @@ The theme registers support for:
 - Theme Style
 - Footer configuration
 - Site Status
+- Page Title Presentation settings
 - Link Hub configuration
 - Link Hub Page assignment
 - Link Hub links and sections
@@ -544,6 +708,7 @@ The theme registers support for:
 ## Use Music Project Base for
 
 - Template markup
+- Homepage section markup
 - Link Hub markup
 - Responsive layouts
 - Component styling
@@ -551,6 +716,7 @@ The theme registers support for:
 - Accessibility behavior
 - Theme presentation defaults
 - Curated icon markup
+- Page Title Presentation markup
 
 Avoid storing reusable editorial content directly in theme files.
 
@@ -676,7 +842,7 @@ Project target dimensions:
 1200 × 900 pixels
 ```
 
-The screenshot should show a representative homepage view and should not include browser chrome, administration controls, private information, or unrelated third-party trademarks.
+The screenshot should show a representative Homepage view and should not include browser chrome, administration controls, private information, or unrelated third-party trademarks.
 
 # Packaging
 
@@ -839,7 +1005,7 @@ Include WordPress version, PHP version, Music Project Core version, reproduction
 Current version:
 
 ```text
-1.4.0
+1.5.0
 ```
 
 # License
