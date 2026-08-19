@@ -24,6 +24,14 @@ $card_heading_font_role =
         ] ?? 'default',
         $heading_font_role
     );
+
+    $background =
+    mpb_normalize_homepage_background(
+        $settings[
+            'services_background'
+        ] ?? 'default'
+    );
+
 $intro = $settings['services_intro'] ?? '';
 $layout = $settings['services_layout'] ?? 'grid';
 $columns = $settings['services_columns'] ?? '3';
@@ -56,6 +64,9 @@ if (!$items && !current_user_can('manage_options')) {
     class="
         home-section
         home-services
+        home-section--background-<?php
+            echo esc_attr($background);
+        ?>
         home-section--heading-font-<?php
             echo esc_attr(
                 $heading_font_role

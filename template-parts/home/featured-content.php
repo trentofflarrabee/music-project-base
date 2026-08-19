@@ -32,6 +32,14 @@ $heading_font_role =
         'featured'
     );
 
+    $background =
+    mpb_normalize_homepage_background(
+        mpc_get_homepage_setting(
+            'featured_background',
+            'default'
+        )
+    );
+
 $quote_size = mpb_normalize_homepage_size(
     mpc_get_homepage_setting(
         'featured_quote_size',
@@ -130,6 +138,9 @@ $section_classes = [
     'home-featured-content',
     'home-section--heading-font-'
         . $heading_font_role,
+
+    'home-section--background-'
+         . $background,
     'home-featured-content--layout-'
         . str_replace('_', '-', $layout),
     'home-featured-content--quote-'

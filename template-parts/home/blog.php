@@ -36,6 +36,14 @@ $heading_font_role =
         'blog'
     );
 
+    $background =
+    mpb_normalize_homepage_background(
+        mpc_get_homepage_setting(
+            'blog_background',
+            'default'
+        )
+    );
+
 $layout = sanitize_key(
     (string) mpc_get_homepage_setting(
         'blog_layout',
@@ -255,6 +263,8 @@ $section_classes = [
     'home-blog',
     'home-section--heading-font-'
         . $heading_font_role,
+    'home-section--background-' 
+        . $background,
     'home-blog--layout-'
         . str_replace(
             '_',

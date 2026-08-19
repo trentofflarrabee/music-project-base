@@ -720,6 +720,29 @@ body.mpb-heading-align-all .home-blog__view-all {
     border-bottom: 1px solid var(--mpb-border-divider);
 }
 
+/*
+ * Shared Homepage section backgrounds.
+ *
+ * These change only the section surface. Heading, body,
+ * muted, link, and component colors continue to use the
+ * normal semantic Theme Style palette.
+ */
+
+.home-section--background-default {
+    background:
+        var(--mpb-color-bg);
+}
+
+.home-section--background-alternate {
+    background:
+        var(--mpb-color-alt-bg);
+}
+
+.home-section--background-surface {
+    background:
+        var(--mpb-color-surface);
+}
+
 .home-section > .section-header,
 .home-section > .featured-content-layout,
 .home-section > .shows-embed,
@@ -2289,34 +2312,15 @@ body.mpb-heading-align-all .home-services__intro {
     background: transparent;
 }
 
-.home-quotes--tone-surface {
-    background: var(--mpb-color-surface);
-}
 
-.home-quotes--tone-contrast {
-    background: var(
-        --mpb-color-footer-bg,
-        var(--mpb-color-surface)
-    );
-    color: var(
-        --mpb-color-footer-text,
-        var(--mpb-color-text)
-    );
-}
+
 
 .home-quotes__inner {
     width: min(100%, var(--mpb-width-site));
     margin-inline: auto;
 }
 
-.home-quotes--tone-contrast .section-header h2,
-.home-quotes--tone-contrast .section-header p {
-    color: inherit;
-}
 
-.home-quotes--tone-contrast .section-header p {
-    opacity: 0.78;
-}
 
 .home-quotes__grid,
 .home-quotes__secondary-grid {
@@ -2337,30 +2341,9 @@ body.mpb-heading-align-all .home-services__intro {
     box-shadow: var(--mpb-shadow-card);
 }
 
-.home-quotes--tone-surface .home-quote-card,
-.home-quotes--tone-surface .home-quotes__empty {
-    background: var(
-        --mpb-color-background,
-        var(--mpb-color-bg)
-    );
-}
 
-.home-quotes--tone-contrast .home-quote-card,
-.home-quotes--tone-contrast .home-quotes__empty {
-    border-color:
-        rgba(
-            var(--mpb-color-footer-text-rgb),
-            var(--mpb-border-alpha-medium)
-        );
 
-    background:
-        rgba(
-            var(--mpb-color-footer-text-rgb),
-            0.06
-        );
 
-    color: inherit;
-}
 
 .home-quote-card {
     display: grid;
@@ -2494,13 +2477,7 @@ body.mpb-heading-align-all .home-services__intro {
     );
 }
 
-.home-quotes--tone-contrast
-.home-quote-card__quote {
-    color: var(
-        --mpb-home-quote-color,
-        inherit
-    );
-}
+
 
 /* Compact */
 

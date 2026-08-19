@@ -46,17 +46,13 @@ $layout = sanitize_key((string) ($settings['quotes_layout'] ?? 'grid'));
 $count = absint($settings['quotes_count'] ?? 3);
 $featured_only = !empty($settings['quotes_featured_only']);
 $show_attribution = !empty($settings['quotes_show_attribution']);
-$tone = sanitize_key(
-    (string) ($settings['quotes_background_tone'] ?? 'surface')
-);
-
-if (!in_array($layout, ['single', 'grid', 'featured_first'], true)) {
-    $layout = 'grid';
-}
-
-if (!in_array($tone, ['default', 'surface', 'contrast'], true)) {
-    $tone = 'surface';
-}
+$background =
+    mpb_normalize_homepage_background(
+        $settings[
+            'quotes_background'
+        ] ?? 'surface',
+        'surface'
+    );
 
 $count = min(12, max(1, $count));
 
@@ -287,10 +283,11 @@ $classes = [
     'home-quotes',
     'home-section--heading-font-'
         . $heading_font_role,
+
+    'home-section--background-'
+    . $background,
     'home-quotes--layout-'
         . $layout_class,
-    'home-quotes--tone-'
-        . $tone,
     'home-quotes--quote-size-'
         . $quote_size,
 ];

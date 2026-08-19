@@ -72,9 +72,9 @@ function mpb_get_asset_version($absolute_path) {
  * @return string
  */
 function mpb_normalize_homepage_size(
-    $value,
-    $default = 'standard'
-) {
+        $value,
+        $default = 'standard'
+    ) {
     $allowed = [
         'compact',
         'standard',
@@ -114,10 +114,10 @@ function mpb_normalize_homepage_size(
  * @return string
  */
 function mpb_normalize_homepage_font_role(
-    $value,
-    $default = 'heading',
-    $allow_default = false
-) {
+        $value,
+        $default = 'heading',
+        $allow_default = false
+    ) {
     $allowed = [
         'heading',
         'accent',
@@ -142,6 +142,44 @@ function mpb_normalize_homepage_font_role(
 
     if (!in_array($default, $allowed, true)) {
         $default = $fallback;
+    }
+
+    if (!is_scalar($value)) {
+        return $default;
+    }
+
+    $value = sanitize_key(
+        (string) $value
+    );
+
+    return in_array($value, $allowed, true)
+        ? $value
+        : $default;
+}
+
+/**
+ * Normalize a Homepage section-background role.
+ *
+ * @param mixed  $value   Stored value.
+ * @param string $default Fallback role.
+ * @return string
+ */
+function mpb_normalize_homepage_background(
+    $value,
+    $default = 'default'
+) {
+    $allowed = [
+        'default',
+        'alternate',
+        'surface',
+    ];
+
+    $default = sanitize_key(
+        (string) $default
+    );
+
+    if (!in_array($default, $allowed, true)) {
+        $default = 'default';
     }
 
     if (!is_scalar($value)) {
